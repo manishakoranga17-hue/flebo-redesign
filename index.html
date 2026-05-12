@@ -3603,9 +3603,9 @@ main { padding: 0 16px; }
 .hero-v2-tabs {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   padding: 6px;
-  background: rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 999px;
   margin-bottom: 28px;
@@ -3615,23 +3615,23 @@ main { padding: 0 16px; }
 .hero-v2-tab {
   appearance: none;
   border: none;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.78);
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
   font-family: inherit;
   font-size: 14px;
   font-weight: 600;
   padding: 9px 22px;
   border-radius: 999px;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
   white-space: nowrap;
 }
-.hero-v2-tab:hover { color: #fff; }
+.hero-v2-tab:hover { background: rgba(255, 255, 255, 0.18); }
 .hero-v2-tab.is-active {
   background: #fff;
   color: var(--primary);
   font-weight: 700;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
 }
 .hero-v2-eyebrow {
   font-size: 14px;
