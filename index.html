@@ -4539,15 +4539,39 @@ main { padding: 0 16px; }
 
 #pkgDots { display: none !important; }
 
+@media (max-width: 768px) {
+  /* Stack package cards vertically on mobile instead of horizontal scroll */
+  .packages-grid {
+    flex-direction: column !important;
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+    scroll-snap-type: none !important;
+    gap: 16px !important;
+    padding: 4px !important;
+  }
+  .package-card,
+  .package-card.pkg-active,
+  .package-card.pkg-next,
+  .package-card.pkg-behind,
+  .package-card.pkg-hidden {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    scroll-snap-align: none !important;
+  }
+  /* No scroller arrows needed when stacked */
+  .pkg-arrow { display: none !important; }
+}
+
 @media (max-width: 480px) {
   .package-card,
   .package-card.pkg-active,
   .package-card.pkg-next,
   .package-card.pkg-behind,
   .package-card.pkg-hidden {
-    width: 280px !important;
-    min-width: 280px !important;
-    max-width: 280px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
   }
 }
 
