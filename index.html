@@ -4209,12 +4209,19 @@ main { padding: 0 16px; }
 .sample-lab {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--primary);
-  white-space: nowrap;
+  height: 44px;
+  flex-shrink: 0;
 }
+.sample-lab-img {
+  max-height: 44px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  filter: grayscale(0%);
+  opacity: 0.95;
+  transition: opacity 0.2s;
+}
+.sample-lab:hover .sample-lab-img { opacity: 1; }
 .sample-lab-dot {
   width: 6px;
   height: 6px;
@@ -5260,31 +5267,27 @@ main { padding: 0 16px; }
     </div>
     <div class="sample-tested-marquee" aria-hidden="true">
       <div class="sample-tested-track">
-        <span class="sample-lab"><span class="sample-lab-dot"></span>Apollo Health</span>
-        <span class="sample-lab"><span class="sample-lab-dot"></span>Healthians</span>
-        <span class="sample-lab"><span class="sample-lab-dot"></span>Max Lab</span>
-        <span class="sample-lab"><span class="sample-lab-dot"></span>Thyrocare</span>
-        <span class="sample-lab"><span class="sample-lab-dot"></span>Tata 1mg</span>
-        <span class="sample-lab"><span class="sample-lab-dot"></span>Pathkind</span>
-        <span class="sample-lab"><span class="sample-lab-dot"></span>Ampath</span>
-        <span class="sample-lab"><span class="sample-lab-dot"></span>Janss</span>
-        <span class="sample-lab"><span class="sample-lab-dot"></span>Dr Lal PathLabs</span>
-        <span class="sample-lab"><span class="sample-lab-dot"></span>SRL Diagnostics</span>
-        <span class="sample-lab"><span class="sample-lab-dot"></span>Metropolis</span>
-        <span class="sample-lab"><span class="sample-lab-dot"></span>Redcliffe Labs</span>
+        <span class="sample-lab"><img src="lab-logos/pathkind.webp" alt="Pathkind Labs" class="sample-lab-img"></span>
+        <span class="sample-lab"><img src="lab-logos/tata-1mg.webp" alt="Tata 1mg" class="sample-lab-img"></span>
+        <span class="sample-lab"><img src="lab-logos/thyrocare.webp" alt="Thyrocare" class="sample-lab-img"></span>
+        <span class="sample-lab"><img src="lab-logos/agilus-diagnostics.webp" alt="Agilus Diagnostics" class="sample-lab-img"></span>
+        <span class="sample-lab"><img src="lab-logos/ampath.webp" alt="Ampath" class="sample-lab-img"></span>
+        <span class="sample-lab"><img src="lab-logos/apollo-health.webp" alt="Apollo Health and Lifestyle" class="sample-lab-img"></span>
+        <span class="sample-lab"><img src="lab-logos/augmentum-diagnostics.webp" alt="Augmentum Diagnostics" class="sample-lab-img"></span>
+        <span class="sample-lab"><img src="lab-logos/janta-xray.webp" alt="Janta X-Ray Clinic" class="sample-lab-img"></span>
+        <span class="sample-lab"><img src="lab-logos/max-lab.webp" alt="Max Healthcare" class="sample-lab-img"></span>
+        <span class="sample-lab"><img src="lab-logos/molecular-quest.webp" alt="MolQ" class="sample-lab-img"></span>
         <!-- duplicate set for seamless loop -->
-        <span class="sample-lab" aria-hidden="true"><span class="sample-lab-dot"></span>Apollo Health</span>
-        <span class="sample-lab" aria-hidden="true"><span class="sample-lab-dot"></span>Healthians</span>
-        <span class="sample-lab" aria-hidden="true"><span class="sample-lab-dot"></span>Max Lab</span>
-        <span class="sample-lab" aria-hidden="true"><span class="sample-lab-dot"></span>Thyrocare</span>
-        <span class="sample-lab" aria-hidden="true"><span class="sample-lab-dot"></span>Tata 1mg</span>
-        <span class="sample-lab" aria-hidden="true"><span class="sample-lab-dot"></span>Pathkind</span>
-        <span class="sample-lab" aria-hidden="true"><span class="sample-lab-dot"></span>Ampath</span>
-        <span class="sample-lab" aria-hidden="true"><span class="sample-lab-dot"></span>Janss</span>
-        <span class="sample-lab" aria-hidden="true"><span class="sample-lab-dot"></span>Dr Lal PathLabs</span>
-        <span class="sample-lab" aria-hidden="true"><span class="sample-lab-dot"></span>SRL Diagnostics</span>
-        <span class="sample-lab" aria-hidden="true"><span class="sample-lab-dot"></span>Metropolis</span>
-        <span class="sample-lab" aria-hidden="true"><span class="sample-lab-dot"></span>Redcliffe Labs</span>
+        <span class="sample-lab" aria-hidden="true"><img src="lab-logos/pathkind.webp" alt="" class="sample-lab-img"></span>
+        <span class="sample-lab" aria-hidden="true"><img src="lab-logos/tata-1mg.webp" alt="" class="sample-lab-img"></span>
+        <span class="sample-lab" aria-hidden="true"><img src="lab-logos/thyrocare.webp" alt="" class="sample-lab-img"></span>
+        <span class="sample-lab" aria-hidden="true"><img src="lab-logos/agilus-diagnostics.webp" alt="" class="sample-lab-img"></span>
+        <span class="sample-lab" aria-hidden="true"><img src="lab-logos/ampath.webp" alt="" class="sample-lab-img"></span>
+        <span class="sample-lab" aria-hidden="true"><img src="lab-logos/apollo-health.webp" alt="" class="sample-lab-img"></span>
+        <span class="sample-lab" aria-hidden="true"><img src="lab-logos/augmentum-diagnostics.webp" alt="" class="sample-lab-img"></span>
+        <span class="sample-lab" aria-hidden="true"><img src="lab-logos/janta-xray.webp" alt="" class="sample-lab-img"></span>
+        <span class="sample-lab" aria-hidden="true"><img src="lab-logos/max-lab.webp" alt="" class="sample-lab-img"></span>
+        <span class="sample-lab" aria-hidden="true"><img src="lab-logos/molecular-quest.webp" alt="" class="sample-lab-img"></span>
       </div>
     </div>
   </div>
