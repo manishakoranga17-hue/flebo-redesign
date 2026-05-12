@@ -3644,6 +3644,269 @@ main { padding: 0 16px; }
   color: #fff;
   margin: 0 0 28px;
 }
+
+/* ---------- Hero panels (per-tab content) ---------- */
+.hero-panel { display: none; flex-direction: column; }
+.hero-panel.is-active { display: flex; }
+.hero-panel[hidden] { display: none; }
+.hero-panel.is-active { display: flex !important; }
+
+.hero-panel-eyebrow {
+  font-size: 17px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.92);
+  margin-bottom: 6px;
+  letter-spacing: 0.01em;
+}
+.hero-panel-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(40px, 4.6vw, 60px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.005em;
+  color: #fff;
+  margin: 0 0 22px;
+}
+.hero-panel-title--md {
+  font-size: clamp(32px, 3.4vw, 44px);
+  margin-bottom: 18px;
+}
+
+/* Benefit pills (Tests) */
+.hero-benefits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+.hero-benefit-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.hero-benefit-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 11px;
+}
+.hero-benefit-icon--green { background: #22C55E; }
+.hero-benefit-icon--purple { background: #A855F7; }
+.hero-benefit-text { line-height: 1; }
+
+/* Shared search bar (Tests / Packages / Labs) */
+.hero-search-bar {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 999px;
+  height: 56px;
+  padding: 6px 6px 6px 22px;
+  max-width: 560px;
+  margin-bottom: 16px;
+  box-shadow: 0 12px 32px rgba(11, 21, 48, 0.22);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.hero-search-bar-icon { color: var(--primary); font-size: 16px; margin-right: 12px; }
+.hero-search-bar input {
+  flex: 1;
+  border: 0;
+  background: transparent;
+  outline: none;
+  font: inherit;
+  font-size: 15px;
+  color: var(--text-primary);
+}
+.hero-search-bar input::placeholder { color: #8E97B0; }
+.hero-search-mic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #EAF0F7;
+  color: var(--primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.15s;
+}
+.hero-search-mic:hover { background: #DCE5F3; }
+
+/* Packages tile grid (2x2 glass-blue cards) */
+.pkg-tiles-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  max-width: 560px;
+}
+.pkg-tile {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: rgba(15, 30, 80, 0.55);
+  border: 1.5px solid rgba(120, 170, 255, 0.4);
+  border-radius: 12px;
+  color: #fff;
+  text-decoration: none;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: transform 0.15s, border-color 0.15s, background 0.15s;
+}
+.pkg-tile:hover {
+  transform: translateY(-2px);
+  border-color: rgba(160, 200, 255, 0.7);
+  background: rgba(20, 40, 95, 0.65);
+}
+.pkg-tile-icon {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.pkg-tile-text {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+/* Labs: red CTA pill */
+.view-all-labs-btn {
+  display: inline-flex;
+  align-items: center;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 999px;
+  padding: 12px 28px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 6px 20px rgba(211, 53, 53, 0.35);
+  align-self: flex-start;
+  transition: background 0.15s, transform 0.15s;
+}
+.view-all-labs-btn:hover { background: #B82E2E; transform: translateY(-1px); }
+
+/* Doctors: speciality dropdown + submit + 3x3 grid */
+.speciality-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  max-width: 560px;
+  margin-bottom: 22px;
+}
+.speciality-dropdown { flex: 1; display: flex; flex-direction: column; }
+.speciality-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 6px;
+}
+.speciality-asterisk { color: var(--accent); margin-left: 2px; }
+.speciality-select-wrap { position: relative; }
+.speciality-select {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 14.5px;
+  padding: 14px 40px 14px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.speciality-select-wrap::after {
+  content: '';
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid var(--primary);
+  border-bottom: 2px solid var(--primary);
+  transform: translateY(-65%) rotate(45deg);
+  pointer-events: none;
+}
+.speciality-submit {
+  background: var(--accent);
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  padding: 14px 28px;
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.speciality-submit:hover { background: #B82E2E; }
+
+.speciality-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  max-width: 560px;
+}
+.speciality-item {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #fff;
+}
+.speciality-img {
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid var(--accent);
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.speciality-img img { width: 100%; height: 100%; object-fit: cover; }
+.speciality-item:hover .speciality-img {
+  transform: scale(1.04);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.25);
+}
+.speciality-item span:last-child {
+  font-size: 12.5px;
+  font-weight: 700;
+  text-align: center;
+}
+
+@media (max-width: 540px) {
+  .hero-search-bar { height: 50px; padding: 5px 5px 5px 18px; }
+  .hero-search-mic { width: 36px; height: 36px; }
+  .pkg-tile-text { font-size: 12px; }
+  .speciality-grid { gap: 14px; }
+  .speciality-img { width: 78px; height: 78px; }
+}
 .hero-v2-headline em {
   font-style: italic;
   color: #F4A8B8;
@@ -4814,20 +5077,108 @@ main { padding: 0 16px; }
         <button class="hero-v2-tab" type="button" role="tab" aria-selected="false" data-tab="labs">Labs</button>
         <button class="hero-v2-tab" type="button" role="tab" aria-selected="false" data-tab="doctors">Doctors</button>
       </div>
-      <div class="hero-v2-eyebrow" id="heroEyebrow" hidden></div>
-      <h1 class="hero-v2-headline" id="heroHeadline">Book tests after comparing prices and ratings of various labs</h1>
 
-      <form class="hero-v2-search" role="search" onsubmit="return false">
-        <i class="fas fa-magnifying-glass hero-v2-search-icon" aria-hidden="true"></i>
-        <input type="search" id="heroSearchInputV2" placeholder="Search for tests, packages, conditions..." aria-label="Search" autocomplete="off">
-        <button type="submit" class="hero-v2-search-btn" id="heroSearchBtn"><span id="heroSearchBtnLabel">Find tests</span> <i class="fas fa-arrow-right"></i></button>
-      </form>
+      <!-- TESTS PANEL -->
+      <div class="hero-panel is-active" data-panel="tests">
+        <h1 class="hero-panel-title">Book tests after comparing prices and ratings of various labs</h1>
+        <div class="hero-benefits">
+          <div class="hero-benefit-pill">
+            <span class="hero-benefit-icon hero-benefit-icon--green"><i class="fas fa-percent"></i></span>
+            <span class="hero-benefit-text">50% Cashback + 20% Discount</span>
+          </div>
+          <div class="hero-benefit-pill">
+            <span class="hero-benefit-icon hero-benefit-icon--purple"><i class="fas fa-brain"></i></span>
+            <span class="hero-benefit-text">AI-Powered Report Analysis</span>
+          </div>
+        </div>
+        <div class="hero-search-bar" role="search">
+          <i class="fas fa-magnifying-glass hero-search-bar-icon" aria-hidden="true"></i>
+          <input type="search" placeholder="Book a Pathology or Radiology Tests" aria-label="Search tests">
+          <button type="button" class="hero-search-mic" aria-label="Voice search"><i class="fas fa-microphone"></i></button>
+        </div>
+        <a href="#" class="hero-v2-prescription-link">
+          <i class="fas fa-file-prescription" aria-hidden="true"></i>
+          <span>Click Here to Book Via Doctor Prescription</span>
+          <i class="fas fa-arrow-right hero-v2-prescription-link-arrow" aria-hidden="true"></i>
+        </a>
+      </div>
 
-      <a href="#" class="hero-v2-prescription-link">
-        <i class="fas fa-file-prescription" aria-hidden="true"></i>
-        <span>Click Here to Book Via Doctor Prescription</span>
-        <i class="fas fa-arrow-right hero-v2-prescription-link-arrow" aria-hidden="true"></i>
-      </a>
+      <!-- PACKAGES PANEL -->
+      <div class="hero-panel" data-panel="packages" hidden>
+        <div class="hero-panel-eyebrow">Compare &amp; Choose the Best</div>
+        <h2 class="hero-panel-title hero-panel-title--md">Health Checkup Packages</h2>
+        <div class="hero-search-bar" role="search">
+          <i class="fas fa-magnifying-glass hero-search-bar-icon" aria-hidden="true"></i>
+          <input type="search" placeholder="Book a Package" aria-label="Search packages">
+          <button type="button" class="hero-search-mic" aria-label="Voice search"><i class="fas fa-microphone"></i></button>
+        </div>
+        <div class="pkg-tiles-grid">
+          <a href="#" class="pkg-tile">
+            <span class="pkg-tile-icon"><i class="fas fa-comments"></i></span>
+            <span class="pkg-tile-text">Based On Age, Gender, Habits &amp; BMI</span>
+          </a>
+          <a href="#" class="pkg-tile">
+            <span class="pkg-tile-icon"><i class="fas fa-microscope"></i></span>
+            <span class="pkg-tile-text">Based On Tests Required</span>
+          </a>
+          <a href="#" class="pkg-tile">
+            <span class="pkg-tile-icon"><i class="fas fa-flask-vial"></i></span>
+            <span class="pkg-tile-text">From A Particular Lab</span>
+          </a>
+          <a href="#" class="pkg-tile">
+            <span class="pkg-tile-icon"><i class="fas fa-clipboard-list"></i></span>
+            <span class="pkg-tile-text">Popular Packages</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- LABS PANEL -->
+      <div class="hero-panel" data-panel="labs" hidden>
+        <h2 class="hero-panel-title hero-panel-title--md">Choose Your Lab</h2>
+        <div class="hero-search-bar" role="search">
+          <i class="fas fa-magnifying-glass hero-search-bar-icon" aria-hidden="true"></i>
+          <input type="search" placeholder="Search for a particular lab" aria-label="Search labs">
+          <button type="button" class="hero-search-mic" aria-label="Voice search"><i class="fas fa-microphone"></i></button>
+        </div>
+        <a href="#" class="view-all-labs-btn">View all Labs at Your Location</a>
+      </div>
+
+      <!-- DOCTORS PANEL -->
+      <div class="hero-panel" data-panel="doctors" hidden>
+        <div class="hero-panel-eyebrow">Consult Top Doctors</div>
+        <h2 class="hero-panel-title hero-panel-title--md">Book a Tele Consultation</h2>
+        <div class="speciality-row">
+          <div class="speciality-dropdown">
+            <label class="speciality-label">Speciality<span class="speciality-asterisk">*</span></label>
+            <div class="speciality-select-wrap">
+              <select class="speciality-select" aria-label="Choose a speciality">
+                <option value="">Search for a speciality</option>
+                <option value="gp">General Physician</option>
+                <option value="ayur">Ayurveda</option>
+                <option value="card">Cardiology</option>
+                <option value="dent">Dentistry</option>
+                <option value="derm">Dermatology</option>
+                <option value="diab">Diabetology</option>
+                <option value="endo">Endocrinology</option>
+                <option value="ent">ENT</option>
+                <option value="gast">Gastroenterology</option>
+              </select>
+            </div>
+          </div>
+          <button type="button" class="speciality-submit">Submit</button>
+        </div>
+        <div class="speciality-grid">
+          <a href="#" class="speciality-item"><span class="speciality-img"><img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=160&h=160&fit=crop&q=80" alt=""></span><span>General Physician</span></a>
+          <a href="#" class="speciality-item"><span class="speciality-img"><img src="https://images.unsplash.com/photo-1490818387583-1baba5e638af?w=160&h=160&fit=crop&q=80" alt=""></span><span>Ayurveda</span></a>
+          <a href="#" class="speciality-item"><span class="speciality-img"><img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=160&h=160&fit=crop&q=80" alt=""></span><span>Cardiology</span></a>
+          <a href="#" class="speciality-item"><span class="speciality-img"><img src="https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=160&h=160&fit=crop&q=80" alt=""></span><span>Dentistry</span></a>
+          <a href="#" class="speciality-item"><span class="speciality-img"><img src="https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?w=160&h=160&fit=crop&q=80" alt=""></span><span>Dermatology</span></a>
+          <a href="#" class="speciality-item"><span class="speciality-img"><img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=160&h=160&fit=crop&q=80" alt=""></span><span>Diabetology</span></a>
+          <a href="#" class="speciality-item"><span class="speciality-img"><img src="https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?w=160&h=160&fit=crop&q=80" alt=""></span><span>Endocrinology</span></a>
+          <a href="#" class="speciality-item"><span class="speciality-img"><img src="https://images.unsplash.com/photo-1584555613497-9ecf9dd06f68?w=160&h=160&fit=crop&q=80" alt=""></span><span>ENT</span></a>
+          <a href="#" class="speciality-item"><span class="speciality-img"><img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=160&h=160&fit=crop&q=80" alt=""></span><span>Gastroenterology</span></a>
+        </div>
+      </div>
     </div>
 
     <div class="hero-v2-visual">
@@ -6236,56 +6587,16 @@ document.querySelectorAll('.pkg-cat-tab').forEach(tab => {
 // ===== HERO CATEGORY TABS =====
 (function () {
   const tabs = document.querySelectorAll('.hero-v2-tab');
-  if (!tabs.length) return;
-
-  // Copy below mirrors dev1.flebo.in/public/flebo-redesign-v5/flebo-redesign.html
-  const heroContent = {
-    tests: {
-      eyebrow: '',
-      headline: 'Book tests after comparing prices and ratings of various labs',
-      placeholder: 'Book a Pathology or Radiology Tests',
-      btn: 'Find tests'
-    },
-    packages: {
-      eyebrow: 'Compare & Choose the Best',
-      headline: 'Health Checkup Packages',
-      placeholder: 'Book a Package',
-      btn: 'Find packages'
-    },
-    labs: {
-      eyebrow: '',
-      headline: 'Choose Your Lab',
-      placeholder: 'Search for a particular lab',
-      btn: 'Find labs'
-    },
-    doctors: {
-      eyebrow: 'Consult Top Doctors',
-      headline: 'Book a Tele Consultation',
-      placeholder: 'Search for a speciality',
-      btn: 'Submit'
-    }
-  };
-
-  const eyebrowEl = document.getElementById('heroEyebrow');
-  const headlineEl = document.getElementById('heroHeadline');
-  const searchInput = document.getElementById('heroSearchInputV2');
-  const btnLabel = document.getElementById('heroSearchBtnLabel');
+  const panels = document.querySelectorAll('.hero-panel');
+  if (!tabs.length || !panels.length) return;
 
   function applyTab(key) {
-    const c = heroContent[key];
-    if (!c) return;
-    if (eyebrowEl) {
-      if (c.eyebrow) {
-        eyebrowEl.textContent = c.eyebrow;
-        eyebrowEl.hidden = false;
-      } else {
-        eyebrowEl.textContent = '';
-        eyebrowEl.hidden = true;
-      }
-    }
-    if (headlineEl) headlineEl.textContent = c.headline;
-    if (searchInput) searchInput.placeholder = c.placeholder;
-    if (btnLabel) btnLabel.textContent = c.btn;
+    panels.forEach((p) => {
+      const isMatch = p.dataset.panel === key;
+      p.classList.toggle('is-active', isMatch);
+      if (isMatch) p.removeAttribute('hidden');
+      else p.setAttribute('hidden', '');
+    });
   }
 
   tabs.forEach((tab) => {
