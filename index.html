@@ -4931,18 +4931,39 @@ main { padding: 0 16px; }
 }
 @media (max-width: 540px) {
   .promo-cta-section { margin: 24px 0; }
-  .promo-cta-card { padding: 22px 90px 22px 22px; }
+  .promo-cta-card { padding: 22px 22px 22px 22px; }
   .promo-cta-icon-wrap {
     position: absolute;
     right: 16px;
     top: 16px;
     bottom: auto;
     transform: none;
-    width: 64px;
-    height: 64px;
+    width: 56px;
+    height: 56px;
   }
-  .promo-cta-icon-wrap::before { inset: -8px; }
-  .promo-cta-icon-wrap i { font-size: 28px; }
+  .promo-cta-icon-wrap::before { inset: -6px; }
+  .promo-cta-icon-wrap i { font-size: 24px; }
+
+  /* Reserve top-right space only for the icon row */
+  .promo-cta-eyebrow,
+  .promo-cta-title { padding-right: 70px; }
+
+  /* Coupon + CTA side by side */
+  .promo-cta-action-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .promo-cta-code { margin-bottom: 0; padding: 8px 14px; font-size: 13px; letter-spacing: 0.12em; }
+  .promo-cta-btn { padding: 10px 18px; font-size: 13px; }
+
+  /* App store + Play store side by side */
+  .promo-cta-stores { flex-wrap: nowrap; gap: 8px; }
+  .promo-cta-store { padding: 8px 12px; gap: 8px; min-width: 0; flex: 1; }
+  .promo-cta-store i { font-size: 20px; }
+  .promo-cta-store-label { font-size: 9px; }
+  .promo-cta-store-name { font-size: 12px; }
 }
 
 /* ---------- REAL STORIES (customer reviews) ---------- */
@@ -5968,8 +5989,10 @@ main { padding: 0 16px; }
           <div class="promo-cta-eyebrow">FIRST-TIME BOOKING</div>
           <h3 class="promo-cta-title">Flat 50% Cashback + 20% Off</h3>
           <p class="promo-cta-body">Use code below on your first booking.<br>Valid on all tests and packages.</p>
-          <div class="promo-cta-code">FLEBO2050</div>
-          <a href="#" class="promo-cta-btn promo-cta-btn--white">Claim offer <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+          <div class="promo-cta-action-row">
+            <div class="promo-cta-code">FLEBO2050</div>
+            <a href="#" class="promo-cta-btn promo-cta-btn--white">Claim offer <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+          </div>
         </div>
         <div class="promo-cta-icon-wrap" aria-hidden="true">
           <i class="fas fa-gift"></i>
