@@ -3599,8 +3599,8 @@ main { padding: 0 16px; }
   }
 }
 
-/* Hero content (left column) */
-.hero-v2-content { min-width: 0; }
+/* Hero content (left column) — pin to top so tab position doesn't shift between panels */
+.hero-v2-content { min-width: 0; align-self: start; }
 .hero-v2-pill { display: none; }
 .hero-v2-pill-dot { display: none; }
 
