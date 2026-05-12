@@ -3961,28 +3961,44 @@ main { padding: 0 16px; }
 .hero-v2-search-btn:active { transform: scale(0.97); }
 .hero-v2-search-btn i { font-size: 13px; }
 
+.prescription-link-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 24px;
+  margin-bottom: 24px;
+}
 .hero-v2-prescription-link {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  margin-top: 0;
-  margin-left: 24px;
-  margin-bottom: 26px;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 600;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.45);
-  padding-bottom: 2px;
-  transition: color 0.2s, border-color 0.2s, transform 0.2s;
+  gap: 8px;
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1.5px;
+  transition: color 0.2s;
 }
-.hero-v2-prescription-link:hover {
-  color: #FFC857;
-  border-bottom-color: #FFC857;
+.hero-v2-prescription-link:hover { color: #B82E2E; }
+.hero-v2-prescription-link i { font-size: 15px; }
+
+.prescription-info-btn {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(211, 53, 53, 0.2);
+  color: var(--accent);
+  border: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 800;
+  transition: background 0.2s;
 }
-.hero-v2-prescription-link i { font-size: 14px; }
-.hero-v2-prescription-link-arrow { font-size: 11px; transition: transform 0.2s; }
-.hero-v2-prescription-link:hover .hero-v2-prescription-link-arrow { transform: translateX(3px); }
+.prescription-info-btn:hover { background: rgba(211, 53, 53, 0.35); }
 
 .hero-v2-tags-row {
   display: flex;
@@ -5097,11 +5113,15 @@ main { padding: 0 16px; }
           <input type="search" placeholder="Book a Pathology or Radiology Tests" aria-label="Search tests">
           <button type="button" class="hero-search-mic" aria-label="Voice search"><i class="fas fa-microphone"></i></button>
         </div>
-        <a href="#" class="hero-v2-prescription-link">
-          <i class="fas fa-file-prescription" aria-hidden="true"></i>
-          <span>Click Here to Book Via Doctor Prescription</span>
-          <i class="fas fa-arrow-right hero-v2-prescription-link-arrow" aria-hidden="true"></i>
-        </a>
+        <div class="prescription-link-row">
+          <a href="#" class="hero-v2-prescription-link">
+            <i class="fas fa-prescription" aria-hidden="true"></i>
+            <span>Click Here to Book Via Doctor Prescription</span>
+          </a>
+          <button type="button" class="prescription-info-btn" aria-label="More info about prescription booking">
+            <i class="fas fa-question"></i>
+          </button>
+        </div>
       </div>
 
       <!-- PACKAGES PANEL -->
