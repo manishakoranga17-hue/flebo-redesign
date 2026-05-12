@@ -4305,11 +4305,19 @@ main { padding: 0 16px; }
   .top-bar-inner { padding-top: 9px; padding-bottom: 9px; gap: 12px; font-size: 12.5px; }
   .top-bar-trust, .top-bar-utility { gap: 16px; }
 
-  .site-header-inner { padding-top: 12px; padding-bottom: 12px; gap: 16px; }
+  .site-header-inner { padding-top: 12px; padding-bottom: 12px; gap: 12px; }
 
   /* Below desktop, fall back to hamburger menu */
   .main-nav { display: none; }
-  .hamburger-btn { display: inline-flex !important; margin-left: auto; width: 40px; height: 40px; }
+  .hamburger-btn {
+    display: inline-flex !important;
+    margin: 0;
+    width: 40px; height: 40px;
+    background: #EAF0F7;
+    color: var(--primary);
+    border-radius: 10px;
+  }
+  .header-upload { margin-left: auto; }
 
   .hero-v2-inner { padding: 44px 20px 60px; gap: 32px; }
   .hero-v2-stats { gap: 28px; }
@@ -4332,15 +4340,49 @@ main { padding: 0 16px; }
   .top-bar-utility a span,
   .top-bar-location span:not(#topBarLocationDisplay) { font-size: 12px; }
   :root { --site-inset: 16px; }
-  .top-bar-inner { font-size: 12px; padding-top: 8px; padding-bottom: 8px; gap: 10px; }
-  .top-bar-link span { display: none; } /* icon-only on small screens */
+  .top-bar-inner { font-size: 11.5px; padding-top: 7px; padding-bottom: 7px; gap: 10px; }
+  .top-bar-link span { display: inline; font-size: 11.5px; }
 
   .site-header { top: 36px; }
   .site-header-inner { padding-top: 10px; padding-bottom: 10px; gap: 10px; }
-  .brand-logo { height: 36px; }
-  .hamburger-btn { display: inline-flex !important; margin-left: auto; width: 38px; height: 38px; }
+  .brand-logo { height: 32px; }
+  .brand-rating { padding: 2px 6px; font-size: 11px; }
+  .brand-rating-stars { font-size: 9px; }
+  .hamburger-btn { display: inline-flex !important; margin: 0; width: 38px; height: 38px; }
 
-  .hero-v2-inner { padding: 32px 16px 48px; gap: 32px; }
+  /* Mobile Upload pill: compact, sits at the right */
+  .header-upload { margin-left: auto; gap: 2px; }
+  .header-upload .main-nav-pill { padding: 6px 12px; font-size: 12px; }
+  .header-upload .main-nav-pill i { font-size: 12px; }
+  .main-nav-upload-sub { font-size: 10px; margin-top: 2px; }
+
+  /* Hide hero image column on mobile — show panels only */
+  .hero-v2-visual { display: none; }
+
+  .hero-v2-inner { padding: 24px 16px 32px; gap: 0; grid-template-columns: 1fr; min-height: 0; }
+
+  /* Compact hero panel sizing for mobile */
+  .hero-v2-tabs { padding: 4px; gap: 4px; margin-bottom: 18px; align-self: flex-start; }
+  .hero-v2-tab { padding: 7px 14px; font-size: 13px; }
+
+  .hero-panel-title,
+  .hero-panel-title--md { font-size: 22px; line-height: 1.25; margin-bottom: 16px; }
+
+  .hero-panel-eyebrow { font-size: 13px; margin-bottom: 4px; }
+
+  .hero-benefits { gap: 8px; margin-bottom: 16px; }
+  .hero-benefit-pill { font-size: 11px; padding: 6px 12px; gap: 8px; }
+  .hero-benefit-icon { width: 20px; height: 20px; font-size: 10px; }
+
+  .hero-search-bar { height: 50px; padding: 5px 5px 5px 18px; margin-bottom: 8px; }
+  .hero-search-bar input { font-size: 13px; }
+  .hero-search-bar-icon { font-size: 14px; margin-right: 10px; }
+  .hero-search-mic { width: 36px; height: 36px; font-size: 12px; }
+
+  .prescription-link-row { margin-top: -2px; margin-bottom: 8px; }
+  .hero-v2-prescription-link { font-size: 13px; }
+  .hero-v2-prescription-link i { font-size: 13px; }
+  .prescription-info-btn { width: 20px; height: 20px; font-size: 9px; }
   .hero-v2-pill { font-size: 12px; padding: 7px 14px; margin-bottom: 18px; }
   .hero-v2-headline { font-size: clamp(34px, 9vw, 48px); }
   .hero-v2-subtext { font-size: 14.5px; margin-bottom: 24px; }
@@ -5009,6 +5051,10 @@ main { padding: 0 16px; }
 
 <header class="site-header" role="banner">
   <div class="site-header-inner">
+    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false">
+      <i class="fas fa-bars"></i>
+    </button>
+
     <div class="brand-block">
       <a href="#" class="brand" aria-label="Flebo.in — Any Test, Any Lab">
         <img src="flebo-logo.svg" alt="Flebo.in" class="brand-logo">
@@ -5046,19 +5092,16 @@ main { padding: 0 16px; }
           </span>
           <span>BMI Calculator</span>
         </a></li>
-        <li class="main-nav-upload">
-          <a href="#" class="main-nav-pill">
-            <i class="fas fa-cloud-arrow-up"></i>
-            <span>Upload Report of Any Lab</span>
-          </a>
-          <span class="main-nav-upload-sub">Secure Data Vault <span class="main-nav-upload-sub-sep">|</span> Free AI Analysis</span>
-        </li>
       </ul>
     </nav>
 
-    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false">
-      <i class="fas fa-bars"></i>
-    </button>
+    <div class="header-upload main-nav-upload">
+      <a href="#" class="main-nav-pill">
+        <i class="fas fa-cloud-arrow-up"></i>
+        <span>Upload Report of Any Lab</span>
+      </a>
+      <span class="main-nav-upload-sub">Secure Data Vault <span class="main-nav-upload-sub-sep">|</span> Free AI Analysis</span>
+    </div>
   </div>
 </header>
 
