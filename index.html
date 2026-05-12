@@ -3119,15 +3119,28 @@ main { padding: 0 16px; }
   /* Testimonial cards bigger */
   .testimonial-card { font-size: 15px; }
 
-  /* Footer — multi-column */
+  /* Footer — desktop: left column = brand/desc/contacts, right column = Quick Links */
   .site-footer {
     padding: 48px 64px 32px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    column-gap: 64px;
+    align-items: start;
   }
+  .footer-logo,
+  .footer-desc,
+  .footer-contact-row,
+  .footer-divider { grid-column: 1; }
+  .footer-divider { display: none; }
+  .footer-links-title,
+  .footer-links-grid { grid-column: 2; }
+  .footer-links-title { grid-row: 1; margin-top: 0; }
+  .footer-links-grid { grid-row: 2 / span 10; }
   .footer-logo { height: 52px; }
   .footer-desc { font-size: 15px; max-width: 720px; }
   .footer-contact-row { display: inline-flex; margin-right: 32px; }
   .footer-links-grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 14px 28px;
   }
   .footer-link { font-size: 15px; }
