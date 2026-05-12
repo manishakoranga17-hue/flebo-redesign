@@ -3129,7 +3129,7 @@ main { padding: 0 16px; }
   }
   .footer-logo,
   .footer-desc,
-  .footer-contact-row,
+  .footer-contacts,
   .footer-divider { grid-column: 1; }
   .footer-divider { display: none; }
   .footer-links-title,
@@ -3138,7 +3138,8 @@ main { padding: 0 16px; }
   .footer-links-grid { grid-row: 2 / span 10; }
   .footer-logo { height: 52px; }
   .footer-desc { font-size: 15px; max-width: 720px; }
-  .footer-contact-row { display: inline-flex; margin-right: 32px; }
+  .footer-contacts { display: flex; flex-wrap: wrap; gap: 18px 40px; align-items: center; }
+  .footer-contact-row { display: inline-flex; margin: 0; }
   .footer-links-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 14px 28px;
@@ -6171,19 +6172,21 @@ main { padding: 0 16px; }
   <img src="flebo-logo.svg" alt="Flebo.in" class="footer-logo">
   <p class="footer-desc">Your one-stop solution for convenient booking, painless sample collection and timely reporting of all medical tests. Your diagnosis is our priority, always. Taking a step towards healthy living? We are here for you!</p>
 
-  <div class="footer-contact-row">
-    <div class="footer-contact-icon"><i class="fas fa-headset"></i></div>
-    <div>
-      <div class="footer-contact-label">Contact us</div>
-      <div class="footer-contact-value"><a href="tel:01244550000">012 44 55 0000</a></div>
+  <div class="footer-contacts">
+    <div class="footer-contact-row">
+      <div class="footer-contact-icon"><i class="fas fa-headset"></i></div>
+      <div>
+        <div class="footer-contact-label">Contact us</div>
+        <div class="footer-contact-value"><a href="tel:01244550000">012 44 55 0000</a></div>
+      </div>
     </div>
-  </div>
 
-  <div class="footer-contact-row">
-    <div class="footer-contact-icon"><i class="fas fa-envelope"></i></div>
-    <div>
-      <div class="footer-contact-label">Reach out to us</div>
-      <div class="footer-contact-value"><a href="mailto:customercare@flebo.in">customercare@flebo.in</a></div>
+    <div class="footer-contact-row">
+      <div class="footer-contact-icon"><i class="fas fa-envelope"></i></div>
+      <div>
+        <div class="footer-contact-label">Reach out to us</div>
+        <div class="footer-contact-value"><a href="mailto:customercare@flebo.in">customercare@flebo.in</a></div>
+      </div>
     </div>
   </div>
 
