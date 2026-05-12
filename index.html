@@ -3581,6 +3581,12 @@ main { padding: 0 16px; }
   align-items: center;
   position: relative;
   z-index: 1;
+  /* Hero + sample-tested strip together fill the first viewport on desktop.
+     Subtract sticky chrome (top-bar ~38 + site-header ~98) and sample strip (~70). */
+  min-height: calc(100vh - 206px);
+}
+@media (max-width: 900px) {
+  .hero-v2-inner { min-height: 0; }
 }
 
 /* Hero content (left column) */
