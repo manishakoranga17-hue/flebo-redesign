@@ -3227,33 +3227,20 @@ main { padding: 0 16px; }
   .site-footer { padding: 48px 48px 24px; }
   .footer-top {
     display: grid;
-    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-    grid-template-areas:
-      "brand cta"
-      "links links";
-    column-gap: 48px;
-    row-gap: 36px;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.5fr) minmax(0, 1fr);
+    column-gap: 40px;
     align-items: start;
-  }
-  .footer-col--brand { grid-area: brand; }
-  .footer-col--cta   { grid-area: cta; }
-  .footer-col--links {
-    grid-area: links;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
   }
   .footer-logo { height: 52px; margin-bottom: 16px; }
   .footer-desc { font-size: 14px; max-width: 460px; margin-bottom: 22px; }
   .footer-contacts { display: flex; flex-direction: column; gap: 18px; }
   .footer-contact-row { display: flex; margin: 0; }
-  .footer-links-title { margin-top: 0; text-align: center; }
-  /* Quick Links: 2 columns × 5 rows, centered in the footer */
+  .footer-links-title { margin-top: 0; text-align: left; }
+  /* Quick Links: 2 columns × 5 rows, left-aligned in the middle column */
   .footer-links-grid {
     grid-template-columns: repeat(2, max-content);
-    gap: 16px 96px;
-    justify-content: center;
+    gap: 16px 80px;
+    justify-content: start;
   }
   .footer-link {
     font-size: 15px;
