@@ -4247,12 +4247,15 @@ main { padding: 0 16px; }
   border-radius: 28px;
   overflow: visible;
   width: 100%;
-  height: 555px !important;
-  min-height: 555px;
+  /* Scale with viewport height: leaves ~280px for chrome (top-bar + site-header
+     + sample-tested strip + hero padding). Caps at 555px so the image doesn't
+     bloat on very tall screens. */
+  height: clamp(320px, calc(100dvh - 280px), 555px);
+  min-height: 0;
   align-self: center;
 }
 @media (max-width: 900px) {
-  .hero-v2-frame { height: auto !important; min-height: 0; aspect-ratio: 4 / 3.2; }
+  .hero-v2-frame { height: auto; min-height: 0; aspect-ratio: 4 / 3.2; }
 }
 .hero-v2-img {
   width: 100%;
