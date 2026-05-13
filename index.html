@@ -3708,13 +3708,30 @@ main { padding: 0 16px; }
 .hero-v2-inner {
   max-width: 1320px;
   margin: 0 auto;
-  padding: 40px 32px 40px;
+  padding: 32px 32px 32px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 56px;
   align-items: center;
   position: relative;
   z-index: 1;
+}
+/* Desktop (≥1024px): hero + sample-tested strip always fill the first fold.
+   Chrome budget: top-bar (~40) + site-header (~75) + sample strip (~75) ≈ 190px. */
+@media (min-width: 1024px) {
+  .hero-v2-inner {
+    min-height: calc(100vh - 190px);
+    min-height: calc(100dvh - 190px);
+  }
+  /* Compact Doctors panel so 9 specialities always fit on short desktop heights */
+  .hero-panel[data-panel="doctors"] .speciality-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px 18px;
+    max-width: 460px;
+  }
+  .hero-panel[data-panel="doctors"] .speciality-item--break { grid-column-start: auto; }
+  .hero-panel[data-panel="doctors"] .speciality-img { width: 80px; height: 80px; }
+  .hero-panel[data-panel="doctors"] .speciality-item span:last-child { font-size: 12px; }
 }
 
 /* Hero content (left column) — pin to top so tab position doesn't shift between panels */
