@@ -3717,11 +3717,11 @@ main { padding: 0 16px; }
   z-index: 1;
 }
 /* Desktop (≥1024px): hero + sample-tested strip always fill the first fold.
-   Chrome budget: top-bar (~40) + site-header (~75) + sample strip (~85) ≈ 200-220px. */
+   Chrome budget: top-bar (~42) + site-header (~80) + sample strip (~88) + safety ≈ 240px. */
 @media (min-width: 1024px) {
   .hero-v2-inner {
-    min-height: calc(100vh - 220px);
-    min-height: calc(100dvh - 220px);
+    min-height: calc(100vh - 240px);
+    min-height: calc(100dvh - 240px);
   }
   /* Compact Doctors panel so 9 specialities always fit on short desktop heights */
   .hero-panel[data-panel="doctors"] .hero-panel-eyebrow { font-size: 16px; margin-bottom: 6px; }
@@ -4247,10 +4247,10 @@ main { padding: 0 16px; }
   border-radius: 28px;
   overflow: visible;
   width: 100%;
-  /* Scale with viewport height: leaves ~280px for chrome (top-bar + site-header
-     + sample-tested strip + hero padding). Caps at 555px so the image doesn't
-     bloat on very tall screens. */
-  height: clamp(320px, calc(100dvh - 280px), 555px);
+  /* Scale with viewport height: leaves ~320px for chrome (top-bar + site-header
+     + sample-tested strip + hero padding + safety margin). Caps at 555px so
+     the image doesn't bloat on very tall screens. */
+  height: clamp(280px, calc(100dvh - 320px), 555px);
   min-height: 0;
   align-self: center;
 }
