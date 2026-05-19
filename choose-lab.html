@@ -285,8 +285,9 @@ button { font-family: inherit; }
 }
 .ctx-chip-icon { color: var(--accent); font-size: 12px; }
 .ctx-chip-x {
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
+  padding: 0;
   border-radius: 50%;
   background: var(--accent-soft);
   color: var(--accent);
@@ -295,7 +296,10 @@ button { font-family: inherit; }
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 9px;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
   transition: background 0.15s, color 0.15s;
 }
 .ctx-chip-x:hover { background: var(--accent); color: #fff; }
