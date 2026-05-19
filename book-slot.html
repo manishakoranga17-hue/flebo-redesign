@@ -611,6 +611,14 @@ button { font-family: inherit; }
   font-weight: 800;
   flex-shrink: 0;
 }
+.summary-test-name { flex: 1; min-width: 0; }
+.summary-test-price {
+  font-family: 'Plus Jakarta Sans', Inter, sans-serif;
+  font-weight: 700;
+  color: var(--text-primary);
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
 
 .price-rows { display: flex; flex-direction: column; gap: 8px; }
 .price-row {
@@ -962,7 +970,7 @@ button { font-family: inherit; }
       </div>
       <div class="instr-list">
         <div class="instr-item">
-          <span class="instr-icon"><i class="fas fa-utensils-slash"></i></span>
+          <span class="instr-icon">🍽️</span>
           <div class="instr-text">
             <div class="instr-title">10–12 hour fasting required</div>
             <div class="instr-sub">No food or drinks (except water) before the collection. Sip water freely.</div>
@@ -1036,12 +1044,59 @@ button { font-family: inherit; }
 (function () {
   const params = new URLSearchParams(location.search);
   const testsParam = params.get('tests') || 'CBC (Complete Blood Count)|Thyroid Profile (T3, T4, TSH)';
+  const pricesParam = params.get('prices') || '299|549';
   const labName = params.get('lab') || 'Thyrocare Technologies';
   const labId = params.get('labId') || 'thyrocare';
   const price = parseInt(params.get('price'), 10) || 641;
   const mrp = parseInt(params.get('mrp'), 10) || 1582;
 
-  const tests = testsParam.split('|').filter(Boolean);
+  // Split on `|` (new format) OR commas that are NOT inside parentheses (legacy)
+  function splitTests(str) {
+    if (str.includes('|')) return str.split('|').map(s => s.trim()).filter(Boolean);
+    const out = []; let depth = 0, start = 0;
+    for (let i = 0; i < str.length; i++) {
+      const c = str[i];
+      if (c === '(') depth++;
+      else if (c === ')') depth--;
+      else if (c === ',' && depth === 0) { out.push(str.slice(start, i)); start = i + 1; }
+    }
+    out.push(str.slice(start));
+    return out.map(s => s.trim()).filter(Boolean);
+  }
+  const tests = splitTests(testsParam);
+
+  // Fallback price catalog (mirrors index.html). Used when prices param is missing
+  // or has fewer entries than the tests list (e.g. older URLs).
+  const priceCatalog = {
+    'CBC (Complete Blood Count)': 299,
+    'Thyroid Profile (T3, T4, TSH)': 549,
+    'Lipid Profile': 499,
+    'HbA1c (Diabetes)': 399,
+    'Blood Sugar Fasting': 149,
+    'Blood Sugar Random (BSR)': 149,
+    'Vitamin D 25-Hydroxy': 799,
+    'Vitamin B12': 599,
+    'Iron Studies': 699,
+    'Liver Function Test (LFT)': 549,
+    'Kidney Function Test (KFT)': 599,
+    'Urine Routine (RU)': 199,
+    'Dengue NS1 Antigen': 449,
+    'Malaria Panel': 299,
+    'Typhoid (Widal Test)': 249,
+    'COVID RT-PCR': 499,
+    'CRP (C-Reactive Protein)': 449,
+    'Electrolytes': 349,
+    'Calcium Serum': 249,
+    'X-Ray Chest PA View': 399,
+    'MRI Brain': 4499,
+    'CT Scan Abdomen': 3499,
+    'Ultrasound Whole Abdomen': 1299,
+    'ECG': 249,
+    '2D Echo': 1499,
+  };
+
+  const urlPrices = params.get('prices') ? pricesParam.split('|').map(p => parseInt(p, 10) || 0) : [];
+  const testPrices = tests.map((t, i) => urlPrices[i] || priceCatalog[t] || 0);
 
   // Lab logo map
   const logoMap = {
@@ -1053,8 +1108,13 @@ button { font-family: inherit; }
   document.getElementById('sumLabName').textContent = labName;
   document.getElementById('sumLabLogo').src = logoMap[labId] || logoMap.thyrocare;
 
-  // Tests list
-  document.getElementById('sumTests').innerHTML = tests.map(t => `<div class="summary-test">${t}</div>`).join('');
+  // Tests list with per-test price (always renders price; falls back to "—" if unknown)
+  console.log('[book-slot] tests:', tests, 'prices:', testPrices);
+  document.getElementById('sumTests').innerHTML = tests.map((t, i) => {
+    const p = testPrices[i];
+    const label = p > 0 ? `₹${p}` : '—';
+    return `<div class="summary-test"><span class="summary-test-name">${t}</span><span class="summary-test-price">${label}</span></div>`;
+  }).join('');
 
   // Date chips — today + next 4 days
   const dateRow = document.getElementById('dateRow');

@@ -7259,32 +7259,34 @@ document.querySelectorAll('.pkg-cat-tab').forEach(tab => {
   if (!input || !dropdown || !chipsWrap || !bookBtn) return;
 
   const tests = [
-    { name: 'CBC (Complete Blood Count)', tag: 'Popular', icon: 'fa-fire' },
-    { name: 'Thyroid Profile (T3, T4, TSH)', tag: 'Popular', icon: 'fa-fire' },
-    { name: 'Lipid Profile', tag: 'Heart', icon: 'fa-heart-pulse' },
-    { name: 'HbA1c (Diabetes)', tag: 'Diabetes', icon: 'fa-droplet' },
-    { name: 'Blood Sugar Fasting', tag: 'Diabetes', icon: 'fa-droplet' },
-    { name: 'Blood Sugar Random (BSR)', tag: 'Diabetes', icon: 'fa-droplet' },
-    { name: 'Vitamin D 25-Hydroxy', tag: 'Vitamins', icon: 'fa-sun' },
-    { name: 'Vitamin B12', tag: 'Vitamins', icon: 'fa-vial' },
-    { name: 'Iron Studies', tag: 'Blood', icon: 'fa-vial' },
-    { name: 'Liver Function Test (LFT)', tag: 'Liver', icon: 'fa-vial' },
-    { name: 'Kidney Function Test (KFT)', tag: 'Kidney', icon: 'fa-vial' },
-    { name: 'Urine Routine (RU)', tag: 'Routine', icon: 'fa-vial' },
-    { name: 'Dengue NS1 Antigen', tag: 'Fever', icon: 'fa-bug' },
-    { name: 'Malaria Panel', tag: 'Fever', icon: 'fa-bug' },
-    { name: 'Typhoid (Widal Test)', tag: 'Fever', icon: 'fa-bug' },
-    { name: 'COVID RT-PCR', tag: 'Infection', icon: 'fa-virus' },
-    { name: 'CRP (C-Reactive Protein)', tag: 'Inflammation', icon: 'fa-vial' },
-    { name: 'Electrolytes', tag: 'Blood', icon: 'fa-vial' },
-    { name: 'Calcium Serum', tag: 'Blood', icon: 'fa-vial' },
-    { name: 'X-Ray Chest PA View', tag: 'Radiology', icon: 'fa-bone' },
-    { name: 'MRI Brain', tag: 'Radiology', icon: 'fa-brain' },
-    { name: 'CT Scan Abdomen', tag: 'Radiology', icon: 'fa-scroll' },
-    { name: 'Ultrasound Whole Abdomen', tag: 'Radiology', icon: 'fa-wave-square' },
-    { name: 'ECG', tag: 'Heart', icon: 'fa-heart-pulse' },
-    { name: '2D Echo', tag: 'Heart', icon: 'fa-heart-pulse' },
+    { name: 'CBC (Complete Blood Count)', tag: 'Popular', icon: 'fa-fire', price: 299 },
+    { name: 'Thyroid Profile (T3, T4, TSH)', tag: 'Popular', icon: 'fa-fire', price: 549 },
+    { name: 'Lipid Profile', tag: 'Heart', icon: 'fa-heart-pulse', price: 499 },
+    { name: 'HbA1c (Diabetes)', tag: 'Diabetes', icon: 'fa-droplet', price: 399 },
+    { name: 'Blood Sugar Fasting', tag: 'Diabetes', icon: 'fa-droplet', price: 149 },
+    { name: 'Blood Sugar Random (BSR)', tag: 'Diabetes', icon: 'fa-droplet', price: 149 },
+    { name: 'Vitamin D 25-Hydroxy', tag: 'Vitamins', icon: 'fa-sun', price: 799 },
+    { name: 'Vitamin B12', tag: 'Vitamins', icon: 'fa-vial', price: 599 },
+    { name: 'Iron Studies', tag: 'Blood', icon: 'fa-vial', price: 699 },
+    { name: 'Liver Function Test (LFT)', tag: 'Liver', icon: 'fa-vial', price: 549 },
+    { name: 'Kidney Function Test (KFT)', tag: 'Kidney', icon: 'fa-vial', price: 599 },
+    { name: 'Urine Routine (RU)', tag: 'Routine', icon: 'fa-vial', price: 199 },
+    { name: 'Dengue NS1 Antigen', tag: 'Fever', icon: 'fa-bug', price: 449 },
+    { name: 'Malaria Panel', tag: 'Fever', icon: 'fa-bug', price: 299 },
+    { name: 'Typhoid (Widal Test)', tag: 'Fever', icon: 'fa-bug', price: 249 },
+    { name: 'COVID RT-PCR', tag: 'Infection', icon: 'fa-virus', price: 499 },
+    { name: 'CRP (C-Reactive Protein)', tag: 'Inflammation', icon: 'fa-vial', price: 449 },
+    { name: 'Electrolytes', tag: 'Blood', icon: 'fa-vial', price: 349 },
+    { name: 'Calcium Serum', tag: 'Blood', icon: 'fa-vial', price: 249 },
+    { name: 'X-Ray Chest PA View', tag: 'Radiology', icon: 'fa-bone', price: 399 },
+    { name: 'MRI Brain', tag: 'Radiology', icon: 'fa-brain', price: 4499 },
+    { name: 'CT Scan Abdomen', tag: 'Radiology', icon: 'fa-scroll', price: 3499 },
+    { name: 'Ultrasound Whole Abdomen', tag: 'Radiology', icon: 'fa-wave-square', price: 1299 },
+    { name: 'ECG', tag: 'Heart', icon: 'fa-heart-pulse', price: 249 },
+    { name: '2D Echo', tag: 'Heart', icon: 'fa-heart-pulse', price: 1499 },
   ];
+
+  const priceByName = Object.fromEntries(tests.map(t => [t.name, t.price]));
 
   const selected = new Set();
 
@@ -7356,8 +7358,10 @@ document.querySelectorAll('.pkg-cat-tab').forEach(tab => {
 
   bookBtn.addEventListener('click', () => {
     if (selected.size === 0) return;
-    const param = Array.from(selected).map(encodeURIComponent).join(',');
-    window.location.href = 'choose-lab.html?tests=' + param;
+    const arr = Array.from(selected);
+    const namesParam = arr.map(encodeURIComponent).join('|');
+    const pricesParam = arr.map(n => priceByName[n] || 0).join('|');
+    window.location.href = 'choose-lab.html?tests=' + namesParam + '&prices=' + pricesParam;
   });
 })();
 

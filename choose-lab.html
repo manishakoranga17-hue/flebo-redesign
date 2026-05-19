@@ -1388,10 +1388,25 @@ button { font-family: inherit; }
 
 <script>
 (function () {
-  // Selected tests come via URL: ?tests=CBC,Thyroid+Profile
+  // Selected tests come via URL: ?tests=CBC|Thyroid+Profile&prices=299|549
   const params = new URLSearchParams(location.search);
   const testsParam = params.get('tests') || '';
-  let selectedTests = testsParam ? testsParam.split(',').map(decodeURIComponent).filter(Boolean) : ['CBC (Complete Blood Count)', 'Thyroid Profile (T3, T4, TSH)'];
+  const pricesParam = params.get('prices') || '';
+  // Split on `|` (new) OR commas-not-in-parens (legacy URLs)
+  function splitTests(str) {
+    if (str.includes('|')) return str.split('|').map(s => s.trim()).filter(Boolean);
+    const out = []; let depth = 0, start = 0;
+    for (let i = 0; i < str.length; i++) {
+      const c = str[i];
+      if (c === '(') depth++;
+      else if (c === ')') depth--;
+      else if (c === ',' && depth === 0) { out.push(str.slice(start, i)); start = i + 1; }
+    }
+    out.push(str.slice(start));
+    return out.map(s => s.trim()).filter(Boolean);
+  }
+  let selectedTests = testsParam ? splitTests(testsParam).map(s => { try { return decodeURIComponent(s); } catch (e) { return s; } }) : ['CBC (Complete Blood Count)', 'Thyroid Profile (T3, T4, TSH)'];
+  let selectedPrices = pricesParam ? pricesParam.split('|') : ['299', '549'];
 
   // ===== Lab catalog =====
   const labs = [
@@ -1654,6 +1669,7 @@ button { font-family: inherit; }
     }
     const url = new URL('book-slot.html', location.href);
     url.searchParams.set('tests', selectedTests.join('|'));
+    url.searchParams.set('prices', selectedPrices.join('|'));
     url.searchParams.set('lab', lab.name);
     url.searchParams.set('labId', lab.id);
     url.searchParams.set('price', lab.price);
