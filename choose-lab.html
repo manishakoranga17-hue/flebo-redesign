@@ -877,6 +877,20 @@ button { font-family: inherit; }
   font-weight: 700;
   margin-top: 2px;
 }
+.tbl-loc {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-primary);
+  font-size: 13.5px;
+  max-width: 200px;
+  line-height: 1.3;
+}
+.tbl-loc-icon {
+  color: var(--text-muted);
+  font-size: 12px;
+  flex-shrink: 0;
+}
 .tbl-dist {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 700;
@@ -1848,13 +1862,14 @@ button { font-family: inherit; }
     try { return localStorage.getItem('flebo:choose-lab:view') || 'card'; } catch (e) { return 'card'; }
   })();
   let currentSort = { key: 'best', dir: 'desc' };
-  const defaultDir = { best: 'desc', price: 'asc', mrp: 'asc', distance: 'asc', speed: 'asc', rating: 'desc', name: 'asc' };
+  const defaultDir = { best: 'desc', price: 'asc', mrp: 'asc', distance: 'asc', speed: 'asc', rating: 'desc', name: 'asc', location: 'asc' };
 
   function sortLabs(key, dir) {
     const mul = dir === 'asc' ? 1 : -1;
     const sorted = labs.slice();
     const tatOrder = ['Reports in 6 hours', 'Reports in 12 hours', 'Reports in 18 hours', 'Reports in 24 hours', 'Reports next morning'];
     if (key === 'name') sorted.sort((a, b) => a.name.localeCompare(b.name) * mul);
+    else if (key === 'location') sorted.sort((a, b) => (a.location || '').localeCompare(b.location || '') * mul);
     else if (key === 'price') sorted.sort((a, b) => (a.price - b.price) * mul);
     else if (key === 'mrp') sorted.sort((a, b) => (a.mrp - b.mrp) * mul);
     else if (key === 'rating') sorted.sort((a, b) => ((a.rating || 0) - (b.rating || 0)) * mul);
@@ -1887,14 +1902,15 @@ button { font-family: inherit; }
   // ===== Table renderer =====
   function renderTable(list) {
     const isVisit = mode === 'visit';
-    // Build header columns based on mode
+    // Build header columns — Location + Distance now appear in both modes.
     const cols = [
       { key: 'name', label: 'Lab' },
+      { key: 'location', label: 'Location' },
+      { key: 'distance', label: 'Distance' },
       { key: 'rating', label: 'Rating' },
       { key: 'speed', label: 'Reports in' },
     ];
     if (isVisit) {
-      cols.push({ key: 'distance', label: 'Distance' });
       cols.push({ key: 'slot', label: 'Earliest slot', sortable: false });
     }
     cols.push({ key: 'mrp', label: 'MRP' });
@@ -1921,11 +1937,13 @@ button { font-family: inherit; }
       // TAT — strip "Reports in " prefix for compactness
       const tatShort = (l.tat || '').replace(/^Reports in\s*/, '').replace(/^Reports\s*/, '');
       const tatCell = `<span class="tbl-tat"><i class="fas fa-bolt tbl-tat-icon"></i>${tatShort}</span>`;
-      // Visit-only cells
-      let distCell = '';
+      // Location cell — visible in both modes
+      const locCell = `<td><span class="tbl-loc"><i class="fas fa-location-dot tbl-loc-icon"></i>${l.location}</span></td>`;
+      // Distance cell — visible in both modes
+      const distCell = `<td><span class="tbl-dist">${l.distanceKm.toFixed(1)} km</span><span class="tbl-dist-eta">🚗 ~${l.etaMin} min</span></td>`;
+      // Slot — visit only
       let slotCell = '';
       if (isVisit) {
-        distCell = `<td><span class="tbl-dist">${l.distanceKm.toFixed(1)} km</span><span class="tbl-dist-eta">🚗 ~${l.etaMin} min</span></td>`;
         if (l.slots) {
           const earliest = l.slots.find(s => !s.endsWith('-')) || l.slots[0];
           const label = earliest.replace(/[*-]$/, '');
@@ -1949,9 +1967,10 @@ button { font-family: inherit; }
               </div>
             </div>
           </td>
+          ${locCell}
+          ${distCell}
           <td>${ratingCell}</td>
           <td>${tatCell}</td>
-          ${distCell}
           ${slotCell}
           <td><span class="tbl-mrp">₹${l.mrp.toLocaleString()}</span></td>
           <td>
