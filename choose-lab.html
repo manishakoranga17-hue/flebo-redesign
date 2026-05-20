@@ -1586,8 +1586,7 @@ button { font-family: inherit; }
         <span class="sort-label">Sort by</span>
         <button class="sort-chip is-active" data-sort="best"><span aria-hidden="true">⭐</span> Best match</button>
         <button class="sort-chip" data-sort="price"><span aria-hidden="true">💰</span> Lowest price</button>
-        <button class="sort-chip" data-sort="distance" style="display:none;"><span aria-hidden="true">📍</span> Nearest first</button>
-        <button class="sort-chip" data-sort="speed"><span aria-hidden="true">⚡</span> Fastest report</button>
+        <button class="sort-chip" data-sort="distance"><span aria-hidden="true">📍</span> Nearest first</button>
         <button class="sort-chip" data-sort="rating"><span aria-hidden="true">🏆</span> Highest rated</button>
       </div>
       <div class="sort-bar-right">
@@ -2026,15 +2025,7 @@ button { font-family: inherit; }
     document.querySelectorAll('.fb-visit-only').forEach(el => {
       el.style.display = mode === 'visit' ? '' : 'none';
     });
-    // Toggle "Nearest first" sort chip
-    const nearChip = document.querySelector('.sort-chip[data-sort="distance"]');
-    if (nearChip) nearChip.style.display = mode === 'visit' ? '' : 'none';
-    // If we're sorted by distance and switched to Home mode, fall back to best
-    if (mode !== 'visit' && currentSort.key === 'distance') {
-      applySort('best');
-    } else {
-      renderResults(sortLabs(currentSort.key, currentSort.dir));
-    }
+    renderResults(sortLabs(currentSort.key, currentSort.dir));
   });
 
   // ===== Select lab — shared for card view and table view =====
