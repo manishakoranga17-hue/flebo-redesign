@@ -891,6 +891,35 @@ button { font-family: inherit; }
   font-size: 12px;
   flex-shrink: 0;
 }
+/* Location line inside the Lab cell (under the certification badges) */
+.tbl-lab-loc {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 6px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  line-height: 1.3;
+  max-width: 220px;
+}
+.tbl-lab-loc i { font-size: 11px; color: var(--text-muted); flex-shrink: 0; }
+/* Timing cell — opening hours */
+.tbl-timing {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-primary);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.tbl-timing-icon { color: var(--text-muted); font-size: 12px; }
+.tbl-timing-sub {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+  font-weight: 500;
+}
 .tbl-dist {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 700;
@@ -1861,7 +1890,7 @@ button { font-family: inherit; }
     try { return localStorage.getItem('flebo:choose-lab:view') || 'card'; } catch (e) { return 'card'; }
   })();
   let currentSort = { key: 'price', dir: 'asc' };
-  const defaultDir = { best: 'desc', price: 'asc', mrp: 'asc', distance: 'asc', speed: 'asc', rating: 'desc', name: 'asc', location: 'asc' };
+  const defaultDir = { best: 'desc', price: 'asc', mrp: 'asc', distance: 'asc', speed: 'asc', rating: 'desc', name: 'asc', location: 'asc', timing: 'asc' };
 
   function sortLabs(key, dir) {
     const mul = dir === 'asc' ? 1 : -1;
@@ -1869,6 +1898,7 @@ button { font-family: inherit; }
     const tatOrder = ['Reports in 6 hours', 'Reports in 12 hours', 'Reports in 18 hours', 'Reports in 24 hours', 'Reports next morning'];
     if (key === 'name') sorted.sort((a, b) => a.name.localeCompare(b.name) * mul);
     else if (key === 'location') sorted.sort((a, b) => (a.location || '').localeCompare(b.location || '') * mul);
+    else if (key === 'timing') sorted.sort((a, b) => (a.hours || '').localeCompare(b.hours || '') * mul);
     else if (key === 'price') sorted.sort((a, b) => (a.price - b.price) * mul);
     else if (key === 'mrp') sorted.sort((a, b) => (a.mrp - b.mrp) * mul);
     else if (key === 'rating') sorted.sort((a, b) => ((a.rating || 0) - (b.rating || 0)) * mul);
@@ -1901,17 +1931,16 @@ button { font-family: inherit; }
   // ===== Table renderer =====
   function renderTable(list) {
     const isVisit = mode === 'visit';
-    // Build header columns — Location + Distance now appear in both modes.
+    // Build header columns
     const cols = [
       { key: 'name', label: 'Lab' },
-      { key: 'location', label: 'Location' },
       { key: 'distance', label: 'Distance' },
       { key: 'rating', label: 'Rating' },
-      { key: 'speed', label: 'Reports in' },
+      { key: 'speed', label: 'Proc. Time' },
+      { key: 'timing', label: 'Timing' },
+      { key: 'price', label: 'Price' },
+      { key: 'action', label: '', sortable: false },
     ];
-    cols.push({ key: 'mrp', label: 'MRP' });
-    cols.push({ key: 'price', label: 'Price' });
-    cols.push({ key: 'action', label: '', sortable: false });
 
     document.getElementById('labTableHead').innerHTML = cols.map(c => {
       const sortable = c.sortable !== false;
@@ -1933,10 +1962,12 @@ button { font-family: inherit; }
       // TAT — strip "Reports in " prefix for compactness
       const tatShort = (l.tat || '').replace(/^Reports in\s*/, '').replace(/^Reports\s*/, '');
       const tatCell = `<span class="tbl-tat"><i class="fas fa-bolt tbl-tat-icon"></i>${tatShort}</span>`;
-      // Location cell — visible in both modes
-      const locCell = `<td><span class="tbl-loc"><i class="fas fa-location-dot tbl-loc-icon"></i>${l.location}</span></td>`;
       // Distance cell — visible in both modes
       const distCell = `<td><span class="tbl-dist">${l.distanceKm.toFixed(1)} km</span><span class="tbl-dist-eta">🚗 ~${l.etaMin} min</span></td>`;
+      // Timing cell — opening hours
+      const timingValue = isVisit ? (l.visitHours || l.hours) : l.hours;
+      const timingSub = isVisit ? l.days : '';
+      const timingCell = `<td><span class="tbl-timing"><i class="fas fa-clock tbl-timing-icon"></i>${timingValue}</span>${timingSub ? `<span class="tbl-timing-sub">${timingSub}</span>` : ''}</td>`;
       // Badges (max 3 to keep row tidy)
       const badgeHtml = l.badges.slice(0, 3).map(b => `<span class="badge ${badgeClass(b[1])}">${b[0]}</span>`).join('');
       const ctaLabel = isVisit ? 'Book slot' : 'Select';
@@ -1948,14 +1979,14 @@ button { font-family: inherit; }
               <div class="tbl-lab-text">
                 <div class="tbl-lab-name">${l.name}</div>
                 <div class="tbl-lab-badges">${badgeHtml}</div>
+                <div class="tbl-lab-loc"><i class="fas fa-location-dot"></i>${l.location}</div>
               </div>
             </div>
           </td>
-          ${locCell}
           ${distCell}
           <td>${ratingCell}</td>
           <td>${tatCell}</td>
-          <td><span class="tbl-mrp">₹${l.mrp.toLocaleString()}</span></td>
+          ${timingCell}
           <td>
             <div class="tbl-price-wrap">
               <span class="tbl-price">₹${l.price.toLocaleString()}</span>
