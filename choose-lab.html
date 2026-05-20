@@ -290,6 +290,76 @@ button { font-family: inherit; }
 }
 .loc-gps:hover { color: var(--accent-dark); }
 
+.search-box-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+.search-box-wrap .search-box { width: 100%; flex: none; }
+
+.search-suggestions {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0; right: 0;
+  background: #fff;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  box-shadow: 0 12px 36px rgba(11, 21, 48, 0.18);
+  z-index: 50;
+  max-height: 360px;
+  overflow-y: auto;
+  padding: 6px;
+}
+.suggestion {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 14.5px;
+  color: var(--text-primary);
+  transition: background 0.12s;
+  border: 0;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+}
+.suggestion:hover,
+.suggestion.is-active { background: var(--bg-soft); }
+.suggestion-icon {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+.suggestion-name {
+  flex: 1;
+  min-width: 0;
+  font-weight: 600;
+}
+.suggestion-tag {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  background: var(--bg-soft);
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.suggestion-empty {
+  padding: 14px;
+  font-size: 14px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
 .search-box {
   flex: 1;
   display: flex;
@@ -1609,10 +1679,13 @@ button { font-family: inherit; }
 <!-- ===== SEARCH STRIP ===== -->
 <div class="search-strip">
   <div class="search-strip-inner">
-    <label class="search-box">
-      <i class="fas fa-magnifying-glass search-icon" aria-hidden="true"></i>
-      <input type="search" placeholder="Add another test or health package" aria-label="Search tests or packages">
-    </label>
+    <div class="search-box-wrap">
+      <label class="search-box">
+        <i class="fas fa-magnifying-glass search-icon" aria-hidden="true"></i>
+        <input id="testSearchInput" type="search" placeholder="Add another test or health package" autocomplete="off" aria-label="Search tests or packages" aria-controls="testSearchSuggestions" aria-expanded="false">
+      </label>
+      <div class="search-suggestions" id="testSearchSuggestions" role="listbox" hidden></div>
+    </div>
     <select class="cat-select" aria-label="Category">
       <option>Radiology</option>
       <option>Pathology</option>
@@ -1868,6 +1941,36 @@ button { font-family: inherit; }
   // Mode state — 'home' (collection) or 'visit' (lab walk-in)
   let mode = 'home';
 
+  // ===== Test catalog (mirrors index.html) =====
+  const testCatalog = [
+    { name: 'CBC (Complete Blood Count)', tag: 'Popular', icon: 'fa-fire', price: 299 },
+    { name: 'Thyroid Profile (T3, T4, TSH)', tag: 'Popular', icon: 'fa-fire', price: 549 },
+    { name: 'Lipid Profile', tag: 'Heart', icon: 'fa-heart-pulse', price: 499 },
+    { name: 'HbA1c (Diabetes)', tag: 'Diabetes', icon: 'fa-droplet', price: 399 },
+    { name: 'Blood Sugar Fasting', tag: 'Diabetes', icon: 'fa-droplet', price: 149 },
+    { name: 'Blood Sugar Random (BSR)', tag: 'Diabetes', icon: 'fa-droplet', price: 149 },
+    { name: 'Vitamin D 25-Hydroxy', tag: 'Vitamins', icon: 'fa-sun', price: 799 },
+    { name: 'Vitamin B12', tag: 'Vitamins', icon: 'fa-vial', price: 599 },
+    { name: 'Iron Studies', tag: 'Blood', icon: 'fa-vial', price: 699 },
+    { name: 'Liver Function Test (LFT)', tag: 'Liver', icon: 'fa-vial', price: 549 },
+    { name: 'Kidney Function Test (KFT)', tag: 'Kidney', icon: 'fa-vial', price: 599 },
+    { name: 'Urine Routine (RU)', tag: 'Routine', icon: 'fa-vial', price: 199 },
+    { name: 'Dengue NS1 Antigen', tag: 'Fever', icon: 'fa-bug', price: 449 },
+    { name: 'Malaria Panel', tag: 'Fever', icon: 'fa-bug', price: 299 },
+    { name: 'Typhoid (Widal Test)', tag: 'Fever', icon: 'fa-bug', price: 249 },
+    { name: 'COVID RT-PCR', tag: 'Infection', icon: 'fa-virus', price: 499 },
+    { name: 'CRP (C-Reactive Protein)', tag: 'Inflammation', icon: 'fa-vial', price: 449 },
+    { name: 'Electrolytes', tag: 'Blood', icon: 'fa-vial', price: 349 },
+    { name: 'Calcium Serum', tag: 'Blood', icon: 'fa-vial', price: 249 },
+    { name: 'X-Ray Chest PA View', tag: 'Radiology', icon: 'fa-bone', price: 399 },
+    { name: 'MRI Brain', tag: 'Radiology', icon: 'fa-brain', price: 4499 },
+    { name: 'CT Scan Abdomen', tag: 'Radiology', icon: 'fa-scroll', price: 3499 },
+    { name: 'Ultrasound Whole Abdomen', tag: 'Radiology', icon: 'fa-wave-square', price: 1299 },
+    { name: 'ECG', tag: 'Heart', icon: 'fa-heart-pulse', price: 249 },
+    { name: '2D Echo', tag: 'Heart', icon: 'fa-heart-pulse', price: 1499 },
+  ];
+  const priceByTest = Object.fromEntries(testCatalog.map(t => [t.name, t.price]));
+
   // ===== Render context test chips =====
   const ctxTests = document.getElementById('ctxTests');
   function renderCtx() {
@@ -1882,10 +1985,81 @@ button { font-family: inherit; }
   ctxTests.addEventListener('click', (e) => {
     const x = e.target.closest('.ctx-chip-x');
     if (!x) return;
-    selectedTests.splice(parseInt(x.dataset.i, 10), 1);
+    const i = parseInt(x.dataset.i, 10);
+    selectedTests.splice(i, 1);
+    selectedPrices.splice(i, 1);
     renderCtx();
   });
   renderCtx();
+
+  // ===== Test search (add another test) =====
+  const tsInput = document.getElementById('testSearchInput');
+  const tsDropdown = document.getElementById('testSearchSuggestions');
+  let tsActiveIndex = -1;
+
+  function renderSuggestions(query) {
+    const q = (query || '').trim().toLowerCase();
+    const matches = q
+      ? testCatalog.filter(t => t.name.toLowerCase().includes(q) && !selectedTests.includes(t.name))
+      : testCatalog.filter(t => !selectedTests.includes(t.name)).slice(0, 8);
+    if (!matches.length) {
+      tsDropdown.innerHTML = `<div class="suggestion-empty">No matching tests${q ? ` for "${query}"` : ''}</div>`;
+    } else {
+      tsDropdown.innerHTML = matches.map((t, i) => `
+        <button class="suggestion ${i === tsActiveIndex ? 'is-active' : ''}" type="button" role="option" data-name="${t.name}" data-price="${t.price}">
+          <span class="suggestion-icon"><i class="fas ${t.icon}"></i></span>
+          <span class="suggestion-name">${t.name}</span>
+          <span class="suggestion-tag">${t.tag}</span>
+        </button>
+      `).join('');
+    }
+    tsDropdown.hidden = false;
+    tsInput.setAttribute('aria-expanded', 'true');
+  }
+  function hideSuggestions() {
+    tsDropdown.hidden = true;
+    tsInput.setAttribute('aria-expanded', 'false');
+    tsActiveIndex = -1;
+  }
+  function addTest(name, price) {
+    if (!name || selectedTests.includes(name)) return;
+    selectedTests.push(name);
+    selectedPrices.push(String(price || priceByTest[name] || 0));
+    renderCtx();
+    tsInput.value = '';
+    hideSuggestions();
+    tsInput.focus();
+  }
+
+  tsInput.addEventListener('focus', () => renderSuggestions(tsInput.value));
+  tsInput.addEventListener('input', () => { tsActiveIndex = -1; renderSuggestions(tsInput.value); });
+  tsInput.addEventListener('keydown', (e) => {
+    const items = tsDropdown.querySelectorAll('.suggestion');
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      tsActiveIndex = Math.min(items.length - 1, tsActiveIndex + 1);
+      items.forEach((it, i) => it.classList.toggle('is-active', i === tsActiveIndex));
+      items[tsActiveIndex]?.scrollIntoView({ block: 'nearest' });
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      tsActiveIndex = Math.max(0, tsActiveIndex - 1);
+      items.forEach((it, i) => it.classList.toggle('is-active', i === tsActiveIndex));
+      items[tsActiveIndex]?.scrollIntoView({ block: 'nearest' });
+    } else if (e.key === 'Enter') {
+      const pick = items[tsActiveIndex] || items[0];
+      if (pick) { e.preventDefault(); addTest(pick.dataset.name, parseInt(pick.dataset.price, 10)); }
+    } else if (e.key === 'Escape') {
+      hideSuggestions();
+    }
+  });
+  tsDropdown.addEventListener('click', (e) => {
+    const btn = e.target.closest('.suggestion');
+    if (!btn) return;
+    addTest(btn.dataset.name, parseInt(btn.dataset.price, 10));
+  });
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.search-box-wrap')) hideSuggestions();
+  });
 
   // ===== Helpers + sort state =====
   function badgeClass(c) { return 'badge-' + c; }
