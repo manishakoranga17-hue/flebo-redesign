@@ -72,7 +72,7 @@ button { font-family: inherit; }
   padding: 14px var(--site-inset);
   display: flex; align-items: center; gap: 28px;
 }
-.brand-block { display: inline-flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
+.brand-block { display: inline-flex; flex-direction: row; align-items: center; gap: 12px; flex-shrink: 0; }
 .brand { display: inline-flex; align-items: center; }
 .brand-logo { height: 46px; width: auto; }
 .brand-rating {
@@ -613,10 +613,9 @@ button { font-family: inherit; }
     <button class="hamburger-btn" aria-label="Open menu"><i class="fas fa-bars"></i></button>
     <div class="brand-block">
       <a href="index.html" class="brand" aria-label="Flebo.in"><img src="flebo-logo.svg" alt="Flebo.in" class="brand-logo"></a>
-      <div class="brand-rating">
+      <div class="brand-rating" aria-label="Rated 4.9 out of 5">
         <span class="brand-rating-score">4.9</span>
-        <span class="brand-rating-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
-        <span class="brand-rating-count">33,434</span>
+        <i class="fas fa-star brand-rating-stars" aria-hidden="true"></i>
       </div>
     </div>
     <nav class="main-nav" role="navigation" aria-label="Primary">

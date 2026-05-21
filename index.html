@@ -3424,9 +3424,9 @@ main { padding: 0 16px; }
 .brand-logo { height: 46px; width: auto; }
 .brand-block {
   display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
   flex-shrink: 0;
 }
 .brand-rating {
@@ -5511,12 +5511,9 @@ main { padding: 0 16px; }
       <a href="#" class="brand" aria-label="Flebo.in — Any Test, Any Lab">
         <img src="flebo-logo.svg" alt="Flebo.in" class="brand-logo">
       </a>
-      <div class="brand-rating" aria-label="Rated 4.9 out of 5 by 33,434 users">
+      <div class="brand-rating" aria-label="Rated 4.9 out of 5">
         <span class="brand-rating-score">4.9</span>
-        <span class="brand-rating-stars" aria-hidden="true">
-          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-        </span>
-        <span class="brand-rating-count">33,434</span>
+        <i class="fas fa-star brand-rating-stars" aria-hidden="true"></i>
       </div>
     </div>
 
