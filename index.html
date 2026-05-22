@@ -4786,9 +4786,16 @@ main { padding: 0 16px; }
   .hero-benefit-icon { width: 22px; height: 22px; font-size: 10px; flex-shrink: 0; }
 
   .hero-search-bar { height: 48px; padding: 5px 5px 5px 16px; margin-bottom: 10px; }
-  .hero-search-bar input { font-size: 13px; }
+  /* 16px input avoids iOS Safari auto-zoom-on-focus */
+  .hero-search-bar input { font-size: 16px; }
+  .hero-search-bar input::placeholder { font-size: 14px; }
   .hero-search-bar-icon { font-size: 14px; margin-right: 10px; }
   .hero-search-mic { width: 36px; height: 36px; font-size: 12px; }
+
+  /* Same iOS auto-zoom guard for every form field across the site */
+  input[type="text"], input[type="search"], input[type="tel"],
+  input[type="email"], input[type="number"], input[type="password"],
+  textarea, select { font-size: 16px !important; }
 
   .prescription-link-row { margin-top: 0; margin-bottom: 8px; gap: 8px; justify-content: flex-start; padding-left: 0; }
   .hero-v2-prescription-link { font-size: 13px; }

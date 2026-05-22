@@ -691,6 +691,10 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
   html, body { overflow-x: clip; max-width: 100vw; }
   body { padding-bottom: 88px; overflow-wrap: anywhere; word-break: break-word; }
   :root { --site-inset: 16px; }
+  /* iOS Safari auto-zoom guard — any input <16px triggers zoom on focus */
+  input[type="text"], input[type="search"], input[type="tel"],
+  input[type="email"], input[type="number"], input[type="password"],
+  textarea, select { font-size: 16px !important; }
 
   /* Hard width clamp + min-width:0 so flex/grid children can't push past viewport */
   .page-head-inner, .page-body, .step-card, .summary-card, .summary-head,

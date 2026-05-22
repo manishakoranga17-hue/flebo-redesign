@@ -1830,6 +1830,10 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
   html, body { overflow-x: hidden; }
   body { max-width: 100vw; }
   :root { --site-inset: 16px; }
+  /* iOS Safari auto-zoom guard — any input <16px triggers zoom on focus */
+  input[type="text"], input[type="search"], input[type="tel"],
+  input[type="email"], input[type="number"], input[type="password"],
+  textarea, select { font-size: 16px !important; }
   .top-bar-inner { font-size: 11px; padding: 6px 12px; gap: 8px; line-height: 1.3; flex-wrap: nowrap; }
   .top-bar-link, .top-bar-location { white-space: nowrap; gap: 5px; font-size: 11px; }
   .top-bar-link span, .top-bar-location span:not(#topBarLocationDisplay) { font-size: 11px; }
