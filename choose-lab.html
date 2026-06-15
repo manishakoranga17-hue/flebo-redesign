@@ -3332,7 +3332,7 @@ body.has-cmp-bar { padding-bottom: 92px; }
       return `
         <td class="cmp-price-cell">
           <label class="cmp-price-pick">
-            <input type="radio" name="cmpPick" value="${l.id}" ${checked ? 'checked' : ''}>
+            <input type="radio" name="cmpPick" value="${l.rowId}" ${checked ? 'checked' : ''}>
             <span class="tbl-price-wrap">
               <span class="tbl-price-mrp">₹${l.mrp.toLocaleString()}</span>
               <span class="tbl-price-row"><span class="tbl-price">₹${l.price.toLocaleString()}</span></span>
