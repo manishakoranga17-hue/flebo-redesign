@@ -2367,24 +2367,26 @@ body.has-cmp-bar { padding-bottom: 92px; }
 .plab-name { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 15px; color: var(--primary); line-height: 1.2; }
 .plab-badges { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
 .plab-badges .badge { font-size: 10px; padding: 2px 6px; }
-.plab-meta { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 11.5px; color: var(--text-secondary, #4A5578); font-weight: 500; align-items: center; margin-top: 10px; }
+.plab-name-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.plab-meta { display: flex; flex-wrap: wrap; gap: 3px 10px; font-size: 11.5px; color: var(--text-secondary, #4A5578); font-weight: 500; align-items: center; margin-top: 5px; }
 .plab-meta i { color: var(--accent); margin-right: 3px; }
-.plab-selectlabel { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); margin: 12px 0 6px; }
 .plab-only-name { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 15px; color: var(--text-primary); margin-top: 12px; }
 .plab-select {
-  width: 100%; height: 42px; padding: 0 38px 0 12px;
+  width: 100%; height: 40px; padding: 0 38px 0 12px; margin-top: 10px;
   border: 1.5px solid var(--border-soft); border-radius: var(--radius-md);
   font: inherit; font-size: 14px; font-weight: 700; color: var(--text-primary); cursor: pointer;
   appearance: none; -webkit-appearance: none; background-color: #fff;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%236B7592' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat; background-position: right 14px center;
 }
-.plab-detail { margin-top: 12px; }
-.plab-pkg-tags { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; font-weight: 600; margin-bottom: 8px; }
-.plab-pricerow { display: flex; align-items: baseline; flex-wrap: wrap; gap: 2px 8px; margin: 10px 0; }
-.plab-save { flex-basis: 100%; font-size: 11px; font-weight: 700; color: var(--green); }
-.plab-actions { display: flex; align-items: center; gap: 14px; }
-.plab-book { flex: 1; padding: 10px; font-size: 14px; }
+.plab-detail { margin-top: 10px; }
+.plab-tags { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; font-weight: 600; margin-bottom: 10px; }
+.plab-detail-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.plab-priceblock { display: flex; align-items: baseline; flex-wrap: wrap; gap: 2px 7px; }
+.plab-off { font-size: 11.5px; font-weight: 700; color: var(--green); }
+.plab-book { flex-shrink: 0; padding: 9px 22px; font-size: 14px; }
+.plab-subrow { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border-soft); }
+.plab-subrow .ltab-viewtests { margin-top: 0; }
 .plab-cmp { margin-top: 0; flex-shrink: 0; }
 </style>
 </head>
@@ -3139,18 +3141,20 @@ body.has-cmp-bar { padding-bottom: 92px; }
     const save = r.mrp - r.price;
     const pct = Math.round((save / r.mrp) * 100);
     return `
-      <div class="plab-pkg-tags">
+      <div class="plab-tags">
         <span class="ltab-pkg-tests"><i class="fas fa-vial"></i> ${p.tests} tests</span>
-        <span class="ltab-pkg-fast ${p.fasting ? 'is-fasting' : 'no-fasting'}"><i class="fas fa-${p.fasting ? 'mug-saucer' : 'circle-check'}"></i> ${p.fasting ? 'Fasting required' : 'No fasting'}</span>
+        <span class="ltab-pkg-fast ${p.fasting ? 'is-fasting' : 'no-fasting'}"><i class="fas fa-${p.fasting ? 'mug-saucer' : 'circle-check'}"></i> ${p.fasting ? 'Fasting' : 'No fasting'}</span>
       </div>
-      <button type="button" class="ltab-viewtests" data-pkg-name="${p.name}" data-pkg-tests="${p.tests}"><i class="fas fa-list-check"></i> View all tests</button>
-      <div class="plab-pricerow">
-        <span class="ltab-now">₹${r.price.toLocaleString()}</span>
-        <span class="ltab-mrp">₹${r.mrp.toLocaleString()}</span>
-        <span class="plab-save">Save ₹${save.toLocaleString()} · ${pct}% off</span>
-      </div>
-      <div class="plab-actions">
+      <div class="plab-detail-foot">
+        <div class="plab-priceblock">
+          <span class="ltab-now">₹${r.price.toLocaleString()}</span>
+          <span class="ltab-mrp">₹${r.mrp.toLocaleString()}</span>
+          <span class="plab-off">${pct}% off</span>
+        </div>
         <button type="button" class="ltab-book plab-book" data-action="select" data-name="${lab.name}">Book Now</button>
+      </div>
+      <div class="plab-subrow">
+        <button type="button" class="ltab-viewtests" data-pkg-name="${p.name}" data-pkg-tests="${p.tests}"><i class="fas fa-list-check"></i> View all tests</button>
         <label class="cmp-check plab-cmp"><input type="checkbox" class="cmp-checkbox" data-cmp="${r.rowId}" ${compareSet.has(r.rowId) ? 'checked' : ''}><span>Compare</span></label>
       </div>`;
   }
@@ -3177,12 +3181,11 @@ body.has-cmp-bar { padding-bottom: 92px; }
           <div class="plab-head">
             <span class="plab-logo"><img src="${lab.logo}" alt=""></span>
             <div class="plab-id">
-              <div class="plab-name">${lab.name}</div>
+              <div class="plab-name-row"><span class="plab-name">${lab.name}</span>${ratingHtml}</div>
+              <div class="plab-meta"><span><i class="fas fa-route"></i> ${lab.distanceKm.toFixed(1)} km</span><span><i class="fas fa-bolt"></i> ${tatShort}</span><span><i class="fas fa-clock"></i> ${timing}</span></div>
               <div class="plab-badges">${badgeHtml}</div>
             </div>
           </div>
-          <div class="plab-meta">${ratingHtml}<span><i class="fas fa-route"></i> ${lab.distanceKm.toFixed(1)} km</span><span><i class="fas fa-bolt"></i> ${tatShort}</span><span><i class="fas fa-clock"></i> ${timing}</span></div>
-          ${pkgs.length > 1 ? `<div class="plab-selectlabel">Package</div>` : ''}
           ${selector}
           <div class="plab-detail" data-lab="${lab.id}" data-id="${first.rowId}">${pkgDetailHtml(lab, 0)}</div>
         </article>`;
