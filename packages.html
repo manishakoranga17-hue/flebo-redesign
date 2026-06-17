@@ -2230,11 +2230,27 @@ body.has-select-bar { padding-bottom: 80px; }
 .bottom-nav .nav-item.nav-chat.active .nav-label { color: #fff; }
 
 @media (max-width: 768px) {
-  .tests-h1 { font-size: 22px; }
-  .tests-sub { font-size: 14px; }
-  .tests-intro-inner { padding: 18px 16px 16px; }
+  .tests-h1 { font-size: 21px; }
+  .tests-sub { font-size: 13px; }
+  .tests-intro-inner { padding: 14px 16px 8px; }
   .cat-chips, .tests-main, .select-bar-inner { padding-left: 16px; padding-right: 16px; }
-  .tests-grid { grid-template-columns: 1fr; gap: 12px; }
+  /* Smaller category circles */
+  .cat-chips { gap: 14px; padding-top: 10px; padding-bottom: 10px; }
+  .cat-icon { width: 52px; height: 52px; }
+  .cat-icon-fa { font-size: 21px; }
+  .cat-circle-label { font-size: 11px; }
+  .tests-main { padding-top: 12px; }
+  /* Compact package cards — at least two visible in the first fold */
+  .tests-grid { grid-template-columns: 1fr; gap: 10px; }
+  .pcard { padding: 12px 14px; }
+  .pcard-top { margin-bottom: 8px; }
+  .pcard-sub { display: none; }
+  .pcard-title { font-size: 15px; margin-bottom: 6px; }
+  .pcard-tests-link { padding: 8px 0; margin-bottom: 10px; font-size: 12.5px; }
+  .pcard-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .pcard-now { font-size: 18px; }
+  .pcard-book { width: auto; margin-top: 0; padding: 9px 18px; font-size: 14px; white-space: nowrap; }
+  .pcard-private { margin-top: 10px; padding-top: 8px; }
   .bottom-nav { display: flex; }
   body { padding-bottom: 72px; }
   body.has-select-bar { padding-bottom: 144px; }
@@ -2724,11 +2740,13 @@ body.has-select-bar { padding-bottom: 80px; }
             <i class="fas fa-chevron-right" aria-hidden="true"></i>
           </button>
           <div class="pcard-foot">
-            <div class="pcard-price">
-              <span class="pcard-now">₹${t.price.toLocaleString()}</span>
-              <span class="pcard-mrp">₹${t.oldPrice.toLocaleString()}</span>
+            <div class="pcard-price-block">
+              <div class="pcard-price">
+                <span class="pcard-now">₹${t.price.toLocaleString()}</span>
+                <span class="pcard-mrp">₹${t.oldPrice.toLocaleString()}</span>
+              </div>
+              <div class="pcard-save">Save ₹${save.toLocaleString()} · ~₹${perTest}/test</div>
             </div>
-            <div class="pcard-save">Save ₹${save.toLocaleString()} · ~₹${perTest}/test</div>
             <button type="button" class="pcard-book" data-name="${t.name}" data-price="${t.price}" aria-label="Book ${t.name}">Book Now</button>
           </div>
           ${t.sensitive ? `<div class="pcard-private"><i class="fas fa-user-shield" aria-hidden="true"></i> Reports delivered privately · No mention on invoice</div>` : ''}
