@@ -1,5 +1,5 @@
 /* ============================================================
-   Flebo — shared Login/Signup popup modal
+   Flebo — shared Login/Signup popup modal (brand carousel + form)
    Drop-in: <script src="login-modal.js" defer></script>
    Intercepts any link to login.html and opens this popup instead.
    login.html stays as a no-JS fallback.
@@ -15,44 +15,71 @@
     padding:20px;background:rgba(11,21,48,.55);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);}\
   #lmOverlay.is-open{display:flex;animation:lmFade .18s ease;}\
   @keyframes lmFade{from{opacity:0}to{opacity:1}}\
-  .lm-card{position:relative;width:100%;max-width:430px;max-height:92vh;overflow-y:auto;background:#fff;\
-    border-radius:20px;padding:34px 32px 28px;box-shadow:0 24px 70px rgba(11,21,48,.32);\
+  .lm-card{position:relative;width:100%;max-width:900px;max-height:92vh;display:grid;grid-template-columns:1.05fr 1fr;\
+    background:#fff;border-radius:22px;overflow:hidden;box-shadow:0 28px 80px rgba(11,21,48,.36);\
     font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text-primary,#0B1530);\
     animation:lmPop .2s cubic-bezier(.2,.8,.3,1);}\
   @keyframes lmPop{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}\
-  .lm-close{position:absolute;top:14px;right:14px;width:34px;height:34px;border:0;border-radius:50%;\
+  .lm-close{position:absolute;top:14px;right:14px;z-index:3;width:34px;height:34px;border:0;border-radius:50%;\
     background:var(--bg-soft,#F7F8FB);color:var(--text-muted,#6B7592);font-size:16px;cursor:pointer;\
     display:inline-flex;align-items:center;justify-content:center;transition:background .15s,color .15s;}\
   .lm-close:hover{background:#ECEFF6;color:var(--text-primary,#0B1530);}\
+  /* ----- LEFT: brand carousel ----- */\
+  .lm-left{position:relative;background:#1F2A5F url("b-hero3.jpeg") center/cover no-repeat;color:#fff;\
+    display:flex;flex-direction:column;padding:32px 36px;overflow:hidden;}\
+  .lm-left::before{content:"";position:absolute;inset:0;pointer-events:none;\
+    background:radial-gradient(circle at 80% 110%,rgba(211,53,53,.35) 0%,transparent 55%),\
+    linear-gradient(180deg,rgba(11,21,48,.65) 0%,rgba(15,22,60,.80) 100%);}\
+  .lm-left-inner{position:relative;z-index:1;display:flex;flex-direction:column;height:100%;}\
+  .lm-brand{display:inline-flex;align-items:center;gap:12px;margin-bottom:auto;}\
+  .lm-brand img{height:38px;width:auto;filter:brightness(0) invert(1);}\
+  .lm-brand-rating{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);\
+    border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700;}\
+  .lm-brand-rating i{color:#F6B100;font-size:11px;}\
+  .lm-carousel{position:relative;margin:36px 0 28px;min-height:248px;}\
+  .lm-slide{position:absolute;inset:0;opacity:0;transform:translateY(12px);transition:opacity .5s ease,transform .5s ease;pointer-events:none;}\
+  .lm-slide.is-active{opacity:1;transform:none;pointer-events:auto;position:relative;}\
+  .lm-slide-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;\
+    color:rgba(255,255,255,.78);letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px;}\
+  .lm-slide-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:#21C669;}\
+  .lm-slide-icon{width:50px;height:50px;border-radius:14px;background:rgba(255,255,255,.14);\
+    border:1px solid rgba(255,255,255,.25);display:inline-flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:18px;}\
+  .lm-slide-title{font-family:"Instrument Serif",serif;font-size:34px;font-weight:400;letter-spacing:-.01em;line-height:1.06;margin-bottom:12px;}\
+  .lm-slide-sub{font-size:15px;color:rgba(255,255,255,.85);line-height:1.5;margin-bottom:22px;}\
+  .lm-slide-stats{display:flex;gap:24px;flex-wrap:wrap;}\
+  .lm-slide-stat-num{font-family:"Plus Jakarta Sans",sans-serif;font-size:22px;font-weight:800;color:#fff;letter-spacing:-.01em;line-height:1;}\
+  .lm-slide-stat-key{font-size:11px;color:rgba(255,255,255,.7);margin-top:5px;}\
+  .lm-carousel-controls{margin-top:auto;display:flex;align-items:center;gap:16px;}\
+  .lm-dot-row{display:inline-flex;gap:8px;}\
+  .lm-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.25);border:0;padding:0;cursor:pointer;transition:background .2s,width .25s;}\
+  .lm-dot.is-active{background:#fff;width:22px;border-radius:999px;}\
+  .lm-arrow{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);\
+    color:#fff;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;transition:background .2s;}\
+  .lm-arrow:hover{background:rgba(255,255,255,.22);}\
+  .lm-arrow.is-prev{margin-left:auto;}\
+  /* ----- RIGHT: form ----- */\
+  .lm-right{position:relative;background:#fff;padding:38px 36px 30px;overflow-y:auto;max-height:92vh;}\
+  .lm-help{font-size:13px;color:var(--text-muted,#6B7592);margin-bottom:18px;}\
+  .lm-help a{color:var(--accent,#D33535);font-weight:700;}\
   .lm-eyebrow{font-size:13px;font-weight:800;color:var(--accent,#D33535);letter-spacing:.12em;text-transform:uppercase;}\
-  .lm-title{font-family:"Instrument Serif",serif;font-size:30px;font-weight:400;color:var(--text-primary,#0B1530);\
-    line-height:1.12;letter-spacing:-.01em;margin:6px 0 6px;}\
+  .lm-title{font-family:"Instrument Serif",serif;font-size:30px;font-weight:400;color:var(--text-primary,#0B1530);line-height:1.12;letter-spacing:-.01em;margin:6px 0 6px;}\
   .lm-sub{font-size:15px;color:var(--text-muted,#6B7592);margin-bottom:24px;line-height:1.45;}\
-  .lm-phone-row{display:flex;align-items:center;border:1.5px solid var(--border-mid,#C5CCDB);border-radius:var(--radius-md,12px);\
-    overflow:hidden;transition:border-color .15s,box-shadow .15s;}\
+  .lm-phone-row{display:flex;align-items:center;border:1.5px solid var(--border-mid,#C5CCDB);border-radius:var(--radius-md,12px);overflow:hidden;transition:border-color .15s,box-shadow .15s;}\
   .lm-phone-row:focus-within{border-color:var(--primary,#1B2A5B);box-shadow:0 0 0 4px rgba(27,42,91,.08);}\
-  .lm-country{display:inline-flex;align-items:center;gap:8px;padding:0 14px;align-self:stretch;\
-    border-right:1.5px solid var(--border-soft,#E5E9F3);background:var(--bg-soft,#F7F8FB);font-size:15px;font-weight:700;}\
-  .lm-flag{width:22px;height:16px;border-radius:3px;overflow:hidden;display:inline-block;flex-shrink:0;position:relative;\
-    background:linear-gradient(180deg,#FF9933 33%,#FFF 33%,#FFF 66%,#138808 66%);}\
+  .lm-country{display:inline-flex;align-items:center;gap:8px;padding:0 14px;align-self:stretch;border-right:1.5px solid var(--border-soft,#E5E9F3);background:var(--bg-soft,#F7F8FB);font-size:15px;font-weight:700;}\
+  .lm-flag{width:22px;height:16px;border-radius:3px;overflow:hidden;display:inline-block;flex-shrink:0;position:relative;background:linear-gradient(180deg,#FF9933 33%,#FFF 33%,#FFF 66%,#138808 66%);}\
   .lm-flag::after{content:"";position:absolute;left:50%;top:50%;width:4px;height:4px;margin:-2px 0 0 -2px;border-radius:50%;background:#000080;}\
-  .lm-phone-input{flex:1;min-width:0;height:54px;padding:0 16px;border:0;outline:0;font:inherit;font-size:16px;font-weight:600;\
-    color:var(--text-primary,#0B1530);letter-spacing:.04em;background:#fff;}\
+  .lm-phone-input{flex:1;min-width:0;height:54px;padding:0 16px;border:0;outline:0;font:inherit;font-size:16px;font-weight:600;color:var(--text-primary,#0B1530);letter-spacing:.04em;background:#fff;}\
   .lm-phone-input::placeholder{color:var(--text-muted,#6B7592);font-weight:500;letter-spacing:.02em;}\
   .lm-error{display:none;align-items:center;gap:6px;font-size:13px;color:var(--accent,#D33535);margin-top:8px;}\
   .lm-error.is-show{display:inline-flex;}\
-  .lm-cta{width:100%;height:54px;background:var(--accent,#D33535);color:#fff;border:0;border-radius:999px;font:inherit;\
-    font-size:16px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px;\
-    margin-top:20px;transition:background .2s,transform .15s;box-shadow:0 6px 20px rgba(211,53,53,.25);}\
+  .lm-cta{width:100%;height:54px;background:var(--accent,#D33535);color:#fff;border:0;border-radius:999px;font:inherit;font-size:16px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px;margin-top:20px;transition:background .2s,transform .15s;box-shadow:0 6px 20px rgba(211,53,53,.25);}\
   .lm-cta:hover:not(:disabled){background:var(--accent-dark,#B82E2E);transform:translateY(-1px);}\
   .lm-cta:disabled{background:#E5A7A7;cursor:not-allowed;box-shadow:none;}\
-  .lm-divider{display:flex;align-items:center;gap:14px;font-size:12px;font-weight:700;color:var(--text-muted,#6B7592);\
-    letter-spacing:.06em;text-transform:uppercase;margin:24px 0 16px;}\
+  .lm-divider{display:flex;align-items:center;gap:14px;font-size:12px;font-weight:700;color:var(--text-muted,#6B7592);letter-spacing:.06em;text-transform:uppercase;margin:24px 0 16px;}\
   .lm-divider::before,.lm-divider::after{content:"";flex:1;height:1px;background:var(--border-soft,#E5E9F3);}\
   .lm-social{display:grid;grid-template-columns:1fr 1fr;gap:10px;}\
-  .lm-social-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:46px;\
-    border:1.5px solid var(--border-mid,#C5CCDB);border-radius:var(--radius-md,12px);background:#fff;font:inherit;font-size:14px;\
-    font-weight:700;color:var(--text-primary,#0B1530);cursor:pointer;transition:border-color .15s,background .15s;}\
+  .lm-social-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:46px;border:1.5px solid var(--border-mid,#C5CCDB);border-radius:var(--radius-md,12px);background:#fff;font:inherit;font-size:14px;font-weight:700;color:var(--text-primary,#0B1530);cursor:pointer;transition:border-color .15s,background .15s;}\
   .lm-social-btn:hover{border-color:var(--primary,#1B2A5B);background:var(--bg-soft,#F7F8FB);}\
   .lm-social-btn i{font-size:17px;}\
   .lm-social-btn[data-prov="google"] i{color:#4285F4;}\
@@ -60,15 +87,12 @@
   .lm-terms a{color:var(--primary,#1B2A5B);font-weight:700;}\
   .lm-step{display:none;}\
   .lm-step.is-active{display:block;}\
-  .lm-otp-phone{display:flex;align-items:center;gap:10px;background:var(--bg-soft,#F7F8FB);border-radius:var(--radius-md,12px);\
-    padding:11px 14px;font-size:14px;margin-bottom:18px;}\
+  .lm-otp-phone{display:flex;align-items:center;gap:10px;background:var(--bg-soft,#F7F8FB);border-radius:var(--radius-md,12px);padding:11px 14px;font-size:14px;margin-bottom:18px;}\
   .lm-otp-phone b{font-weight:700;font-family:"Plus Jakarta Sans",sans-serif;letter-spacing:.04em;}\
   .lm-otp-change{margin-left:auto;background:0;border:0;color:var(--accent,#D33535);font:inherit;font-size:13px;font-weight:700;cursor:pointer;}\
   .lm-otp-change:hover{text-decoration:underline;}\
   .lm-otp-boxes{display:flex;gap:10px;margin-bottom:18px;}\
-  .lm-otp-box{flex:1 1 0;min-width:0;height:58px;border:1.5px solid var(--border-mid,#C5CCDB);border-radius:var(--radius-md,12px);\
-    background:#fff;font:inherit;font-size:22px;font-weight:800;text-align:center;color:var(--text-primary,#0B1530);outline:0;\
-    font-family:"Plus Jakarta Sans",sans-serif;transition:border-color .15s,box-shadow .15s;}\
+  .lm-otp-box{flex:1 1 0;min-width:0;height:58px;border:1.5px solid var(--border-mid,#C5CCDB);border-radius:var(--radius-md,12px);background:#fff;font:inherit;font-size:22px;font-weight:800;text-align:center;color:var(--text-primary,#0B1530);outline:0;font-family:"Plus Jakarta Sans",sans-serif;transition:border-color .15s,box-shadow .15s;}\
   .lm-otp-box:focus{border-color:var(--primary,#1B2A5B);box-shadow:0 0 0 4px rgba(27,42,91,.08);}\
   .lm-otp-box.is-filled{border-color:var(--green,#1B8A5A);}\
   .lm-otp-box.is-error{border-color:var(--accent,#D33535);animation:lmShake .4s;}\
@@ -79,7 +103,8 @@
   .lm-resend-cta:disabled{color:var(--text-muted,#6B7592);cursor:not-allowed;}\
   .lm-resend-timer{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;color:var(--primary,#1B2A5B);}\
   body.lm-locked{overflow:hidden;}\
-  @media (max-width:520px){.lm-card{padding:30px 20px 24px;border-radius:18px;}.lm-title{font-size:26px;}.lm-social{grid-template-columns:1fr;}}';
+  @media (max-width:820px){.lm-card{grid-template-columns:1fr;max-width:440px;}.lm-left{display:none;}.lm-right{max-height:92vh;}}\
+  @media (max-width:520px){.lm-right{padding:32px 20px 24px;}.lm-title{font-size:26px;}.lm-social{grid-template-columns:1fr;}}';
 
   var styleEl = document.createElement('style');
   styleEl.id = 'lmStyles';
@@ -94,47 +119,109 @@
   overlay.innerHTML = '\
   <div class="lm-card" role="document">\
     <button class="lm-close" id="lmClose" aria-label="Close login">✕</button>\
-    <section class="lm-step is-active" id="lmPhoneStep">\
-      <div class="lm-eyebrow">Login or Sign up</div>\
-      <h2 class="lm-title">Welcome to Flebo.</h2>\
-      <p class="lm-sub">Enter your mobile number — we’ll send a 6-digit OTP to verify.</p>\
-      <div class="lm-phone-row">\
-        <span class="lm-country"><span class="lm-flag" aria-hidden="true"></span><span>+91</span></span>\
-        <input id="lmPhone" class="lm-phone-input" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="98765 43210" maxlength="16" aria-label="Mobile number">\
+    <div class="lm-left">\
+      <div class="lm-left-inner">\
+        <div class="lm-brand">\
+          <img src="flebo-logo.svg" alt="Flebo.in">\
+          <span class="lm-brand-rating"><i class="fas fa-star"></i><span>4.9 · 33,434 reviews</span></span>\
+        </div>\
+        <div class="lm-carousel" id="lmCarousel">\
+          <div class="lm-slide is-active">\
+            <span class="lm-slide-eyebrow"><span class="dot"></span><span>Any test, any lab</span></span>\
+            <span class="lm-slide-icon"><i class="fas fa-flask-vial"></i></span>\
+            <h3 class="lm-slide-title">Find any test across 200+ trusted labs.</h3>\
+            <p class="lm-slide-sub">Compare prices, ratings and distance side by side. Pick what’s best for you — pathology, radiology, packages, the works.</p>\
+            <div class="lm-slide-stats">\
+              <div><div class="lm-slide-stat-num">200+</div><div class="lm-slide-stat-key">Partner labs</div></div>\
+              <div><div class="lm-slide-stat-num">5,000+</div><div class="lm-slide-stat-key">Tests &amp; packages</div></div>\
+              <div><div class="lm-slide-stat-num">42</div><div class="lm-slide-stat-key">Cities</div></div>\
+            </div>\
+          </div>\
+          <div class="lm-slide">\
+            <span class="lm-slide-eyebrow"><span class="dot"></span><span>Home collection</span></span>\
+            <span class="lm-slide-icon"><i class="fas fa-house-medical"></i></span>\
+            <h3 class="lm-slide-title">A certified phlebotomist at your doorstep.</h3>\
+            <p class="lm-slide-sub">Pick a slot from 6 AM to 9 PM — free home collection, sealed tamper-proof boxes, and real-time technician tracking.</p>\
+            <div class="lm-slide-stats">\
+              <div><div class="lm-slide-stat-num">FREE</div><div class="lm-slide-stat-key">Home collection</div></div>\
+              <div><div class="lm-slide-stat-num">6 AM</div><div class="lm-slide-stat-key">Earliest slot</div></div>\
+              <div><div class="lm-slide-stat-num">5 min</div><div class="lm-slide-stat-key">Avg. collection</div></div>\
+            </div>\
+          </div>\
+          <div class="lm-slide">\
+            <span class="lm-slide-eyebrow"><span class="dot"></span><span>Fast reports</span></span>\
+            <span class="lm-slide-icon"><i class="fas fa-folder-open"></i></span>\
+            <h3 class="lm-slide-title">Reports in your dashboard within 18 hours.</h3>\
+            <p class="lm-slide-sub">Get digital reports on email, WhatsApp, and the app. Share with family, track trends over time, and unlock AI-powered insights.</p>\
+            <div class="lm-slide-stats">\
+              <div><div class="lm-slide-stat-num">18 hrs</div><div class="lm-slide-stat-key">Avg. turnaround</div></div>\
+              <div><div class="lm-slide-stat-num">∞</div><div class="lm-slide-stat-key">Storage</div></div>\
+              <div><div class="lm-slide-stat-num">AI</div><div class="lm-slide-stat-key">Free analysis</div></div>\
+            </div>\
+          </div>\
+          <div class="lm-slide">\
+            <span class="lm-slide-eyebrow"><span class="dot"></span><span>Real savings</span></span>\
+            <span class="lm-slide-icon"><i class="fas fa-piggy-bank"></i></span>\
+            <h3 class="lm-slide-title">50% cashback on every booking, every time.</h3>\
+            <p class="lm-slide-sub">Cashback credits to your Flebo wallet after every report. Stack with coupons up to 20% off and free home collection — savings designed to compound.</p>\
+            <div class="lm-slide-stats">\
+              <div><div class="lm-slide-stat-num">50%</div><div class="lm-slide-stat-key">Cashback</div></div>\
+              <div><div class="lm-slide-stat-num">₹500</div><div class="lm-slide-stat-key">Avg. saving</div></div>\
+              <div><div class="lm-slide-stat-num">4.9 ★</div><div class="lm-slide-stat-key">User rating</div></div>\
+            </div>\
+          </div>\
+        </div>\
+        <div class="lm-carousel-controls">\
+          <button class="lm-arrow is-prev" id="lmPrev" aria-label="Previous slide"><i class="fas fa-arrow-left"></i></button>\
+          <div class="lm-dot-row" id="lmDotRow"></div>\
+          <button class="lm-arrow" id="lmNext" aria-label="Next slide"><i class="fas fa-arrow-right"></i></button>\
+        </div>\
       </div>\
-      <div class="lm-error" id="lmPhoneError"><i class="fas fa-circle-exclamation"></i><span>Please enter a valid 10-digit mobile number.</span></div>\
-      <button class="lm-cta" id="lmSend" disabled><span>Send OTP</span><i class="fas fa-arrow-right"></i></button>\
-      <div class="lm-divider">or continue with</div>\
-      <div class="lm-social">\
-        <button class="lm-social-btn" data-prov="google"><i class="fab fa-google"></i> Google</button>\
-        <button class="lm-social-btn" data-prov="apple"><i class="fab fa-apple"></i> Apple</button>\
-      </div>\
-      <p class="lm-terms">By continuing, you agree to Flebo’s <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>\
-    </section>\
-    <section class="lm-step" id="lmOtpStep">\
-      <div class="lm-eyebrow">OTP verification</div>\
-      <h2 class="lm-title">Enter the 6-digit code.</h2>\
-      <p class="lm-sub">We’ve sent a one-time code to your number. It’s valid for 10 minutes.</p>\
-      <div class="lm-otp-phone">\
-        <i class="fas fa-mobile-screen" style="color:var(--text-muted,#6B7592)"></i>\
-        <span>OTP sent to <b id="lmOtpPhone">+91 98765 43210</b></span>\
-        <button class="lm-otp-change" id="lmChange">Change</button>\
-      </div>\
-      <div class="lm-otp-boxes" id="lmOtpBoxes">\
-        <input class="lm-otp-box" type="tel" inputmode="numeric" maxlength="1" aria-label="OTP digit 1">\
-        <input class="lm-otp-box" type="tel" inputmode="numeric" maxlength="1" aria-label="OTP digit 2">\
-        <input class="lm-otp-box" type="tel" inputmode="numeric" maxlength="1" aria-label="OTP digit 3">\
-        <input class="lm-otp-box" type="tel" inputmode="numeric" maxlength="1" aria-label="OTP digit 4">\
-        <input class="lm-otp-box" type="tel" inputmode="numeric" maxlength="1" aria-label="OTP digit 5">\
-        <input class="lm-otp-box" type="tel" inputmode="numeric" maxlength="1" aria-label="OTP digit 6">\
-      </div>\
-      <div class="lm-error" id="lmOtpError"><i class="fas fa-circle-exclamation"></i><span>Please enter the complete 6-digit code.</span></div>\
-      <button class="lm-cta" id="lmVerify" disabled><span>Verify &amp; continue</span><i class="fas fa-circle-check"></i></button>\
-      <div class="lm-resend" style="margin-top:18px">\
-        <span class="lm-resend-key">Didn’t receive the code?</span>\
-        <button class="lm-resend-cta" id="lmResend" disabled><span id="lmResendLabel">Resend in <span class="lm-resend-timer">0:30</span></span></button>\
-      </div>\
-    </section>\
+    </div>\
+    <div class="lm-right">\
+      <p class="lm-help">Need help? <a href="tel:01244550000">0124-4550000</a></p>\
+      <section class="lm-step is-active" id="lmPhoneStep">\
+        <div class="lm-eyebrow">Login or Sign up</div>\
+        <h2 class="lm-title">Welcome to Flebo.</h2>\
+        <p class="lm-sub">Enter your mobile number — we’ll send a 6-digit OTP to verify.</p>\
+        <div class="lm-phone-row">\
+          <span class="lm-country"><span class="lm-flag" aria-hidden="true"></span><span>+91</span></span>\
+          <input id="lmPhone" class="lm-phone-input" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="98765 43210" maxlength="16" aria-label="Mobile number">\
+        </div>\
+        <div class="lm-error" id="lmPhoneError"><i class="fas fa-circle-exclamation"></i><span>Please enter a valid 10-digit mobile number.</span></div>\
+        <button class="lm-cta" id="lmSend" disabled><span>Send OTP</span><i class="fas fa-arrow-right"></i></button>\
+        <div class="lm-divider">or continue with</div>\
+        <div class="lm-social">\
+          <button class="lm-social-btn" data-prov="google"><i class="fab fa-google"></i> Google</button>\
+          <button class="lm-social-btn" data-prov="apple"><i class="fab fa-apple"></i> Apple</button>\
+        </div>\
+        <p class="lm-terms">By continuing, you agree to Flebo’s <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>\
+      </section>\
+      <section class="lm-step" id="lmOtpStep">\
+        <div class="lm-eyebrow">OTP verification</div>\
+        <h2 class="lm-title">Enter the 6-digit code.</h2>\
+        <p class="lm-sub">We’ve sent a one-time code to your number. It’s valid for 10 minutes.</p>\
+        <div class="lm-otp-phone">\
+          <i class="fas fa-mobile-screen" style="color:var(--text-muted,#6B7592)"></i>\
+          <span>OTP sent to <b id="lmOtpPhone">+91 98765 43210</b></span>\
+          <button class="lm-otp-change" id="lmChange">Change</button>\
+        </div>\
+        <div class="lm-otp-boxes" id="lmOtpBoxes">\
+          <input class="lm-otp-box" type="tel" inputmode="numeric" maxlength="1" aria-label="OTP digit 1">\
+          <input class="lm-otp-box" type="tel" inputmode="numeric" maxlength="1" aria-label="OTP digit 2">\
+          <input class="lm-otp-box" type="tel" inputmode="numeric" maxlength="1" aria-label="OTP digit 3">\
+          <input class="lm-otp-box" type="tel" inputmode="numeric" maxlength="1" aria-label="OTP digit 4">\
+          <input class="lm-otp-box" type="tel" inputmode="numeric" maxlength="1" aria-label="OTP digit 5">\
+          <input class="lm-otp-box" type="tel" inputmode="numeric" maxlength="1" aria-label="OTP digit 6">\
+        </div>\
+        <div class="lm-error" id="lmOtpError"><i class="fas fa-circle-exclamation"></i><span>Please enter the complete 6-digit code.</span></div>\
+        <button class="lm-cta" id="lmVerify" disabled><span>Verify &amp; continue</span><i class="fas fa-circle-check"></i></button>\
+        <div class="lm-resend" style="margin-top:18px">\
+          <span class="lm-resend-key">Didn’t receive the code?</span>\
+          <button class="lm-resend-cta" id="lmResend" disabled><span id="lmResendLabel">Resend in <span class="lm-resend-timer">0:30</span></span></button>\
+        </div>\
+      </section>\
+    </div>\
   </div>';
   document.body.appendChild(overlay);
 
@@ -160,18 +247,43 @@
   function showError(el) { el.classList.add('is-show'); }
   function hideError(el) { el.classList.remove('is-show'); }
 
+  /* ---------- carousel ---------- */
+  var slides = overlay.querySelectorAll('.lm-slide');
+  var dotRow = $('lmDotRow');
+  var cIdx = 0, autoTimer = null;
+  slides.forEach(function (_, i) {
+    var d = document.createElement('button');
+    d.className = 'lm-dot' + (i === 0 ? ' is-active' : '');
+    d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+    d.addEventListener('click', function () { goSlide(i, true); });
+    dotRow.appendChild(d);
+  });
+  function goSlide(n, user) {
+    cIdx = (n + slides.length) % slides.length;
+    slides.forEach(function (s, i) { s.classList.toggle('is-active', i === cIdx); });
+    dotRow.querySelectorAll('.lm-dot').forEach(function (d, i) { d.classList.toggle('is-active', i === cIdx); });
+    if (user) restartAuto();
+  }
+  function startAuto() { clearInterval(autoTimer); autoTimer = setInterval(function () { goSlide(cIdx + 1); }, 5000); }
+  function restartAuto() { startAuto(); }
+  function stopAuto() { clearInterval(autoTimer); autoTimer = null; }
+  $('lmPrev').addEventListener('click', function () { goSlide(cIdx - 1, true); });
+  $('lmNext').addEventListener('click', function () { goSlide(cIdx + 1, true); });
+
   /* ---------- open / close ---------- */
   function open(trigger) {
     lastTrigger = trigger || null;
     resetToPhone();
     overlay.classList.add('is-open');
     document.body.classList.add('lm-locked');
+    startAuto();
     setTimeout(function () { phoneInput.focus(); }, 60);
   }
   function close() {
     overlay.classList.remove('is-open');
     document.body.classList.remove('lm-locked');
     clearInterval(resendInterval);
+    stopAuto();
   }
   function resetToPhone() {
     phoneStep.classList.add('is-active');
@@ -186,6 +298,10 @@
   $('lmClose').addEventListener('click', close);
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && overlay.classList.contains('is-open')) close();
+  });
+  document.addEventListener('visibilitychange', function () {
+    if (!overlay.classList.contains('is-open')) return;
+    if (document.hidden) stopAuto(); else startAuto();
   });
 
   /* ---------- phone step ---------- */
