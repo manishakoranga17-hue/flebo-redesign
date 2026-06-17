@@ -439,7 +439,7 @@
     { label: 'View Reports', icon: 'fa-file-lines' },
     { label: 'My Bookings', icon: 'fa-calendar-check' },
     { label: 'Health Trend Graph', icon: 'fa-chart-line' },
-    { label: 'BMI Calculator', icon: 'fa-calculator' },
+    { label: 'BMI Calculator', icon: 'fa-calculator', href: 'bmi.html' },
     { label: 'Referral & Earning', icon: 'fa-gift' },
     { label: 'Address Book', icon: 'fa-address-book' },
     { label: 'My Profiles', icon: 'fa-id-card' },
@@ -453,7 +453,7 @@
     '<div class="lm-menu-head"><span class="lm-menu-avatar"><i class="fas fa-user"></i></span>' +
     '<div><div class="lm-menu-name">My account</div><div class="lm-menu-phone" id="lmMenuPhone"></div></div></div>' +
     MENU_ITEMS.map(function (m) {
-      return '<button class="lm-menu-item" role="menuitem"><i class="fas ' + m.icon + '"></i> ' + m.label + '</button>';
+      return '<button class="lm-menu-item" role="menuitem"' + (m.href ? ' data-href="' + m.href + '"' : '') + '><i class="fas ' + m.icon + '"></i> ' + m.label + '</button>';
     }).join('') +
     '<div class="lm-menu-sep"></div>' +
     '<button class="lm-menu-item is-logout" role="menuitem" data-action="logout"><i class="fas fa-right-from-bracket"></i> Logout</button>';
@@ -500,8 +500,10 @@
   menu.addEventListener('click', function (e) {
     var item = e.target.closest('.lm-menu-item');
     if (!item) return;
-    if (item.getAttribute('data-action') === 'logout') logout();
+    if (item.getAttribute('data-action') === 'logout') { logout(); closeMenu(); return; }
+    var href = item.getAttribute('data-href');
     closeMenu();
+    if (href) location.href = href;
   });
 
   /* ---------- intercept login / profile triggers ---------- */
