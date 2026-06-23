@@ -143,7 +143,7 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
 .ht-sub { font-size: 15.5px; color: var(--text-secondary, #4A5578); line-height: 1.55; }
 
 /* Master-detail: sticky chart beside the marker list */
-.ht-main { display: grid; grid-template-columns: 1.25fr 1fr; gap: 22px; align-items: start; }
+.ht-main { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: start; }
 .ht-main-chart { position: sticky; top: 116px; }
 
 /* Focal chart card */
@@ -490,7 +490,7 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
 
   /* ---- main line chart ---- */
   function buildChart(m) {
-    var W = 860, H = 320, padL = 46, padR = 18, padT = 18, padB = 36;
+    var W = 780, H = 420, padL = 46, padR = 18, padT = 20, padB = 40;
     var pw = W - padL - padR, ph = H - padT - padB, n = m.series.length;
     var v = vals(m), dMin = Math.min.apply(null, v.concat([m.lo])), dMax = Math.max.apply(null, v.concat([m.hi]));
     var pad = (dMax - dMin) * 0.14 || 1, yMin = dMin - pad, yMax = dMax + pad;
