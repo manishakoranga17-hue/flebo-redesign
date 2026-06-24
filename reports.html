@@ -154,7 +154,7 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
 .rep-avstack span:first-child { margin-left: 0; }
 .rep-hero-updated { font-size: 13px; color: rgba(255,255,255,0.6); }
 .rep-hero-updated b { color: rgba(255,255,255,0.92); font-weight: 700; }
-.rep-hero-art { width: 300px; max-width: 100%; }
+.rep-hero-art { width: 300px; max-width: 100%; transform: scale(1.24); transform-origin: center right; }
 .rep-hero-art svg { width: 100%; height: auto; display: block; overflow: visible; }
 @keyframes repFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
 .rep-hero-art .fl { animation: repFloat 4.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
@@ -286,6 +286,7 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
 
 @media (max-width: 880px) {
   .rep-hero { grid-template-columns: 1fr; gap: 22px; padding: 28px 24px; }
+  .rep-hero-art { transform: none; margin: 0 auto; }
   .rep-stats { flex-wrap: wrap; }
   .rep-stat { flex: 1; min-width: 100px; }
 }
