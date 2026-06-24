@@ -636,8 +636,7 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
   /* ---- result cell ---- */
   function resultCell(r) {
     if (r.status !== 'ready') {
-      return '<div class="rep-result rep-result--proc"><span class="rep-result__lead"><i class="fas fa-hourglass-half"></i> Awaiting results <span style="color:var(--text-muted,#6B7592);font-weight:500">· usually 24h</span></span>' +
-        '<button class="rep-notify" data-on="0"><i class="fas fa-bell"></i> Notify me</button></div>';
+      return '<div class="rep-result rep-result--proc"><span class="rep-result__lead"><i class="fas fa-hourglass-half"></i> Awaiting results <span style="color:var(--text-muted,#6B7592);font-weight:500">· usually 24h</span></span></div>';
     }
     var ps = allParams(r), nFlag = flagged(r).length, inRange = ps.length - nFlag, max = 12, shown = 0, segs = '';
     for (var i = 0; i < nFlag && shown < max; i++, shown++) segs += '<i class="rep-seg--flag"></i>';
@@ -756,13 +755,11 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
   });
   $('repGroups').addEventListener('click', function (e) {
     var open = e.target.closest('[data-open]'), ai = e.target.closest('[data-ai]'),
-        dl = e.target.closest('[data-dl]'), sh = e.target.closest('[data-share]'),
-        notify = e.target.closest('.rep-notify');
+        dl = e.target.closest('[data-dl]'), sh = e.target.closest('[data-share]');
     if (open) openModal(open.getAttribute('data-open'));
     else if (ai) openModal(ai.getAttribute('data-ai'));
     else if (dl) flash(dl, 'fa-check');
     else if (sh) { var r = byId(sh.getAttribute('data-share')); if (navigator.share && r) navigator.share({ title: 'Flebo report — ' + r.title, url: location.href }).catch(function () {}); else { try { navigator.clipboard.writeText(location.href); } catch (x) {} } flash(sh, 'fa-check'); }
-    else if (notify && notify.getAttribute('data-on') !== '1') { notify.setAttribute('data-on', '1'); notify.innerHTML = '<i class="fas fa-check"></i> We’ll notify you'; }
   });
 
   render();
