@@ -201,6 +201,12 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
 .rep-btn-ghost { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; background: #fff; color: var(--primary, #1B2A5B); border: 1.5px solid var(--border-mid, #C5CCDB); border-radius: 50%; font-size: 13px; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
 .rep-btn-ghost:hover { border-color: var(--primary, #1B2A5B); background: var(--bg-soft, #F7F8FB); }
 .rep-await { font-size: 13px; color: var(--text-muted, #6B7592); font-style: italic; }
+.rep-time { color: var(--text-muted, #6B7592); font-size: 12.5px; display: block; margin-top: 2px; }
+.rep-pkg-tag { display: inline-flex; align-items: center; gap: 5px; font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; color: var(--blue, #1D4ED8); background: var(--blue-soft, #EFF6FF); padding: 2px 8px; border-radius: 999px; margin-top: 4px; }
+.rep-icon { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; background: #fff; color: var(--text-secondary, #4A5578); border: 1.5px solid var(--border-mid, #C5CCDB); border-radius: 50%; font-size: 13px; cursor: pointer; transition: border-color 0.15s, background 0.15s, color 0.15s; }
+.rep-icon:hover { border-color: var(--primary, #1B2A5B); color: var(--primary, #1B2A5B); background: var(--bg-soft, #F7F8FB); }
+.rep-icon.ai { color: #7C3AED; border-color: #DDD2FA; }
+.rep-icon.ai:hover { border-color: #7C3AED; background: #F5F1FE; }
 
 /* Detail modal */
 .rep-modal-overlay { position: fixed; inset: 0; z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px; background: rgba(6,9,18,0.62); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
@@ -212,7 +218,13 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
 .rep-modal-meta { font-size: 13px; color: var(--text-muted, #6B7592); margin-top: 5px; display: flex; flex-wrap: wrap; gap: 4px 14px; }
 .rep-modal-close { position: absolute; top: 18px; right: 18px; width: 34px; height: 34px; border: 0; border-radius: 50%; background: var(--bg-soft, #F7F8FB); color: var(--text-muted, #6B7592); font-size: 16px; cursor: pointer; }
 .rep-modal-close:hover { background: #ECEFF6; }
-.rep-modal-body { overflow-y: auto; padding: 8px 26px; }
+.rep-modal-body { overflow-y: auto; padding: 16px 26px 8px; }
+.rep-ai { display: flex; gap: 12px; background: linear-gradient(120deg, #F5F1FE 0%, #FBF9FF 100%); border: 1px solid #E4DAFB; border-radius: var(--radius-md, 12px); padding: 14px 16px; margin-bottom: 16px; }
+.rep-ai-icon { width: 32px; height: 32px; border-radius: 9px; background: #7C3AED; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.rep-ai-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #7C3AED; }
+.rep-ai-text { font-size: 13.5px; color: var(--text-secondary, #4A5578); line-height: 1.5; margin-top: 3px; }
+.rep-test-sec { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 800; color: var(--primary, #1B2A5B); text-transform: uppercase; letter-spacing: 0.03em; margin: 18px 0 2px; padding-top: 14px; border-top: 1px solid var(--border-soft, #E5E9F3); }
+.rep-test-sec:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
 .rep-param { display: grid; grid-template-columns: 1fr auto auto; gap: 6px 16px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border-soft, #E5E9F3); }
 .rep-param:last-child { border-bottom: 0; }
 .rep-param-name { font-size: 14px; font-weight: 700; color: var(--text-primary, #0B1530); }
@@ -529,39 +541,45 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
   function patient(id) { for (var i = 0; i < PATIENTS.length; i++) if (PATIENTS[i].id === id) return PATIENTS[i]; }
 
   var REPORTS = [
-    { id: 'lipid', pid: 'rahul', title: 'Lipid Profile', icon: 'fa-droplet', date: '12 Jun 2026', lab: 'Apollo Diagnostics', status: 'ready', params: [
-      { name: 'Total Cholesterol', val: '188', unit: 'mg/dL', range: '125–200', st: 'normal' },
-      { name: 'LDL Cholesterol', val: '132', unit: 'mg/dL', range: '0–100', st: 'high' },
-      { name: 'HDL Cholesterol', val: '52', unit: 'mg/dL', range: '40–60', st: 'normal' },
-      { name: 'Triglycerides', val: '138', unit: 'mg/dL', range: '0–150', st: 'normal' } ] },
-    { id: 'cbc-r', pid: 'rahul', title: 'Complete Blood Count', icon: 'fa-vial', date: '12 Jun 2026', lab: 'Apollo Diagnostics', status: 'ready', params: [
-      { name: 'Hemoglobin', val: '12.6', unit: 'g/dL', range: '13.0–17.0', st: 'low' },
-      { name: 'WBC Count', val: '7.2', unit: '10³/µL', range: '4.0–11.0', st: 'normal' },
-      { name: 'Platelet Count', val: '248', unit: '10³/µL', range: '150–410', st: 'normal' } ] },
-    { id: 'vitd', pid: 'rahul', title: 'Vitamin D (25-OH)', icon: 'fa-sun', date: '12 Jun 2026', lab: 'Apollo Diagnostics', status: 'ready', params: [
-      { name: 'Vitamin D (25-OH)', val: '18', unit: 'ng/mL', range: '30–100', st: 'low' } ] },
-    { id: 'hba1c', pid: 'rahul', title: 'HbA1c — Diabetes', icon: 'fa-droplet', date: '28 Mar 2026', lab: 'Thyrocare', status: 'ready', params: [
-      { name: 'HbA1c', val: '5.9', unit: '%', range: '4.0–5.6', st: 'borderline' },
-      { name: 'Est. average glucose', val: '123', unit: 'mg/dL', range: '70–140', st: 'normal' } ] },
-    { id: 'lft', pid: 'rahul', title: 'Liver Function Test', icon: 'fa-flask-vial', date: '20 Jun 2026', lab: 'Apollo Diagnostics', status: 'processing', params: [] },
-    { id: 'thy-p', pid: 'priya', title: 'Thyroid Profile (T3 T4 TSH)', icon: 'fa-notes-medical', date: '02 May 2026', lab: 'Thyrocare', status: 'ready', params: [
-      { name: 'TSH', val: '2.6', unit: 'µIU/mL', range: '0.4–4.0', st: 'normal' },
-      { name: 'Total T3', val: '1.3', unit: 'ng/mL', range: '0.8–2.0', st: 'normal' },
-      { name: 'Total T4', val: '9.1', unit: 'µg/dL', range: '5.1–14.1', st: 'normal' } ] },
-    { id: 'cbc-p', pid: 'priya', title: 'Complete Blood Count', icon: 'fa-vial', date: '02 May 2026', lab: 'Thyrocare', status: 'ready', params: [
-      { name: 'Hemoglobin', val: '13.4', unit: 'g/dL', range: '12.0–15.0', st: 'normal' },
-      { name: 'WBC Count', val: '6.8', unit: '10³/µL', range: '4.0–11.0', st: 'normal' },
-      { name: 'Platelet Count', val: '270', unit: '10³/µL', range: '150–410', st: 'normal' } ] },
-    { id: 'b12-p', pid: 'priya', title: 'Vitamin B12', icon: 'fa-pills', date: '02 May 2026', lab: 'Thyrocare', status: 'ready', params: [
-      { name: 'Vitamin B12', val: '180', unit: 'pg/mL', range: '200–900', st: 'low' } ] },
-    { id: 'fbc-a', pid: 'aarav', title: 'Full Body Checkup (Junior)', icon: 'fa-heart-pulse', date: '10 Feb 2026', lab: 'Flebo Labs', status: 'ready', params: [
-      { name: 'Hemoglobin', val: '13.0', unit: 'g/dL', range: '11.5–15.5', st: 'normal' },
-      { name: 'Fasting Glucose', val: '88', unit: 'mg/dL', range: '70–100', st: 'normal' },
-      { name: 'Vitamin D (25-OH)', val: '34', unit: 'ng/mL', range: '30–100', st: 'normal' } ] },
-    { id: 'allergy-a', pid: 'aarav', title: 'Allergy Panel', icon: 'fa-disease', date: '18 Jun 2026', lab: 'Apollo Diagnostics', status: 'processing', params: [] }
+    { id: 'fbc-r', pid: 'rahul', kind: 'package', title: 'Full Body Checkup — Advanced', icon: 'fa-heart-pulse', date: '12 Jun 2026', time: '8:30 AM', lab: 'Apollo Diagnostics', status: 'ready', tests: [
+      { name: 'Lipid Profile', params: [
+        { name: 'Total Cholesterol', val: '188', unit: 'mg/dL', range: '125–200', st: 'normal' },
+        { name: 'LDL Cholesterol', val: '132', unit: 'mg/dL', range: '0–100', st: 'high' },
+        { name: 'HDL Cholesterol', val: '52', unit: 'mg/dL', range: '40–60', st: 'normal' },
+        { name: 'Triglycerides', val: '138', unit: 'mg/dL', range: '0–150', st: 'normal' } ] },
+      { name: 'Complete Blood Count', params: [
+        { name: 'Hemoglobin', val: '12.6', unit: 'g/dL', range: '13.0–17.0', st: 'low' },
+        { name: 'WBC Count', val: '7.2', unit: '10³/µL', range: '4.0–11.0', st: 'normal' },
+        { name: 'Platelet Count', val: '248', unit: '10³/µL', range: '150–410', st: 'normal' } ] },
+      { name: 'Vitamin D (25-OH)', params: [ { name: 'Vitamin D (25-OH)', val: '18', unit: 'ng/mL', range: '30–100', st: 'low' } ] },
+      { name: 'Thyroid (TSH)', params: [ { name: 'TSH', val: '2.4', unit: 'µIU/mL', range: '0.4–4.0', st: 'normal' } ] },
+      { name: 'HbA1c', params: [ { name: 'HbA1c', val: '5.9', unit: '%', range: '4.0–5.6', st: 'borderline' } ] } ] },
+    { id: 'hba1c-r', pid: 'rahul', kind: 'test', title: 'HbA1c — Diabetes', icon: 'fa-droplet', date: '28 Mar 2026', time: '9:15 AM', lab: 'Thyrocare', status: 'ready', tests: [
+      { name: 'HbA1c — Diabetes', params: [
+        { name: 'HbA1c', val: '6.0', unit: '%', range: '4.0–5.6', st: 'borderline' },
+        { name: 'Est. average glucose', val: '126', unit: 'mg/dL', range: '70–140', st: 'normal' } ] } ] },
+    { id: 'lft-r', pid: 'rahul', kind: 'test', title: 'Liver Function Test', icon: 'fa-flask-vial', date: '20 Jun 2026', time: '7:50 AM', lab: 'Apollo Diagnostics', status: 'processing', tests: [ { name: 'Liver Function Test', params: [] } ] },
+    { id: 'wellness-p', pid: 'priya', kind: 'package', title: "Women's Wellness Package", icon: 'fa-heart-pulse', date: '02 May 2026', time: '9:00 AM', lab: 'Thyrocare', status: 'ready', tests: [
+      { name: 'Thyroid Profile', params: [
+        { name: 'TSH', val: '2.6', unit: 'µIU/mL', range: '0.4–4.0', st: 'normal' },
+        { name: 'Total T3', val: '1.3', unit: 'ng/mL', range: '0.8–2.0', st: 'normal' },
+        { name: 'Total T4', val: '9.1', unit: 'µg/dL', range: '5.1–14.1', st: 'normal' } ] },
+      { name: 'Complete Blood Count', params: [
+        { name: 'Hemoglobin', val: '13.4', unit: 'g/dL', range: '12.0–15.0', st: 'normal' },
+        { name: 'WBC Count', val: '6.8', unit: '10³/µL', range: '4.0–11.0', st: 'normal' } ] },
+      { name: 'Vitamin B12', params: [ { name: 'Vitamin B12', val: '180', unit: 'pg/mL', range: '200–900', st: 'low' } ] },
+      { name: 'Iron Studies', params: [ { name: 'Ferritin', val: '26', unit: 'ng/mL', range: '12–150', st: 'normal' } ] } ] },
+    { id: 'vitd-p', pid: 'priya', kind: 'test', title: 'Vitamin D (25-OH)', icon: 'fa-sun', date: '02 May 2026', time: '9:00 AM', lab: 'Thyrocare', status: 'ready', tests: [
+      { name: 'Vitamin D (25-OH)', params: [ { name: 'Vitamin D (25-OH)', val: '24', unit: 'ng/mL', range: '30–100', st: 'low' } ] } ] },
+    { id: 'jfbc-a', pid: 'aarav', kind: 'package', title: 'Junior Health Checkup', icon: 'fa-child', date: '10 Feb 2026', time: '8:00 AM', lab: 'Flebo Labs', status: 'ready', tests: [
+      { name: 'Complete Blood Count', params: [ { name: 'Hemoglobin', val: '13.0', unit: 'g/dL', range: '11.5–15.5', st: 'normal' } ] },
+      { name: 'Vitamin D (25-OH)', params: [ { name: 'Vitamin D (25-OH)', val: '34', unit: 'ng/mL', range: '30–100', st: 'normal' } ] },
+      { name: 'Blood Sugar', params: [ { name: 'Fasting Glucose', val: '88', unit: 'mg/dL', range: '70–100', st: 'normal' } ] } ] },
+    { id: 'allergy-a', pid: 'aarav', kind: 'test', title: 'Allergy Panel', icon: 'fa-disease', date: '18 Jun 2026', time: '8:20 AM', lab: 'Apollo Diagnostics', status: 'processing', tests: [ { name: 'Allergy Panel', params: [] } ] }
   ];
   function byId(id) { for (var i = 0; i < REPORTS.length; i++) if (REPORTS[i].id === id) return REPORTS[i]; }
-  function flagged(r) { return r.params.filter(function (p) { return p.st !== 'normal'; }); }
+  function allParams(r) { var a = []; r.tests.forEach(function (t) { a = a.concat(t.params); }); return a; }
+  function flagged(r) { return allParams(r).filter(function (p) { return p.st !== 'normal'; }); }
 
   var activePid = 'all', query = '';
 
@@ -578,20 +596,28 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
   /* ---- one report row ---- */
   function rowHTML(r) {
     var statusTxt = { ready: 'Ready', processing: 'Processing', collected: 'Collected' }[r.status];
-    var results, action;
+    var ps = allParams(r), results, action;
     if (r.status !== 'ready') {
       results = '<span class="rep-results pending"><i class="fas fa-hourglass-half"></i> Awaiting results</span>';
       action = '<span class="rep-await">Notify when ready</span>';
     } else {
-      var fl = flagged(r), dots = r.params.map(function (p) { return '<i style="background:' + ST[p.st].c + '"></i>'; }).join('');
+      var fl = flagged(r), dots = ps.slice(0, 10).map(function (p) { return '<i style="background:' + ST[p.st].c + '"></i>'; }).join('');
       results = fl.length === 0
         ? '<span class="rep-results ok"><span class="rep-dots">' + dots + '</span><span class="rep-results-text">All normal</span></span>'
-        : '<span class="rep-results flag"><span class="rep-dots">' + dots + '</span><span class="rep-results-text">' + fl.length + ' flagged</span></span>';
-      action = '<span class="rep-actions"><button class="rep-btn" data-open="' + r.id + '"><i class="fas fa-eye"></i> View</button><button class="rep-btn-ghost" data-dl="' + r.id + '" aria-label="Download"><i class="fas fa-download"></i></button></span>';
+        : '<span class="rep-results flag"><span class="rep-dots">' + dots + '</span><span class="rep-results-text">' + fl.length + ' of ' + ps.length + ' flagged</span></span>';
+      action = '<span class="rep-actions">' +
+        '<button class="rep-btn" data-open="' + r.id + '"><i class="fas fa-eye"></i> View</button>' +
+        '<button class="rep-icon" data-dl="' + r.id + '" title="Download PDF" aria-label="Download PDF"><i class="fas fa-download"></i></button>' +
+        '<button class="rep-icon ai" data-ai="' + r.id + '" title="AI analysis" aria-label="AI analysis"><i class="fas fa-wand-magic-sparkles"></i></button>' +
+        '<button class="rep-icon" data-share="' + r.id + '" title="Share report" aria-label="Share report"><i class="fas fa-share-nodes"></i></button>' +
+      '</span>';
     }
+    var sub = r.kind === 'package'
+      ? '<span class="rep-pkg-tag"><i class="fas fa-box-open"></i> Package · ' + r.tests.length + ' tests</span>'
+      : '<div class="rep-tname-sub">' + (ps.length ? ps.length + ' parameter' + (ps.length > 1 ? 's' : '') : 'In the lab') + '</div>';
     return '<tr>' +
-      '<td data-label="Test"><div class="rep-tname"><span class="ic"><i class="fas ' + r.icon + '"></i></span><div><div class="rep-tname-title">' + esc(r.title) + '</div><div class="rep-tname-sub">' + (r.params.length ? r.params.length + ' parameters' : 'In the lab') + '</div></div></div></td>' +
-      '<td data-label="Collected">' + r.date + '</td>' +
+      '<td data-label="Test"><div class="rep-tname"><span class="ic"><i class="fas ' + r.icon + '"></i></span><div><div class="rep-tname-title">' + esc(r.title) + '</div>' + sub + '</div></div></td>' +
+      '<td data-label="Collected">' + r.date + '<span class="rep-time">' + (r.time || '') + '</span></td>' +
       '<td data-label="Lab">' + esc(r.lab) + '</td>' +
       '<td data-label="Status"><span class="rep-status ' + r.status + '">' + statusTxt + '</span></td>' +
       '<td data-label="Results">' + results + '</td>' +
@@ -632,17 +658,29 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
 
   /* ---- modal ---- */
   var ov = $('repModalOverlay');
+  function aiSummary(r) {
+    var fl = flagged(r), total = allParams(r).length;
+    if (!fl.length) return 'All ' + total + ' values are within their healthy ranges — nothing needs attention right now. Keep it up!';
+    var names = fl.slice(0, 3).map(function (p) { return p.name + ' (' + ST[p.st].l + ')'; }).join(', ');
+    return fl.length + ' of ' + total + ' values are outside their range — notably ' + names + (fl.length > 3 ? ', and a few more' : '') + '. Worth discussing these with your doctor; the rest look healthy.';
+  }
+  function paramRow(p) {
+    var m = ST[p.st];
+    return '<div class="rep-param"><div class="rep-param-name">' + esc(p.name) + '</div>' +
+      '<div class="rep-param-val" style="color:' + m.c + '">' + p.val + ' <span style="font-size:12px;color:var(--text-muted,#6B7592);font-weight:600">' + esc(p.unit) + '</span></div>' +
+      '<div class="rep-param-flag" style="background:' + hexA(m.c, 0.14) + ';color:' + m.c + '">' + m.l + '</div>' +
+      '<div class="rep-param-range">Ref: ' + p.range + ' ' + esc(p.unit) + '</div></div>';
+  }
   function openModal(id) {
-    var r = byId(id); if (!r || !r.params.length) return;
+    var r = byId(id); if (!r || !allParams(r).length) return;
     $('repModalTitle').textContent = r.title;
-    $('repModalMeta').innerHTML = '<span><i class="fas fa-user"></i> ' + esc(patient(r.pid).name) + '</span><span><i class="fas fa-calendar-day"></i> ' + r.date + '</span><span><i class="fas fa-location-dot"></i> ' + esc(r.lab) + '</span>';
-    $('repModalBody').innerHTML = r.params.map(function (p) {
-      var m = ST[p.st];
-      return '<div class="rep-param"><div class="rep-param-name">' + esc(p.name) + '</div>' +
-        '<div class="rep-param-val" style="color:' + m.c + '">' + p.val + ' <span style="font-size:12px;color:var(--text-muted,#6B7592);font-weight:600">' + esc(p.unit) + '</span></div>' +
-        '<div class="rep-param-flag" style="background:' + hexA(m.c, 0.14) + ';color:' + m.c + '">' + m.l + '</div>' +
-        '<div class="rep-param-range">Ref: ' + p.range + ' ' + esc(p.unit) + '</div></div>';
+    $('repModalMeta').innerHTML = '<span><i class="fas fa-user"></i> ' + esc(patient(r.pid).name) + '</span><span><i class="fas fa-calendar-day"></i> ' + r.date + (r.time ? ', ' + r.time : '') + '</span><span><i class="fas fa-location-dot"></i> ' + esc(r.lab) + '</span>';
+    var ai = '<div class="rep-ai"><span class="rep-ai-icon"><i class="fas fa-wand-magic-sparkles"></i></span><div><div class="rep-ai-label">AI summary</div><div class="rep-ai-text">' + aiSummary(r) + '</div></div></div>';
+    var body = r.tests.map(function (t) {
+      var head = r.kind === 'package' ? '<div class="rep-test-sec">' + esc(t.name) + '</div>' : '';
+      return head + t.params.map(paramRow).join('');
     }).join('');
+    $('repModalBody').innerHTML = ai + body;
     ov.classList.add('open'); document.body.classList.add('lm-locked');
   }
   function closeModal() { ov.classList.remove('open'); document.body.classList.remove('lm-locked'); }
@@ -660,10 +698,19 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
     render();
   });
   $('repSearch').addEventListener('input', function (e) { query = e.target.value.trim().toLowerCase(); render(); });
+  function flash(btn, icon, ms) { var old = btn.innerHTML; btn.innerHTML = '<i class="fas ' + icon + '"></i>'; setTimeout(function () { btn.innerHTML = old; }, ms || 1400); }
   document.addEventListener('click', function (e) {
-    var open = e.target.closest('[data-open]'), dl = e.target.closest('[data-dl]');
+    var open = e.target.closest('[data-open]'), ai = e.target.closest('[data-ai]'),
+        dl = e.target.closest('[data-dl]'), sh = e.target.closest('[data-share]');
     if (open) openModal(open.getAttribute('data-open'));
-    else if (dl) { dl.innerHTML = '<i class="fas fa-check"></i>'; setTimeout(function () { dl.innerHTML = '<i class="fas fa-download"></i>'; }, 1400); }
+    else if (ai) openModal(ai.getAttribute('data-ai'));        // AI summary shows at top of the detail modal
+    else if (dl) flash(dl, 'fa-check');
+    else if (sh) {
+      var r = byId(sh.getAttribute('data-share'));
+      if (navigator.share) { navigator.share({ title: 'Flebo report — ' + (r ? r.title : ''), url: location.href }).catch(function () {}); }
+      else { try { navigator.clipboard.writeText(location.href); } catch (x) {} }
+      flash(sh, 'fa-check');
+    }
   });
 
   render();
