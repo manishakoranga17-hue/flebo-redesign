@@ -438,6 +438,112 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
   .help-card { padding: 14px 16px; gap: 12px; }
   .help-ico { width: 38px; height: 38px; font-size: 15px; }
 }
+
+  /* ===== AI Report Analysis overlay ===== */
+  .ai-overlay { position: fixed; inset: 0; z-index: 10001; display: none; justify-content: center; padding: 22px 16px; background: rgba(6,9,18,0.66); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); overflow-y: auto; }
+  .ai-overlay.open { display: flex; align-items: flex-start; }
+  .ai-sheet { position: relative; width: 100%; max-width: 1000px; background: #F4F6FA; border-radius: 24px; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.5); animation: aiPop 0.22s ease; }
+  @keyframes aiPop { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  .ai-close { position: absolute; top: 18px; right: 18px; z-index: 5; width: 38px; height: 38px; border: 0; border-radius: 50%; background: rgba(255,255,255,0.16); color: #fff; font-size: 17px; cursor: pointer; display: grid; place-items: center; transition: background 0.15s; }
+  .ai-close:hover { background: rgba(255,255,255,0.28); }
+  .ai-body { padding: 26px 30px 34px; }
+  @media (max-width: 640px) { .ai-body { padding: 20px 16px 28px; } }
+
+  /* hero */
+  .ai-hero { position: relative; overflow: hidden; background: #131D44 url('b-hero3.jpeg') center / cover no-repeat; color: #fff; padding: 30px 30px 28px; }
+  .ai-hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(115deg, rgba(10,16,40,0.94), rgba(20,24,66,0.82) 70%); }
+  .ai-hero::after { content: ''; position: absolute; right: -6%; top: -60%; width: 44%; height: 220%; background: radial-gradient(circle at 55% 50%, rgba(124,91,237,0.5), transparent 60%); pointer-events: none; }
+  .ai-hero-row { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+  .ai-hero-l { display: flex; align-items: center; gap: 14px; }
+  .ai-hero-ic { width: 50px; height: 50px; border-radius: 14px; background: linear-gradient(135deg, #7C3AED, #5B8DEF); display: grid; place-items: center; font-size: 22px; color: #fff; box-shadow: 0 8px 20px rgba(124,91,237,0.4); }
+  .ai-hero-eyebrow { font-size: 11px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #C9C2F5; }
+  .ai-hero-title { font-family: 'Instrument Serif', serif; font-size: 28px; font-weight: 400; line-height: 1.05; margin-top: 2px; }
+  .ai-hero-meta { position: relative; z-index: 1; font-size: 13px; color: rgba(255,255,255,0.78); text-align: right; line-height: 1.7; }
+  .ai-hero-meta i { color: #FF8A8A; width: 16px; }
+
+  /* patient summary */
+  .ai-patient { background: #fff; margin: 22px 0 8px; border: 1px solid var(--border-soft, #E5E9F3); border-radius: 18px; padding: 22px 24px; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
+  .ai-pt-head { display: flex; align-items: center; gap: 13px; margin-bottom: 18px; }
+  .ai-pt-av { width: 44px; height: 44px; border-radius: 50%; background: var(--accent-soft, #FDECEC); color: var(--accent, #D33535); display: grid; place-items: center; font-size: 18px; }
+  .ai-pt-name { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 18px; font-weight: 800; color: var(--text-primary, #0B1530); }
+  .ai-pt-sub { font-size: 13px; color: var(--text-muted, #6B7592); margin-top: 1px; }
+  .ai-scorerow { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .ai-donut { position: relative; width: 110px; height: 110px; flex-shrink: 0; }
+  .ai-donut svg { transform: rotate(-90deg); }
+  .ai-donut-c { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; }
+  .ai-donut-num { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 30px; font-weight: 800; color: var(--text-primary, #0B1530); line-height: 1; }
+  .ai-donut-lbl { font-size: 9.5px; color: var(--text-muted, #6B7592); margin-top: 3px; line-height: 1.2; max-width: 70px; }
+  .ai-stats { display: flex; gap: 12px; }
+  .ai-stat { background: var(--bg-soft, #F7F8FB); border: 1px solid var(--border-soft, #E5E9F3); border-radius: 14px; padding: 14px 18px; text-align: center; min-width: 86px; }
+  .ai-stat-num { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 24px; font-weight: 800; line-height: 1; }
+  .ai-stat-num.bad { color: var(--accent, #D33535); }
+  .ai-stat-num.ok { color: var(--green, #1B8A5A); }
+  .ai-stat-num.act { color: #7C3AED; }
+  .ai-stat-lbl { font-size: 10.5px; font-weight: 700; color: var(--text-muted, #6B7592); margin-top: 7px; text-transform: uppercase; letter-spacing: 0.03em; }
+  .ai-body-map { width: 220px; flex-shrink: 0; }
+  .ai-body-map svg { width: 100%; height: auto; display: block; }
+
+  /* section title */
+  .ai-sec { margin-top: 30px; }
+  .ai-sec-title { display: flex; align-items: center; gap: 10px; font-family: 'Instrument Serif', serif; font-size: 25px; font-weight: 400; color: var(--primary, #1B2A5B); margin-bottom: 14px; }
+  .ai-sec-title .ico { font-size: 18px; }
+
+  /* findings */
+  .ai-finding { background: #fff; border: 1px solid var(--border-soft, #E5E9F3); border-radius: 16px; padding: 20px 22px; margin-bottom: 14px; box-shadow: 0 4px 16px rgba(11,21,48,0.04); }
+  .ai-finding-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
+  .ai-finding-name { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 800; color: var(--text-primary, #0B1530); }
+  .ai-sev { font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; padding: 5px 13px; border-radius: 999px; white-space: nowrap; }
+  .ai-sev.high { background: var(--accent-soft, #FDECEC); color: var(--accent, #D33535); }
+  .ai-sev.moderate { background: var(--amber-soft, #FEF3C7); color: var(--amber, #B45309); }
+  .ai-finding-val { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 800; margin-top: 6px; }
+  .ai-finding-val.high { color: var(--accent, #D33535); }
+  .ai-finding-val.moderate { color: var(--amber, #B45309); }
+  .ai-finding-norm { font-size: 12px; color: var(--text-muted, #6B7592); margin-top: 2px; }
+  .ai-finding-desc { font-size: 14px; color: var(--text-secondary, #4A5578); line-height: 1.5; margin-top: 10px; }
+  .ai-range { margin-top: 16px; }
+  .ai-range-bar { position: relative; height: 8px; border-radius: 999px; background: linear-gradient(90deg, #1B8A5A 0%, #1B8A5A 36%, #F4B940 36%, #F4B940 62%, #E8453C 62%); }
+  .ai-range-bar.rev { background: linear-gradient(90deg, #E8453C 0%, #E8453C 38%, #F4B940 38%, #F4B940 64%, #1B8A5A 64%); }
+  .ai-range-mark { position: absolute; top: 50%; width: 16px; height: 16px; border-radius: 50%; background: #fff; border: 3px solid var(--primary, #1B2A5B); transform: translate(-50%, -50%); box-shadow: 0 2px 6px rgba(11,21,48,0.3); }
+  .ai-range-lbl { font-size: 11px; color: var(--text-muted, #6B7592); margin-top: 8px; }
+
+  /* normal findings */
+  .ai-normal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .ai-normal { background: #fff; border: 1px solid var(--border-soft, #E5E9F3); border-radius: 14px; padding: 16px 18px; display: flex; align-items: flex-start; gap: 12px; }
+  .ai-normal i { color: var(--green, #1B8A5A); font-size: 17px; margin-top: 1px; }
+  .ai-normal-name { font-weight: 800; font-size: 13.5px; color: var(--text-primary, #0B1530); font-family: 'Plus Jakarta Sans', sans-serif; }
+  .ai-normal-val { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 14px; color: var(--green, #1B8A5A); margin-top: 3px; }
+  .ai-normal-range { font-size: 11.5px; color: var(--text-muted, #6B7592); margin-top: 2px; }
+
+  /* action plans */
+  .ai-plans { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .ai-plan { background: #fff; border: 1px solid var(--border-soft, #E5E9F3); border-left: 4px solid #7C3AED; border-radius: 14px; padding: 18px 20px; }
+  .ai-plan-h { display: flex; align-items: center; gap: 9px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 800; color: var(--primary, #1B2A5B); margin-bottom: 12px; }
+  .ai-plan-h i { color: #7C3AED; }
+  .ai-plan ol { list-style: none; counter-reset: ai; margin: 0; padding: 0; }
+  .ai-plan li { counter-increment: ai; position: relative; padding: 6px 0 6px 28px; font-size: 13.5px; color: var(--text-secondary, #4A5578); line-height: 1.45; }
+  .ai-plan li::before { content: counter(ai); position: absolute; left: 0; top: 6px; width: 19px; height: 19px; border-radius: 50%; background: #F0EBFD; color: #7C3AED; font-size: 10.5px; font-weight: 800; display: grid; place-items: center; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+  /* specialists */
+  .ai-specs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .ai-spec { background: #fff; border: 1px solid var(--border-soft, #E5E9F3); border-radius: 14px; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+  .ai-spec-name { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 15px; color: var(--text-primary, #0B1530); }
+  .ai-spec-sub { font-size: 12.5px; color: var(--text-muted, #6B7592); margin-top: 3px; }
+  .ai-spec-btn { display: inline-flex; align-items: center; gap: 7px; background: var(--accent, #D33535); color: #fff; border: 0; border-radius: 999px; padding: 10px 18px; font: inherit; font-size: 13px; font-weight: 800; cursor: pointer; white-space: nowrap; text-decoration: none; box-shadow: 0 6px 16px rgba(211,53,53,0.26); }
+  .ai-spec-btn:hover { background: var(--accent-dark, #B82E2E); }
+
+  /* note + footer */
+  .ai-note { margin-top: 26px; background: #fff; border: 1px solid var(--border-soft, #E5E9F3); border-radius: 14px; padding: 16px 18px; font-size: 12.5px; color: var(--text-secondary, #4A5578); line-height: 1.55; text-align: center; }
+  .ai-note b { color: var(--text-primary, #0B1530); }
+  .ai-foot { text-align: center; font-size: 12px; font-weight: 700; color: var(--text-muted, #6B7592); margin-top: 18px; letter-spacing: 0.02em; }
+
+  @media (max-width: 760px) {
+    .ai-patient { grid-template-columns: 1fr; }
+    .ai-body-map { width: 180px; margin: 0 auto; }
+    .ai-normal-grid, .ai-plans, .ai-specs { grid-template-columns: 1fr; }
+    .ai-stats { flex-wrap: wrap; }
+    .ai-stat { flex: 1; min-width: 78px; }
+    .ai-hero-meta { text-align: left; }
+  }
 </style>
 </head>
 <body>
@@ -824,7 +930,7 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
     var open = e.target.closest('[data-open]'), ai = e.target.closest('[data-ai]'),
         dl = e.target.closest('[data-dl]'), sh = e.target.closest('[data-share]');
     if (open) openModal(open.getAttribute('data-open'));
-    else if (ai) openModal(ai.getAttribute('data-ai'));
+    else if (ai) { var r = byId(ai.getAttribute('data-ai')); window.openAI(patient(r.pid).name, r.lab); }
     else if (dl) flash(dl, 'fa-check');
     else if (sh) { var r = byId(sh.getAttribute('data-share')); if (navigator.share && r) navigator.share({ title: 'Flebo report — ' + r.title, url: location.href }).catch(function () {}); else { try { navigator.clipboard.writeText(location.href); } catch (x) {} } flash(sh, 'fa-check'); }
   });
@@ -833,7 +939,145 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
 })();
 </script>
 
+
+<!-- AI Report Analysis overlay -->
+<div class="ai-overlay" id="aiOverlay" role="dialog" aria-modal="true" aria-label="AI report analysis">
+  <div class="ai-sheet">
+    <button class="ai-close" id="aiClose" aria-label="Close">✕</button>
+    <div class="ai-hero" id="aiHero"></div>
+    <div class="ai-body" id="aiBody"></div>
+  </div>
+</div>
+
   <script src="login-modal.js" defer></script>
 
+
+<script>
+  /* ===== AI Report Analysis ===== */
+  (function () {
+    var AI = {
+      score: 50, counts: { out: 5, normal: 6, actions: 5 },
+      findings: [
+        { name: 'Prediabetes', val: 'HbA1c: 5.7%', norm: 'Normal: &lt; 5.7%', desc: 'HbA1c at the threshold. Lifestyle modifications are advised.', sev: 'moderate', pos: 50, rev: false, lbl: 'Normal: 5.7' },
+        { name: 'Hypothyroidism', val: 'TSH: 8.27 µIU/ml', norm: 'Normal: 0.38 – 5.33 µIU/ml', desc: 'Elevated TSH indicates potential hypothyroidism. Consult an endocrinologist.', sev: 'high', pos: 86, rev: false, lbl: 'Normal: 5.33' },
+        { name: 'Dyslipidemia', val: 'Triglycerides: 150.4 mg/dL', norm: 'Normal: &lt; 150 mg/dL', desc: 'Elevated triglycerides and VLDL levels. Dietary changes recommended.', sev: 'moderate', pos: 47, rev: false, lbl: 'Normal: 150' },
+        { name: 'Elevated ESR', val: 'ESR: 27 mm/hr', norm: 'Normal: 0 – 19 mm/hr', desc: 'May indicate inflammation. Further investigation necessary.', sev: 'moderate', pos: 53, rev: false, lbl: 'Normal: 19' },
+        { name: 'Microcytic Anemia', val: 'MCV: 78.5 fL, MCH: 24.7 pg', norm: 'Normal: MCV 83–101, MCH 27–32', desc: 'Low MCV and MCH suggest possible iron deficiency anemia.', sev: 'high', pos: 16, rev: true, lbl: 'Normal: 83' }
+      ],
+      normals: [
+        { name: 'Vitamin B12', val: '292 pg/mL', range: 'Range: 222–1439 pg/mL' },
+        { name: 'Calcium Total', val: '8.8 mg/dL', range: 'Range: 8.8–10.6 mg/dL' },
+        { name: 'Serum Creatinine', val: '0.74 mg/dL', range: 'Range: 0.6–1.3 mg/dL' },
+        { name: 'Vitamin D', val: '39.1 ng/mL', range: 'Range: 30–100 ng/mL' },
+        { name: 'Insulin (Fasting)', val: '13.71 µIU/mL', range: 'Range: 1.9–23 µIU/mL' }
+      ],
+      plans: [
+        { t: 'Hypothyroidism', s: ['Consult an endocrinologist for further evaluation', 'Consider thyroid hormone replacement therapy'] },
+        { t: 'Prediabetes', s: ['Implement a balanced diet low in sugars and refined carbs', 'Increase physical activity to at least 150 min/week', 'Regular monitoring of blood glucose levels'] },
+        { t: 'Dyslipidemia', s: ['Adopt a heart-healthy diet rich in fruits, vegetables & whole grains', 'Limit saturated fats and sugars', 'Consider lipid-lowering medications if lifestyle changes are insufficient'] },
+        { t: 'Elevated ESR', s: ['Further diagnostic workup to identify underlying causes', 'Monitor symptoms and follow up with a healthcare provider'] },
+        { t: 'Microcytic Anemia', s: ['Conduct iron studies (serum iron, ferritin, TIBC)', 'Consider dietary changes to increase iron intake'] }
+      ],
+      specialists: [
+        { n: 'General Physician', s: 'Overall guidance and specialist referral' },
+        { n: 'Endocrinologist', s: 'Hypothyroidism & metabolic disorders' },
+        { n: 'Hematologist', s: 'Anemia and blood disorder evaluation' },
+        { n: 'Nutritionist', s: 'Diet plans for prediabetes & dyslipidemia' }
+      ]
+    };
+
+    function bodyMap() {
+      // flat navy figure + colour-coded organ pins with labels
+      var C = { bad: '#D33535', warn: '#F4B940', ok: '#1B8A5A' };
+      function pin(cx, cy, st) { return '<circle cx="' + cx + '" cy="' + cy + '" r="5.5" fill="' + C[st] + '" stroke="#fff" stroke-width="2"/>'; }
+      function lblR(x, y, text, st) { return '<line x1="' + (x - 2) + '" y1="' + (y + 11) + '" x2="' + (x + 24) + '" y2="' + (y + 11) + '" stroke="' + C[st] + '" stroke-width="1.5" stroke-dasharray="2 2"/>' + '<rect x="' + (x + 24) + '" y="' + y + '" width="58" height="22" rx="8" fill="#fff" stroke="' + C[st] + '" stroke-width="1.5"/>' + '<text x="' + (x + 53) + '" y="' + (y + 15) + '" text-anchor="middle" font-size="11" font-weight="700" fill="#0B1530" font-family="Inter,sans-serif">' + text + '</text>'; }
+      function lblL(x, y, text, st) { return '<line x1="' + (x + 2) + '" y1="' + (y + 11) + '" x2="' + (x - 24) + '" y2="' + (y + 11) + '" stroke="' + C[st] + '" stroke-width="1.5" stroke-dasharray="2 2"/>' + '<rect x="' + (x - 82) + '" y="' + y + '" width="58" height="22" rx="8" fill="#fff" stroke="' + C[st] + '" stroke-width="1.5"/>' + '<text x="' + (x - 53) + '" y="' + (y + 15) + '" text-anchor="middle" font-size="11" font-weight="700" fill="#0B1530" font-family="Inter,sans-serif">' + text + '</text>'; }
+      return '<svg viewBox="0 0 220 252" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+        '<defs><linearGradient id="aiBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2A3470"/><stop offset="1" stop-color="#161F4B"/></linearGradient></defs>' +
+        '<g fill="url(#aiBody)">' +
+        '<circle cx="110" cy="32" r="19"/>' +
+        '<rect x="87" y="55" width="46" height="90" rx="21"/>' +
+        '<rect x="64" y="60" width="14" height="72" rx="7"/>' +
+        '<rect x="142" y="60" width="14" height="72" rx="7"/>' +
+        '<rect x="92" y="140" width="14" height="92" rx="7"/>' +
+        '<rect x="114" y="140" width="14" height="92" rx="7"/>' +
+        '</g>' +
+        pin(110, 56, 'bad') + lblR(122, 45, 'Thyroid', 'bad') +
+        pin(104, 80, 'warn') + lblR(128, 73, 'Heart', 'warn') +
+        pin(100, 118, 'ok') + lblR(126, 111, 'Kidney', 'ok') +
+        pin(118, 104, 'ok') + lblL(100, 130, 'Liver', 'ok') +
+        pin(114, 90, 'bad') + lblL(98, 84, 'Blood', 'bad') +
+        '</svg>';
+    }
+
+    function donut(score) {
+      var col = score < 40 ? '#E8453C' : (score < 70 ? '#F4B940' : '#1B8A5A');
+      var circ = 2 * Math.PI * 48, dash = (score / 100) * circ;
+      return '<div class="ai-donut"><svg width="110" height="110" viewBox="0 0 110 110">' +
+        '<circle cx="55" cy="55" r="48" fill="none" stroke="#EDEFF5" stroke-width="9"/>' +
+        '<circle cx="55" cy="55" r="48" fill="none" stroke="' + col + '" stroke-width="9" stroke-linecap="round" stroke-dasharray="' + dash.toFixed(1) + ' ' + circ.toFixed(1) + '"/>' +
+        '</svg><div class="ai-donut-c"><div class="ai-donut-num">' + score + '</div><div class="ai-donut-lbl">Your Health Score out of 100</div></div></div>';
+    }
+
+    function render(patientName, lab) {
+      var hero = '<div class="ai-hero-row"><div class="ai-hero-l">' +
+        '<span class="ai-hero-ic"><i class="fas fa-wand-magic-sparkles"></i></span>' +
+        '<div><div class="ai-hero-eyebrow">AI analysis</div><div class="ai-hero-title">Report Analysis by Flebo.in AI&#8209;Doctor</div></div></div>' +
+        '<div class="ai-hero-meta"><div><i class="fas fa-calendar-day"></i> Report Date: 27 Mar 2026</div><div><i class="fas fa-flask"></i> Reported By: ' + lab + '</div></div></div>';
+      document.getElementById('aiHero').innerHTML = hero;
+
+      var patient = '<div class="ai-patient"><div>' +
+        '<div class="ai-pt-head"><span class="ai-pt-av"><i class="fas fa-user"></i></span><div><div class="ai-pt-name">' + patientName + '</div><div class="ai-pt-sub">32 yrs · Male</div></div></div>' +
+        '<div class="ai-scorerow">' + donut(AI.score) +
+        '<div class="ai-stats">' +
+        '<div class="ai-stat"><div class="ai-stat-num bad">' + AI.counts.out + '</div><div class="ai-stat-lbl">Out of range</div></div>' +
+        '<div class="ai-stat"><div class="ai-stat-num ok">' + AI.counts.normal + '</div><div class="ai-stat-lbl">Normal</div></div>' +
+        '<div class="ai-stat"><div class="ai-stat-num act">' + AI.counts.actions + '</div><div class="ai-stat-lbl">Action Plans</div></div>' +
+        '</div></div></div><div class="ai-body-map">' + bodyMap() + '</div></div>';
+
+      var findings = '<div class="ai-sec"><div class="ai-sec-title"><span class="ico">⚠️</span> Key Findings &amp; Abnormalities</div>' +
+        AI.findings.map(function (f) {
+          return '<div class="ai-finding"><div class="ai-finding-top"><div>' +
+            '<div class="ai-finding-name">' + f.name + '</div>' +
+            '<div class="ai-finding-val ' + f.sev + '">' + f.val + '</div>' +
+            '<div class="ai-finding-norm">' + f.norm + '</div></div>' +
+            '<span class="ai-sev ' + f.sev + '">' + (f.sev === 'high' ? 'High' : 'Moderate') + '</span></div>' +
+            '<div class="ai-finding-desc">' + f.desc + '</div>' +
+            '<div class="ai-range"><div class="ai-range-bar' + (f.rev ? ' rev' : '') + '"><span class="ai-range-mark" style="left:' + f.pos + '%"></span></div>' +
+            '<div class="ai-range-lbl">' + f.lbl + '</div></div></div>';
+        }).join('') + '</div>';
+
+      var normals = '<div class="ai-sec"><div class="ai-sec-title"><span class="ico">✅</span> Normal Findings</div><div class="ai-normal-grid">' +
+        AI.normals.map(function (n) {
+          return '<div class="ai-normal"><i class="fas fa-circle-check"></i><div><div class="ai-normal-name">' + n.name + '</div><div class="ai-normal-val">' + n.val + '</div><div class="ai-normal-range">' + n.range + '</div></div></div>';
+        }).join('') + '</div></div>';
+
+      var plans = '<div class="ai-sec"><div class="ai-sec-title"><span class="ico">📌</span> Action Plans</div><div class="ai-plans">' +
+        AI.plans.map(function (p) {
+          return '<div class="ai-plan"><div class="ai-plan-h"><i class="fas fa-bolt"></i> ' + p.t + '</div><ol>' + p.s.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ol></div>';
+        }).join('') + '</div></div>';
+
+      var specs = '<div class="ai-sec"><div class="ai-sec-title"><span class="ico">🩺</span> Recommended Specialists</div><div class="ai-specs">' +
+        AI.specialists.map(function (s) {
+          return '<div class="ai-spec"><div><div class="ai-spec-name">' + s.n + '</div><div class="ai-spec-sub">' + s.s + '</div></div><a class="ai-spec-btn" href="packages.html">Book Now <i class="fas fa-arrow-right"></i></a></div>';
+        }).join('') + '</div></div>';
+
+      var note = '<div class="ai-note"><b>Note:</b> This AI-generated health summary is based on your lab report and is intended for informational purposes only. Please consult a doctor. This analysis is not valid for medico-legal purposes.</div>' +
+        '<div class="ai-foot">Powered by AI · flebo.in — ANY TEST ANY LAB</div>';
+
+      document.getElementById('aiBody').innerHTML = patient + findings + normals + plans + specs + note;
+    }
+
+    var ov = document.getElementById('aiOverlay');
+    window.openAI = function (patientName, lab) {
+      render(patientName || 'Akash Verma', lab || 'Healthians Lab');
+      ov.classList.add('open'); document.body.classList.add('lm-locked'); ov.scrollTop = 0;
+    };
+    function closeAI() { ov.classList.remove('open'); document.body.classList.remove('lm-locked'); }
+    document.getElementById('aiClose').addEventListener('click', closeAI);
+    ov.addEventListener('click', function (e) { if (e.target === ov) closeAI(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && ov.classList.contains('open')) closeAI(); });
+  })();
+</script>
 </body>
 </html>
