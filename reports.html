@@ -517,11 +517,20 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
   .ai-finding-val.moderate { color: var(--amber, #B45309); }
   .ai-finding-norm { font-size: 12px; color: var(--text-muted, #6B7592); margin-top: 2px; }
   .ai-finding-desc { font-size: 14px; color: var(--text-secondary, #4A5578); line-height: 1.55; margin-top: 12px; }
-  .ai-range { margin-top: 16px; }
-  .ai-range-bar { position: relative; height: 8px; border-radius: 999px; background: linear-gradient(90deg, #2BB673 0%, #2BB673 36%, #F4B940 36%, #F4B940 62%, #EF5350 62%); }
-  .ai-range-bar.rev { background: linear-gradient(90deg, #EF5350 0%, #EF5350 38%, #F4B940 38%, #F4B940 64%, #2BB673 64%); }
-  .ai-range-mark { position: absolute; top: 50%; width: 16px; height: 16px; border-radius: 50%; background: #fff; border: 4px solid var(--primary, #1B2A5B); transform: translate(-50%, -50%); box-shadow: 0 3px 8px rgba(11,21,48,0.32); }
-  .ai-range-lbl { font-size: 11px; color: var(--text-muted, #6B7592); margin-top: 9px; }
+  .ai-scale { margin-top: 20px; }
+  .ai-scale-track { position: relative; height: 44px; }
+  .ai-scale-bar { display: flex; gap: 2px; height: 100%; clip-path: polygon(0 0, calc(100% - 13px) 0, 100% 50%, calc(100% - 13px) 100%, 0 100%); }
+  .ai-seg { flex: 1; position: relative; }
+  .ai-seg.good { background: linear-gradient(180deg, #74CEA9, #4FBB8C); }
+  .ai-seg.warn { background: linear-gradient(180deg, #F1C778, #E6A945); }
+  .ai-seg.bad { background: linear-gradient(180deg, #EC8276, #DF5749); }
+  .ai-seg.bad:last-child { background: linear-gradient(180deg, #DF6256, #C8392B); }
+  .ai-scale-badge { position: absolute; top: -14px; transform: translateX(-50%); min-width: 40px; height: 40px; padding: 0 6px; border-radius: 999px; background: var(--accent, #D33535); color: #fff; border: 2.5px solid #fff; box-shadow: 0 5px 14px rgba(211,53,53,0.4); display: grid; place-items: center; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 15px; z-index: 2; }
+  .ai-scale-unit { font-size: 10px; font-weight: 700; letter-spacing: 0.02em; color: var(--text-muted, #6B7592); margin-top: 8px; }
+  .ai-scale-ticks { display: flex; gap: 2px; margin-top: 1px; }
+  .ai-tk { flex: 1; min-width: 0; }
+  .ai-tk i { display: block; font-style: normal; font-size: 10px; font-weight: 700; color: var(--text-muted, #6B7592); }
+  .ai-tk b { display: block; font-size: 11.5px; font-weight: 700; color: var(--text-secondary, #4A5578); line-height: 1.25; margin-top: 2px; }
 
   /* normal findings */
   .ai-normal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
@@ -1068,11 +1077,16 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
       summary: 'Five of your markers are outside the normal range \u2014 mainly thyroid, lipids and iron stores. Most other results look healthy. Here\u2019s what they mean and what to do next.',
       systems: [ { n: 'Thyroid', st: 'bad' }, { n: 'Iron / Blood', st: 'bad' }, { n: 'Metabolic', st: 'warn' }, { n: 'Lipids', st: 'warn' }, { n: 'Inflammation', st: 'warn' } ],
       findings: [
-        { name: 'Prediabetes', val: 'HbA1c: 5.7%', norm: 'Normal: &lt; 5.7%', desc: 'HbA1c at the threshold. Lifestyle modifications are advised.', sev: 'moderate', pos: 50, rev: false, lbl: 'Normal: 5.7' },
-        { name: 'Hypothyroidism', val: 'TSH: 8.27 µIU/ml', norm: 'Normal: 0.38 – 5.33 µIU/ml', desc: 'Elevated TSH indicates potential hypothyroidism. Consult an endocrinologist.', sev: 'high', pos: 86, rev: false, lbl: 'Normal: 5.33' },
-        { name: 'Dyslipidemia', val: 'Triglycerides: 150.4 mg/dL', norm: 'Normal: &lt; 150 mg/dL', desc: 'Elevated triglycerides and VLDL levels. Dietary changes recommended.', sev: 'moderate', pos: 47, rev: false, lbl: 'Normal: 150' },
-        { name: 'Elevated ESR', val: 'ESR: 27 mm/hr', norm: 'Normal: 0 – 19 mm/hr', desc: 'May indicate inflammation. Further investigation necessary.', sev: 'moderate', pos: 53, rev: false, lbl: 'Normal: 19' },
-        { name: 'Microcytic Anemia', val: 'MCV: 78.5 fL, MCH: 24.7 pg', norm: 'Normal: MCV 83–101, MCH 27–32', desc: 'Low MCV and MCH suggest possible iron deficiency anemia.', sev: 'high', pos: 16, rev: true, lbl: 'Normal: 83' }
+        { name: 'Prediabetes', val: 'HbA1c: 5.7%', norm: 'Normal: &lt; 5.7%', desc: 'HbA1c sits right at the prediabetic threshold. Lifestyle modifications are advised.', sev: 'moderate',
+          scale: { unit: 'mg/% (HbA1c)', value: '5.7', vpos: 40, zones: [ { w: 40, c: 'good', num: '4.0', label: 'Normal' }, { w: 24, c: 'warn', num: '5.7', label: 'Prediabetes' }, { w: 36, c: 'bad', num: '6.5', label: 'Diabetes' } ] } },
+        { name: 'Hypothyroidism', val: 'TSH: 8.27 µIU/ml', norm: 'Normal: 0.38 – 5.33 µIU/ml', desc: 'Elevated TSH indicates potential hypothyroidism. Consult an endocrinologist.', sev: 'high',
+          scale: { unit: 'µIU/ml (TSH)', value: '8.27', vpos: 84, zones: [ { w: 16, c: 'warn', num: '0', label: 'Low' }, { w: 44, c: 'good', num: '0.4', label: 'Normal' }, { w: 40, c: 'bad', num: '5.3', label: 'High · hypothyroid' } ] } },
+        { name: 'Dyslipidemia', val: 'Triglycerides: 150.4 mg/dL', norm: 'Normal: &lt; 150 mg/dL', desc: 'Elevated triglycerides and VLDL levels. Dietary changes recommended.', sev: 'moderate',
+          scale: { unit: 'mg/dL (Triglycerides)', value: '150', vpos: 41, zones: [ { w: 41, c: 'good', num: '0', label: 'Normal' }, { w: 22, c: 'warn', num: '150', label: 'Borderline' }, { w: 23, c: 'bad', num: '200', label: 'High' }, { w: 14, c: 'bad', num: '500', label: 'Very high' } ] } },
+        { name: 'Elevated ESR', val: 'ESR: 27 mm/hr', norm: 'Normal: 0 – 19 mm/hr', desc: 'May indicate underlying inflammation. Further investigation is recommended.', sev: 'moderate',
+          scale: { unit: 'mm/hr (ESR)', value: '27', vpos: 56, zones: [ { w: 42, c: 'good', num: '0', label: 'Normal' }, { w: 30, c: 'warn', num: '20', label: 'Mild' }, { w: 28, c: 'bad', num: '40', label: 'High' } ] } },
+        { name: 'Microcytic Anemia', val: 'MCV: 78.5 fL, MCH: 24.7 pg', norm: 'Normal: MCV 83–101 fL', desc: 'Low MCV and MCH suggest possible iron-deficiency anemia.', sev: 'high',
+          scale: { unit: 'fL (MCV)', value: '78.5', vpos: 21, zones: [ { w: 36, c: 'bad', num: '70', label: 'Microcytic' }, { w: 40, c: 'good', num: '83', label: 'Normal' }, { w: 24, c: 'warn', num: '101', label: 'Macrocytic' } ] } }
       ],
       normals: [
         { name: 'Vitamin B12', val: '292 pg/mL', range: 'Range: 222–1439 pg/mL' },
@@ -1194,14 +1208,23 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
 
       var findings = '<div class="ai-sec"><div class="ai-sec-title"><span class="ico">⚠️</span> Key Findings &amp; Abnormalities</div>' +
         AI.findings.map(function (f) {
+          function scaleHTML(sc) {
+            if (!sc) return '';
+            var segs = sc.zones.map(function (z) { return '<div class="ai-seg ' + z.c + '" style="flex:' + z.w + '"></div>'; }).join('');
+            var ticks = sc.zones.map(function (z) { return '<div class="ai-tk" style="flex:' + z.w + '"><i>' + (z.num || '') + '</i><b>' + z.label + '</b></div>'; }).join('');
+            return '<div class="ai-scale"><div class="ai-scale-track">' +
+              '<div class="ai-scale-bar">' + segs + '</div>' +
+              '<span class="ai-scale-badge" style="left:' + sc.vpos + '%">' + sc.value + '</span></div>' +
+              '<div class="ai-scale-unit">' + sc.unit + '</div>' +
+              '<div class="ai-scale-ticks">' + ticks + '</div></div>';
+          }
           return '<div class="ai-finding ' + f.sev + '"><div class="ai-finding-top"><div>' +
             '<div class="ai-finding-name">' + f.name + '</div>' +
             '<div class="ai-finding-val ' + f.sev + '">' + f.val + '</div>' +
             '<div class="ai-finding-norm">' + f.norm + '</div></div>' +
             '<span class="ai-sev ' + f.sev + '">' + (f.sev === 'high' ? 'High' : 'Moderate') + '</span></div>' +
             '<div class="ai-finding-desc">' + f.desc + '</div>' +
-            '<div class="ai-range"><div class="ai-range-bar' + (f.rev ? ' rev' : '') + '"><span class="ai-range-mark" style="left:' + f.pos + '%"></span></div>' +
-            '<div class="ai-range-lbl">' + f.lbl + '</div></div></div>';
+            scaleHTML(f.scale) + '</div>';
         }).join('') + '</div>';
 
       var normals = '<div class="ai-sec"><div class="ai-sec-title"><span class="ico">✅</span> Normal Findings</div><div class="ai-normal-grid">' +
