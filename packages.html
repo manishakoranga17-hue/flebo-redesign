@@ -2290,12 +2290,12 @@ body.has-select-bar { padding-bottom: 80px; }
    =================================================================== */
 .pcard {
   display: flex; flex-direction: column; overflow: hidden;
-  background: #fff; border: 1px solid var(--border-soft);
+  background: #fff; border: 1px solid var(--border-mid, #C5CCDB);
   border-radius: var(--radius-lg);
-  box-shadow: 0 1px 3px rgba(11,21,48,0.04);
+  box-shadow: 0 6px 20px rgba(11,21,48,0.09);
   transition: box-shadow 0.18s, transform 0.18s, border-color 0.18s;
 }
-.pcard:hover { box-shadow: 0 14px 32px rgba(11,21,48,0.12); transform: translateY(-3px); }
+.pcard:hover { box-shadow: 0 18px 40px rgba(11,21,48,0.16); transform: translateY(-3px); border-color: var(--primary); }
 
 /* ---- Photo banner ---- */
 .pcard-banner {
@@ -2415,6 +2415,7 @@ body.has-select-bar { padding-bottom: 80px; }
 /* Mobile package-card compaction — MUST come after the base .pcard rules so it wins. */
 @media (max-width: 768px) {
   /* Compact cards so 1–2 fit in the first fold */
+  .pcard { box-shadow: 0 8px 24px rgba(11,21,48,0.13); }
   .pcard-banner { height: 92px; }
   .pcard-body { padding: 11px 13px 12px; }
   .pcard-title { font-size: 16px; }
