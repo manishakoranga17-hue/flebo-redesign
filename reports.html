@@ -188,9 +188,33 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
 .rep-upload:hover { background: #14213F; transform: translateY(-1px); }
 .rep-search { position: relative; }
 .rep-search i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted, #6B7592); font-size: 14px; }
-.rep-search input { width: 240px; border: 1.5px solid var(--border-mid, #C5CCDB); background: #fff; border-radius: 11px; padding: 11px 14px 11px 40px; font: inherit; font-size: 14px; color: var(--text-primary, #0B1530); }
+.rep-search input { width: 380px; max-width: 100%; border: 1.5px solid var(--border-mid, #C5CCDB); background: #fff; border-radius: 11px; padding: 11px 14px 11px 40px; font: inherit; font-size: 14px; color: var(--text-primary, #0B1530); }
 .rep-search input::placeholder { color: var(--text-muted, #6B7592); }
 .rep-search input:focus { outline: none; border-color: var(--primary, #1B2A5B); box-shadow: 0 0 0 3px rgba(27,42,91,0.08); }
+
+/* Type filter (All / Tests / Consultations) */
+.rep-filter { position: relative; }
+.rep-filter__btn { display: inline-flex; align-items: center; gap: 10px; min-width: 210px; justify-content: space-between; background: #fff; border: 1.5px solid var(--border-mid, #C5CCDB); border-radius: 11px; padding: 11px 14px; font: inherit; font-size: 14px; font-weight: 700; color: var(--text-primary, #0B1530); cursor: pointer; transition: border-color 0.14s, box-shadow 0.14s; }
+.rep-filter__btn:hover { border-color: var(--text-muted, #6B7592); }
+.rep-filter.is-open .rep-filter__btn { border-color: var(--primary, #1B2A5B); box-shadow: 0 0 0 3px rgba(27,42,91,0.08); }
+.rep-filter__btn .fas { font-size: 12px; color: var(--text-muted, #6B7592); transition: transform 0.16s; }
+.rep-filter.is-open .rep-filter__btn .fas.fa-chevron-down { transform: rotate(180deg); }
+.rep-fmenu { position: absolute; top: calc(100% + 6px); left: 0; min-width: 220px; background: #fff; border: 1px solid var(--border-soft, #E5E9F3); border-radius: 12px; box-shadow: 0 18px 44px rgba(11,21,48,0.16); padding: 6px; z-index: 60; display: none; }
+.rep-filter.is-open .rep-fmenu { display: block; }
+.rep-fitem { display: flex; align-items: center; justify-content: space-between; gap: 14px; width: 100%; text-align: left; background: none; border: 0; border-radius: 8px; padding: 10px 12px; font: inherit; font-size: 14px; font-weight: 700; color: var(--text-secondary, #4A5578); cursor: pointer; transition: background 0.12s, color 0.12s; }
+.rep-fitem:hover { background: var(--bg-soft, #F7F8FB); color: var(--text-primary, #0B1530); }
+.rep-fitem.is-active { background: var(--bg-soft, #F7F8FB); color: var(--primary, #1B2A5B); }
+.rep-fitem .fa-chevron-right { font-size: 11px; color: var(--text-muted, #6B7592); }
+.rep-fitem--leaf { font-weight: 600; padding-left: 22px; }
+.rep-fcat { font-size: 11px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted, #6B7592); padding: 10px 12px 4px; }
+.rep-fsub { padding: 2px 0 4px 8px; margin: 2px 0 2px 8px; border-left: 2px solid var(--border-soft, #E5E9F3); }
+@media (hover: hover) and (pointer: fine) {
+  .rep-fgroup { position: relative; }
+  .rep-fsub { position: absolute; left: calc(100% + 4px); top: -7px; margin: 0; padding: 6px; min-width: 250px; max-height: 60vh; overflow-y: auto; background: #fff; border: 1px solid var(--border-soft, #E5E9F3); border-left: 1px solid var(--border-soft, #E5E9F3); border-radius: 12px; box-shadow: 0 18px 44px rgba(11,21,48,0.16); display: none; }
+  .rep-fgroup:hover > .rep-fsub { display: block; }
+  .rep-fgroup:hover > .rep-fitem--parent { background: var(--accent, #D33535); color: #fff; }
+  .rep-fgroup:hover > .rep-fitem--parent .fa-chevron-right { color: #fff; }
+}
 
 /* Legend */
 .rep-legend { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; background: #fff; border: 1px solid var(--border-soft, #E5E9F3); border-radius: 14px; padding: 11px 16px; margin: 12px 0 6px; font-size: 13px; color: var(--text-secondary, #4A5578); }
@@ -861,6 +885,12 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
   <div class="rep-toolbar">
     <div class="rep-chips" id="repPeople"></div>
     <div class="rep-toolbar__right">
+      <div class="rep-filter" id="repFilter">
+        <button class="rep-filter__btn" id="repFilterBtn" type="button" aria-haspopup="true" aria-expanded="false">
+          <span id="repFilterLabel">All Reports</span> <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="rep-fmenu" id="repFilterMenu" role="menu"></div>
+      </div>
       <div class="rep-search">
         <i class="fas fa-magnifying-glass"></i>
         <input type="search" id="repSearch" placeholder="Search tests, packages, labs…" aria-label="Search reports">
@@ -946,13 +976,84 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
       { name: 'Complete Blood Count', params: [ { name: 'Hemoglobin', val: '13.0', unit: 'g/dL', range: '11.5–15.5', st: 'normal' }, { name: 'WBC Count', val: '8.1', unit: '10³/µL', range: '5.0–14.0', st: 'normal' } ] },
       { name: 'Vitamin D (25-OH)', params: [ { name: 'Vitamin D (25-OH)', val: '34', unit: 'ng/mL', range: '30–100', st: 'normal' } ] },
       { name: 'Blood Sugar', params: [ { name: 'Fasting Glucose', val: '88', unit: 'mg/dL', range: '70–100', st: 'normal' } ] } ] },
-    { id: 'allergy-a', pid: 'aarav', kind: 'test', title: 'Allergy Panel', icon: 'fa-disease', date: '18 Jun 2026', time: '8:20 AM', lab: 'Apollo Diagnostics', status: 'processing', tests: [ { name: 'Allergy Panel', params: [] } ] }
+    { id: 'allergy-a', pid: 'aarav', kind: 'test', title: 'Allergy Panel', icon: 'fa-disease', date: '18 Jun 2026', time: '8:20 AM', lab: 'Apollo Diagnostics', status: 'processing', tests: [ { name: 'Allergy Panel', params: [] } ] },
+    { id: 'ayur-r', pid: 'rahul', kind: 'consultation', spec: 'AYURVEDA', title: 'Ayurveda Consultation', icon: 'fa-mortar-pestle', date: '10 Jun 2026', time: '5:30 PM', lab: 'Dr. Meera Nair · Flebo Care', status: 'ready', tests: [], rx: [ { name: 'Triphala Churna', dose: '5 g with warm water at bedtime · 4 weeks' }, { name: 'Ashwagandha tablet', dose: '1 tablet twice daily after food' } ], notes: 'Improve sleep hygiene and reduce caffeine. Review in 4 weeks.' },
+    { id: 'gp-p', pid: 'priya', kind: 'consultation', spec: 'GENERAL PHYSICIAN', title: 'General Physician Consult', icon: 'fa-stethoscope', date: '22 May 2026', time: '11:00 AM', lab: 'Dr. Arjun Rao · Flebo Care', status: 'ready', tests: [], rx: [ { name: 'Vitamin B12 1500 mcg', dose: '1 tablet daily · 8 weeks' }, { name: 'Iron + Folic Acid', dose: '1 tablet daily after food' } ], notes: 'Recheck B12 and ferritin after 8 weeks.' },
+    { id: 'derm-a', pid: 'aarav', kind: 'consultation', spec: 'DERMATOLOGY', title: 'Dermatology Consultation', icon: 'fa-hand-dots', date: '05 Jun 2026', time: '4:15 PM', lab: 'Dr. Kavya Iyer · Flebo Skin', status: 'ready', tests: [], rx: [ { name: 'Cetirizine 10 mg', dose: '1 tablet at night · 7 days' }, { name: 'Moisturising lotion', dose: 'Apply twice daily to affected area' } ], notes: 'Avoid known allergens. Follow up if rash persists beyond a week.' }
   ];
+
+  /* test name -> category for the Tests filter flyout */
+  var TEST_CAT = {
+    'Lipid Profile': 'LIPID PROFILE',
+    'Complete Blood Count': 'CBC',
+    'Vitamin D (25-OH)': 'VITAMINS', 'Vitamin B12': 'VITAMINS',
+    'Thyroid (TSH)': 'THYROID', 'Thyroid Profile': 'THYROID',
+    'HbA1c': 'DIABETES', 'HbA1c — Diabetes': 'DIABETES', 'Blood Sugar': 'DIABETES',
+    'Liver Function Test': 'LIVER', 'Iron Studies': 'IRON STUDIES', 'Allergy Panel': 'ALLERGY'
+  };
+  var CAT_ORDER = ['CBC', 'DIABETES', 'LIPID PROFILE', 'THYROID', 'VITAMINS', 'LIVER', 'IRON STUDIES', 'ALLERGY', 'OTHER'];
   function allParams(r) { var a = []; r.tests.forEach(function (t) { a = a.concat(t.params); }); return a; }
   function flagged(r) { return allParams(r).filter(function (p) { return p.st !== 'normal'; }); }
   function byId(id) { for (var i = 0; i < REPORTS.length; i++) if (REPORTS[i].id === id) return REPORTS[i]; }
 
-  var state = { member: 'rahul', q: '', reviewOnly: false };
+  var state = { member: 'rahul', q: '', reviewOnly: false, flt: { type: 'all', val: null } };
+
+  /* ---- type filter (All / Tests / Consultations) ---- */
+  function title(s) { return String(s).toLowerCase().replace(/\b\w/g, function (c) { return c.toUpperCase(); }); }
+  function isTest(r) { return r.kind !== 'consultation'; }
+  function buildTaxonomy() {
+    var seen = {}, cats = {};
+    REPORTS.forEach(function (r) {
+      if (!isTest(r)) return;
+      r.tests.forEach(function (t) {
+        if (seen[t.name]) return; seen[t.name] = 1;
+        var c = TEST_CAT[t.name] || 'OTHER';
+        (cats[c] = cats[c] || []).push(t.name);
+      });
+    });
+    return CAT_ORDER.filter(function (c) { return cats[c]; }).map(function (c) { return { cat: c, tests: cats[c].sort() }; });
+  }
+  function specialties() {
+    var seen = {}, out = [];
+    REPORTS.forEach(function (r) { if (!isTest(r) && !seen[r.spec]) { seen[r.spec] = 1; out.push(r.spec); } });
+    return out;
+  }
+  function fltLabel() {
+    var f = state.flt;
+    if (f.type === 'all') return 'All Reports';
+    if (f.type === 'tests') return f.val ? f.val : 'All Tests';
+    return f.val ? title(f.val) : 'All Consultations';
+  }
+  function fltActive(type, val) { return state.flt.type === type && (state.flt.val || null) === (val || null); }
+  function matchesFilter(r) {
+    var f = state.flt;
+    if (f.type === 'all') return true;
+    if (f.type === 'tests') { if (!isTest(r)) return false; return !f.val || r.tests.some(function (t) { return t.name === f.val; }); }
+    if (f.type === 'consultations') { if (isTest(r)) return false; return !f.val || r.spec === f.val; }
+    return true;
+  }
+  function fitem(type, val, label, leaf, caret) {
+    return '<button class="rep-fitem' + (leaf ? ' rep-fitem--leaf' : '') + (caret ? ' rep-fitem--parent' : '') +
+      (fltActive(type, val) ? ' is-active' : '') + '" data-type="' + type + '" data-val="' + esc(val || '') + '">' +
+      '<span>' + esc(label) + '</span>' + (caret ? '<i class="fas fa-chevron-right"></i>' : '') + '</button>';
+  }
+  function filterMenuHTML() {
+    var html = fitem('all', '', 'All Reports', false, false);
+    // Tests group
+    html += '<div class="rep-fgroup">' + fitem('tests', '', 'Tests', false, true) + '<div class="rep-fsub">' +
+      fitem('tests', '', 'All Test Reports', false, false);
+    buildTaxonomy().forEach(function (g) {
+      html += '<div class="rep-fcat">' + esc(g.cat) + '</div>';
+      g.tests.forEach(function (tn) { html += fitem('tests', tn, tn, true, false); });
+    });
+    html += '</div></div>';
+    // Consultations group
+    html += '<div class="rep-fgroup">' + fitem('consultations', '', 'Consultations', false, true) + '<div class="rep-fsub">' +
+      fitem('consultations', '', 'All Prescriptions', false, false);
+    specialties().forEach(function (sp) { html += fitem('consultations', sp, title(sp), true, false); });
+    html += '</div></div>';
+    return html;
+  }
 
 
   /* ---- people chips ---- */
@@ -966,6 +1067,10 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
 
   /* ---- result cell ---- */
   function resultCell(r) {
+    if (r.kind === 'consultation') {
+      var nrx = (r.rx || []).length;
+      return '<div class="rep-result rep-result--clear"><span class="rep-result__lead"><i class="fas fa-prescription"></i> Prescription · <span class="rep-num">' + nrx + '</span> item' + (nrx === 1 ? '' : 's') + '</span></div>';
+    }
     if (r.status !== 'ready') {
       return '<div class="rep-result rep-result--proc"><span class="rep-result__lead"><i class="fas fa-hourglass-half"></i> Awaiting results <span style="color:var(--text-muted,#6B7592);font-weight:500">· usually 24h</span></span></div>';
     }
@@ -982,9 +1087,10 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
   /* ---- actions cell ---- */
   function actionsCell(r) {
     if (r.status !== 'ready') return '<div class="rep-actions"></div>';
+    var ai = r.kind === 'consultation' ? '' :
+      '<button class="rep-ico rep-ico--ai" data-ai="' + r.id + '" title="AI summary"><i class="fas fa-wand-magic-sparkles"></i> AI</button>';
     return '<div class="rep-actions">' +
-      '<button class="rep-view" data-open="' + r.id + '"><i class="fas fa-eye"></i> View</button>' +
-      '<button class="rep-ico rep-ico--ai" data-ai="' + r.id + '" title="AI summary"><i class="fas fa-wand-magic-sparkles"></i> AI</button>' +
+      '<button class="rep-view" data-open="' + r.id + '"><i class="fas fa-eye"></i> View</button>' + ai +
       '<button class="rep-ico" data-dl="' + r.id + '" title="Download PDF" aria-label="Download PDF"><i class="fas fa-download"></i></button>' +
       '<button class="rep-ico" data-share="' + r.id + '" title="Share report" aria-label="Share report"><i class="fas fa-share-nodes"></i></button>' +
     '</div>';
@@ -993,9 +1099,10 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
   /* ---- row ---- */
   function rowHTML(r) {
     var ps = allParams(r);
-    var sub = r.kind === 'package'
-      ? '<div class="rep-test__sub"><span class="rep-pill-pkg"><i class="fas fa-box-open"></i> Package · ' + r.tests.length + ' tests</span></div>'
-      : '<div class="rep-test__sub">' + (ps.length ? ps.length + ' parameter' + (ps.length > 1 ? 's' : '') : 'In the lab') + '</div>';
+    var sub;
+    if (r.kind === 'consultation') sub = '<div class="rep-test__sub"><span class="rep-pill-pkg"><i class="fas fa-user-doctor"></i> ' + esc(title(r.spec)) + '</span></div>';
+    else if (r.kind === 'package') sub = '<div class="rep-test__sub"><span class="rep-pill-pkg"><i class="fas fa-box-open"></i> Package · ' + r.tests.length + ' tests</span></div>';
+    else sub = '<div class="rep-test__sub">' + (ps.length ? ps.length + ' parameter' + (ps.length > 1 ? 's' : '') : 'In the lab') + '</div>';
     return '<div class="rep-row">' +
       '<div class="rep-test"><span class="rep-test__ic" style="background:#EAEEF9;color:var(--primary,#1B2A5B)"><i class="fas ' + r.icon + '"></i></span><div style="min-width:0"><div class="rep-test__name">' + esc(r.title) + '</div>' + sub + '</div></div>' +
       '<div class="rep-collected" data-label="Collected"><div><span class="rep-num">' + r.date + '</span><small>' + (r.time || '') + '</small></div></div>' +
@@ -1012,6 +1119,7 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
     PATIENTS.forEach(function (p) {
       if (state.member !== 'all' && state.member !== p.id) return;
       var rows = REPORTS.filter(function (r) { return r.pid === p.id; });
+      rows = rows.filter(matchesFilter);
       if (state.reviewOnly) rows = rows.filter(function (r) { return flagged(r).length > 0; });
       if (state.q) rows = rows.filter(function (r) { return (r.title + ' ' + r.lab).toLowerCase().indexOf(state.q) > -1; });
       if (!rows.length) {
@@ -1049,8 +1157,23 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
       '<div class="rep-param-range">Ref: ' + p.range + ' ' + esc(p.unit) + '</div></div>';
   }
   var current = null;
+  function rxRow(x) {
+    return '<div class="rep-param"><div class="rep-param-name">' + esc(x.name) + '</div>' +
+      '<div class="rep-param-range" style="grid-column:1">' + esc(x.dose) + '</div></div>';
+  }
+  function openConsult(r) {
+    current = r;
+    $('repModalTitle').textContent = r.title;
+    $('repModalMeta').innerHTML = '<span><i class="fas fa-user"></i> ' + esc(patient(r.pid).name) + '</span><span><i class="fas fa-calendar-day"></i> ' + r.date + (r.time ? ', ' + r.time : '') + '</span><span><i class="fas fa-user-doctor"></i> ' + esc(r.lab) + '</span>';
+    var rx = '<div class="rep-test-sec"><i class="fas fa-prescription"></i> Prescription</div>' + (r.rx || []).map(rxRow).join('');
+    var notes = r.notes ? '<div class="rep-ai"><span class="rep-ai-ic"><i class="fas fa-notes-medical"></i></span><div><div class="rep-ai-label">Doctor’s note</div><div class="rep-ai-text">' + esc(r.notes) + '</div></div></div>' : '';
+    $('repModalBody').innerHTML = notes + rx;
+    ov.classList.add('open'); document.body.classList.add('lm-locked');
+  }
   function openModal(id) {
-    var r = byId(id); if (!r || !allParams(r).length) return;
+    var r = byId(id); if (!r) return;
+    if (r.kind === 'consultation') { openConsult(r); return; }
+    if (!allParams(r).length) return;
     current = r;
     $('repModalTitle').textContent = r.title;
     $('repModalMeta').innerHTML = '<span><i class="fas fa-user"></i> ' + esc(patient(r.pid).name) + '</span><span><i class="fas fa-calendar-day"></i> ' + r.date + (r.time ? ', ' + r.time : '') + '</span><span><i class="fas fa-location-dot"></i> ' + esc(r.lab) + '</span>';
@@ -1078,6 +1201,48 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
     state.member = b.getAttribute('data-member'); renderChips(); render();
   });
   $('repSearch').addEventListener('input', function (e) { state.q = e.target.value.trim().toLowerCase(); render(); });
+
+  /* ---- type filter dropdown ---- */
+  var fEl = $('repFilter'), fBtn = $('repFilterBtn'), fMenu = $('repFilterMenu');
+  function renderFilterMenu() { fMenu.innerHTML = filterMenuHTML(); $('repFilterLabel').textContent = fltLabel(); }
+  function closeFilter() { fEl.classList.remove('is-open'); fBtn.setAttribute('aria-expanded', 'false'); }
+  renderFilterMenu();
+  fBtn.addEventListener('click', function () {
+    var open = fEl.classList.toggle('is-open');
+    fBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    lastGrp = null;
+  });
+  fMenu.addEventListener('click', function (e) {
+    var b = e.target.closest('.rep-fitem'); if (!b) return;
+    state.flt = { type: b.getAttribute('data-type'), val: b.getAttribute('data-val') || null };
+    renderFilterMenu(); closeFilter(); render();
+  });
+  document.addEventListener('click', function (e) { if (!fEl.contains(e.target)) closeFilter(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeFilter(); });
+  /* keep the Tests/Consultations flyout inside the viewport (size + flip up) */
+  var flyMq = window.matchMedia('(hover: hover) and (pointer: fine)');
+  var lastGrp = null;
+  fMenu.addEventListener('mouseover', function (e) {
+    var grp = e.target.closest('.rep-fgroup'); if (!grp || grp === lastGrp) return;
+    lastGrp = grp;
+    var sub = grp.querySelector('.rep-fsub'); if (!sub) return;
+    if (!flyMq.matches) { sub.style.maxHeight = ''; sub.style.top = ''; return; }
+    var row = grp.querySelector('.rep-fitem--parent').getBoundingClientRect();
+    var margin = 12, gap = 7;
+    var below = window.innerHeight - row.top - margin;   // room from row top downward
+    var above = row.bottom - margin;                     // room from row bottom upward
+    sub.style.maxHeight = 'none'; sub.style.top = (-gap) + 'px';
+    var natural = sub.scrollHeight;
+    if (natural <= below || below >= above) {
+      sub.style.top = (-gap) + 'px';
+      sub.style.maxHeight = below + 'px';
+    } else {
+      var h = Math.min(natural, above);
+      sub.style.maxHeight = h + 'px';
+      sub.style.top = (row.height - h) + 'px';           // open upward, bottom near row bottom
+    }
+  });
+  fMenu.addEventListener('mouseleave', function () { lastGrp = null; });
   $('repGroups').addEventListener('click', function (e) {
     var open = e.target.closest('[data-open]'), ai = e.target.closest('[data-ai]'),
         dl = e.target.closest('[data-dl]'), sh = e.target.closest('[data-share]');
