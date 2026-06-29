@@ -308,6 +308,46 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
 .rep-modal__foot { padding: 14px 26px; border-top: 1px solid var(--border-soft, #E5E9F3); display: flex; gap: 10px; }
 .rep-modal__foot .rep-view { flex: 1; justify-content: center; }
 
+/* ===== Mobile bottom navigation (matches the rest of the site) ===== */
+.bottom-nav {
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  width: 100%; height: 72px;
+  background: var(--accent, #D33535);
+  align-items: center; justify-content: space-around;
+  z-index: 100; padding: 0 8px;
+  box-shadow: 0 -4px 20px rgba(211,53,53,0.3);
+}
+.bottom-nav .nav-item {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 8px 12px; border-radius: 12px;
+  color: rgba(255,255,255,0.7);
+  position: relative; background: transparent; min-width: 56px;
+  transition: color 0.2s, background 0.2s;
+}
+.bottom-nav .nav-item.active { color: #fff; }
+.bottom-nav .nav-item.active::after {
+  content: ''; position: absolute; top: -1px; left: 50%;
+  transform: translateX(-50%); width: 24px; height: 3px;
+  background: #fff; border-radius: 0 0 3px 3px;
+}
+.bottom-nav .nav-item:hover { color: #fff; background: rgba(255,255,255,0.15); }
+.bottom-nav .nav-item i { font-size: 22px; }
+.bottom-nav .nav-label { font-size: 10px; font-weight: 600; }
+.bottom-nav .nav-item.nav-chat {
+  gap: 2px; padding: 4px 12px 8px; min-width: 56px;
+  top: -14px; margin-bottom: -10px;
+}
+.bottom-nav .nav-item.nav-chat img {
+  width: 46px; height: 46px; object-fit: cover; border-radius: 50%;
+  border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.bottom-nav .nav-item.nav-chat .nav-label {
+  display: block; color: rgba(255,255,255,0.7); padding-top: 3px;
+}
+.bottom-nav .nav-item.nav-chat:hover .nav-label,
+.bottom-nav .nav-item.nav-chat.active .nav-label { color: #fff; }
+
 @media (max-width: 880px) {
   .rep-hero { grid-template-columns: 1fr; gap: 22px; padding: 28px 24px; }
   .rep-hero-art { transform: none; margin: 0 auto; }
@@ -333,8 +373,11 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
 }
 @media (max-width: 900px) {
   html, body { overflow-x: clip; max-width: 100vw; }
-  body { overflow-wrap: anywhere; word-break: break-word; }
+  body { overflow-wrap: anywhere; word-break: break-word; padding-bottom: 72px; }
   :root { --site-inset: 16px; }
+
+  /* Show the mobile bottom navigation when the desktop nav is hidden */
+  .bottom-nav { display: flex; }
 
   /* Width clamps + min-width:0 so flex/grid children can't push past viewport */
   .confirm-hero-inner, .confirm-text, .page-body, .card, .card-head,
@@ -1265,6 +1308,30 @@ button { font-family: inherit; color: inherit; -webkit-tap-highlight-color: tran
     <div class="ai-body" id="aiBody"></div>
   </div>
 </div>
+
+<!-- Mobile bottom navigation -->
+<nav class="bottom-nav" aria-label="Mobile navigation">
+  <a href="index.html" class="nav-item">
+    <i class="fas fa-house" aria-hidden="true"></i>
+    <span class="nav-label">Home</span>
+  </a>
+  <a href="packages.html" class="nav-item">
+    <i class="fas fa-gift" aria-hidden="true"></i>
+    <span class="nav-label">Packages</span>
+  </a>
+  <a href="index.html" class="nav-item nav-chat">
+    <img src="doctor2.png" alt="">
+    <span class="nav-label">Flebo.AI</span>
+  </a>
+  <a href="tests.html" class="nav-item">
+    <i class="fas fa-flask" aria-hidden="true"></i>
+    <span class="nav-label">Tests</span>
+  </a>
+  <a href="reports.html" class="nav-item active" aria-current="page">
+    <i class="fas fa-file-medical" aria-hidden="true"></i>
+    <span class="nav-label">Reports</span>
+  </a>
+</nav>
 
   <script src="login-modal.js" defer></script>
 
