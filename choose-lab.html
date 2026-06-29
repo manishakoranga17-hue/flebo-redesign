@@ -2221,6 +2221,12 @@ body.pkg-flow .lab-table tbody tr:first-child td { border-top: none; }
   transition: background 0.15s;
 }
 .pkg-popup-btn:hover { background: var(--accent-dark, #B82E2E); }
+.pkg-popup-dismiss {
+  display: flex; align-items: center; justify-content: flex-start; gap: 8px;
+  margin-top: 14px; padding-left: 15px; font-size: 13.5px; font-weight: 600;
+  color: var(--text-muted, #6B7592); cursor: pointer; user-select: none;
+}
+.pkg-popup-dismiss input { width: 16px; height: 16px; accent-color: var(--primary, #1B2A5B); cursor: pointer; }
 
 /* ===== LAB COMPARE: checkbox ===== */
 .cmp-check {
@@ -4021,16 +4027,25 @@ body.has-cmp-bar { padding-bottom: 92px; }
       </div>
     </div>
     <button type="button" class="pkg-popup-btn" id="pkgPopupOk">Got it</button>
+    <label class="pkg-popup-dismiss"><input type="checkbox" id="pkgPopupDismiss"> Don't show this again</label>
   </div>
 </div>
 
 <script>
 (function () {
   if (new URLSearchParams(location.search).get('pkgflow') !== '1') return;
+  const KEY = 'pkgflowHideIntro';
+  let seen = false;
+  try { seen = localStorage.getItem(KEY) === '1'; } catch (e) {}
+  if (seen) return;
   const overlay = document.getElementById('pkgPopup');
   if (!overlay) return;
+  const dismiss = document.getElementById('pkgPopupDismiss');
   const open = () => { overlay.classList.add('is-open'); overlay.setAttribute('aria-hidden', 'false'); };
-  const close = () => { overlay.classList.remove('is-open'); overlay.setAttribute('aria-hidden', 'true'); };
+  const close = () => {
+    if (dismiss && dismiss.checked) { try { localStorage.setItem(KEY, '1'); } catch (e) {} }
+    overlay.classList.remove('is-open'); overlay.setAttribute('aria-hidden', 'true');
+  };
   open();
   document.getElementById('pkgPopupClose').addEventListener('click', close);
   document.getElementById('pkgPopupOk').addEventListener('click', close);
